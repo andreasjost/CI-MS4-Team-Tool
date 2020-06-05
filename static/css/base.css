@@ -19,11 +19,23 @@ h3 {
     padding-top: 1em;
 }
 
+h4 {
+    font-family: 'Blinker', sans-serif;
+    padding-bottom: 10px;
+    size: 1rem;
+    text-align: center;
+}
+
 
 /* --------------------------------------------- Bootstrap adjustments */
 
 .btn {
     border-radius: 8px;
+    width: 100px;
+}
+
+/* used to keep elements centered if there is no button */
+.no-element {
     width: 100px;
 }
 
@@ -49,7 +61,7 @@ h3 {
 }
 
 .fill-image {
-    height: 240px;
+    height: 280px;
     background-repeat: no-repeat;
     background-size: cover; 
     background-position: center;

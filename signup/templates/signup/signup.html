@@ -2,14 +2,78 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'signup/css/signup.css' %}">
+{% block extra_title %}
+    - Sign Up
 {% endblock %}
 
-{% block page_header %}
-    Sign up header
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'signup/css/signup.css' %}" />
 {% endblock %}
 
 {% block content %}
-    Sign up content
+    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-xl">
+            <a href="{% url 'signup' %}" class="btn btn-outline-primary my-2 my-sm-0">Back</a>
+            <a class="navbar-brand" href="#">EggBox</a>
+            <div class="no-element"></div>
+        </div>
+    </nav>
+
+<br>
+<br>
+<div class="container-xl">
+<h1>Sign Up</h1>
+<h2>Get started with 4 simple steps</h2>
+<h3>1. Choose your plan</h3>
+<div class="row">
+    <div class="col-6 col-sm-3">
+    <div class="plans-wrapper">
+        <h4 class="text-uppercase">Starter</h4>
+        12 Users<br>
+        1 Team<br>
+        Free
+        </div>
+    </div>
+        <div class="col-6 col-sm-3">
+        <div class="plans-wrapper">
+        <h4 class="text-uppercase">Basic</h4>
+        24 Users <br>
+        2 Teams<br>
+        2 EUR/month
+         </div>
+    </div>
+        <div class="col-6 col-sm-3">
+        <div class="plans-wrapper">
+        <h4 class="text-uppercase">Advanced</h4>
+        40 Users<br>
+        4 Teams<br>
+        4 EUR/month
+         </div>
+    </div>
+        <div class="col-6 col-sm-3">
+        <div class="plans-wrapper">
+        <h4 class="text-uppercase">Max</h4>
+        120 Users<br>
+        12 Teams<br>
+        10 EUR/month
+         </div>
+    </div>
+
+</div>
+
+
+<h3>2. Enter your company information</h3>
+
+
+<h3>3. Create an administrator account to log in</h3>
+
+<h3>3. Create an administrator account to log in</h3>
+
+(Include: I agree to the terms and conditions)
+
+</div>
+
+
+
+
 {% endblock %}
