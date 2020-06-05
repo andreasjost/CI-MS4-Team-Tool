@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 <header>
-    <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
         <div class="container-xl">
             <a href="{% url 'signup' %}" class="btn btn-outline-primary my-2 my-sm-0">Sign up</a>
             <a class="navbar-brand" href="#">EggBox</a>
@@ -14,58 +14,68 @@
     </nav>
 </header>
 <section>
-    <div class="container-xl">
-        <br>
-        <br>
-        <br>
-        <br>
-        <div class="row">
-            <div class="col-12 col-sm-6 hero-image">
+    <br>
+    <div class="light-row">
+        <div class="container-xl">
+            <h1>The best care for your greatest asset</h1>
+            <div class="hero-image">
             </div>
-            <div class="col-12 col-sm-6">
-                <h1>The best care for your greatest asset</h1>
-                <h2>Elevate your Customer Service Team by integrating Management and Coaching</h2>
+            <br>
+            <h2>Elevate your Customer Service Team with a tool combining managament and coaching</h2>
+        </div>
+    </div>
+    <div class="dark-row">
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-right">
+                    <h3>Happy employees produce happy customers</h3>
+                    <p>EggBox gives you the power to plan and coach your team in one simple application
+                        for free (up to 12 users).
+                        Click on <a href="{% url 'signup' %}">Sign up</a> to create an account or to see all plans for more users and multiple teams. 
+                    </p>
+                </div>
+                <div class="col-12 col-sm-6 fill-image img-agent">
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 col-sm-6 text-right">
-            
-                <h3>Happy employees produce happy customers</h3>
-                <p>EggBox gives you the power to plan and coach your team in one simple application
-                for free (up to 12 users).
-                Click on <a href="{% url 'signup' %}">Sign up</a> to create an account or to see all plans for more users and multiple teams. 
-                </p>
-            
-            </div>
-            <div class="col-12 col-sm-6 fill-image img-agent">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-sm-6 fill-image img-plan">
-            </div>
-            <div class="col-12 col-sm-6">
-                <h3>Still using spreadsheets for team planning?</h3>
-                <p>EggBox gives you the power to plan and coach your team in one simple application.
-                </p>
+    </div>
+    <div class="light-row">
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-12 col-sm-6 fill-image img-plan">
+                </div>
+                <div class="col-12 col-sm-6">
+                    <h3>Still using spreadsheets for team planning?</h3>
+                    <p>EggBox gives you the power to plan and coach your team in one simple application.
+                    </p>
+                </div>
             </div>
         </div>
-         <div class="row">
-            <div class="col-12 col-sm-6 text-right">
-                <h3>Set and achieve goals</h3>
-                <p>Develop your agents through coaching. Plan sessions.
-                </p>
-            </div>
-            <div class="col-12 col-sm-6 fill-image img-coach">
+    </div>
+    <div class="dark-row">
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-right">
+                    <h3>Set and achieve goals</h3>
+                    <p>Develop your agents through coaching. Plan sessions.
+                    </p>
+                </div>
+                <div class="col-12 col-sm-6 fill-image img-coach">
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 col-sm-6 fill-image img-settings">
-            </div>
-            <div class="col-12 col-sm-6">
-                <h3>Individual adjustments</h3>
-                <p>Optimize EggBox for your individual needs without an overload of options. Get setup in a few minutes. Example
-                presets help to adjust the right settings.
-                </p>
+    </div>
+    <div class="light-row">
+        <div class="container-xl">
+            <div class="row light-row">
+                <div class="col-12 col-sm-6 fill-image img-settings">
+                </div>
+                <div class="col-12 col-sm-6">
+                    <h3>Individual adjustments</h3>
+                    <p>Optimize EggBox for your individual needs without an overload of options. Get setup in a few minutes. Example
+                        presets help to adjust the right settings.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
