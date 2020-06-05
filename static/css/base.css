@@ -1,0 +1,62 @@
+
+
+/* --------------------------------------------- Headers */
+
+h3 {
+    padding-top: 1em;
+}
+
+
+/* --------------------------------------------- Bootstrap adjustments */
+
+.btn {
+    border-radius: 8px;
+    width: 100px;
+}
+
+
+
+/* --------------------------------------------- Landing-page */
+
+.hero-image {
+    background-image: url('/media/eggs.png');
+    background-repeat: no-repeat;
+    background-size: contain; 
+    background-position: center;
+}
+
+.fill-image {
+    height: 240px;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center;
+}
+
+.img-agent {
+    background-image: url('/media/agent-headset.jpg');
+}
+
+.img-plan {
+    background-image: url('/media/screenshot-plan.jpg');
+}
+
+.img-coach {
+    background-image: url('/media/screenshot-coach.jpg');
+}
+
+.img-settings {
+    background-image: url('/media/screenshot-settings.jpg');
+}
+
+
+/* --------------------------------------------- Footer */
+
+.footer-bar .navbar-nav {
+    flex-direction: row;
+    
+}
+
+.footer-bar .nav-link {
+    padding-left: 15px;
+    
+}
