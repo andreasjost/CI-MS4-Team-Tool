@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'landing',
     'planning',
-    'signup',
+    'profiles',
 ]
 
 MIDDLEWARE = [
