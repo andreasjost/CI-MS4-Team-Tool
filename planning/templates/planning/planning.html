@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'planning/css/planning.css' %}">
+{% endblock %}
 {% block content %}
 <header>
     <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light">
@@ -49,4 +52,20 @@
         </div>
     </nav>
 </header>
+<section id="calendar">
+<br>
+<br>
+<br>
+<br>
+<div class="table-container">
+    <div class="month-table" id="weeks-container">
+        <!-- JS magic -->
+    </div>
+</div>
+</section>
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'planning/js/calendar.js' %}"></script>
 {% endblock %}
