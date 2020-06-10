@@ -1,21 +1,61 @@
 {% extends "account/base.html" %}
-
 {% load i18n %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block head_title %}
+{% trans "Signup" %}
+{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign Up" %}</h1>
-
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
-
+<div class="container-xl">
+    <h1>{% trans "Sign Up" %}</h1>
+    <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+    <h2>Get started with 3 simple steps</h2>
+    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        <h3>1. Choose your plan</h3>
+        <div class="row">
+            <div class="col-6 col-sm-3">
+                <div class="plans-wrapper">
+                    <h4 class="text-uppercase">Starter</h4>
+                    12 Users<br>
+                    1 Team<br>
+                    Free
+                </div>
+            </div>
+            <div class="col-6 col-sm-3">
+                <div class="plans-wrapper">
+                    <h4 class="text-uppercase">Basic</h4>
+                    24 Users <br>
+                    2 Teams<br>
+                    2 EUR/month
+                </div>
+            </div>
+            <div class="col-6 col-sm-3">
+                <div class="plans-wrapper">
+                    <h4 class="text-uppercase">Advanced</h4>
+                    40 Users<br>
+                    4 Teams<br>
+                    4 EUR/month
+                </div>
+            </div>
+            <div class="col-6 col-sm-3">
+                <div class="plans-wrapper">
+                    <h4 class="text-uppercase">Max</h4>
+                    120 Users<br>
+                    12 Teams<br>
+                    10 EUR/month
+                </div>
+            </div>
+        </div>
+        
+        <h3>2. Enter information to create an Admin Account</h3>
+        {{ form|crispy }}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <h3>3. Payment information </h3>
+        (Include: I agree to the terms and conditions)
+        <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+    </form>
+</div>
 {% endblock %}

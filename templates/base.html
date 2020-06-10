@@ -63,6 +63,25 @@
     {% block postloadjs %}
     {% endblock %}
 
+    <!-- test -->
+    <br>
+     <div >
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.is_superuser %}
+                                    <a href="">Product Management</a>
+                                {% endif %}
+                                <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
+                                <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+                            {% else %}
+                            
+                                <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
+                                <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
+                            {% endif %}
+                        </div>
+                        <br>
+                        <br>
+    
+
     <footer>
     <nav class="navbar fixed-bottom navbar-dark bg-dark footer-bar">
     <div class="container-xl">
