@@ -5,11 +5,11 @@
 {% trans "Signup" %}
 {% endblock %}
 
-{% block content %}
+{% block inner_content %}
 <div class="container-xl">
     <h1>{% trans "Sign Up" %}</h1>
-    <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
     <h2>Get started with 3 simple steps</h2>
+    <p class="small text-center">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">login</a>.{% endblocktrans %}</p>
     <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
         {% csrf_token %}
         <h3>1. Choose your plan</h3>
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="col-6 col-sm-3">
-                <div class="plans-wrapper">
+                <div class="plans-wrapper-sel">
                     <h4 class="text-uppercase">Basic</h4>
                     24 Users <br>
                     2 Teams<br>
