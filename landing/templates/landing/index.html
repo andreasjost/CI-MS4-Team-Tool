@@ -7,9 +7,26 @@
         <div class="container-xl">
             <a href="{% url 'account_signup' %}" class="btn btn-outline-primary my-2 my-sm-0">Sign up</a>
             <a class="navbar-brand" href="#">EggBox</a>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Login
-            </button>
+          
+            
+            {% if request.user.is_authenticated %}
+             <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                User Name
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'profile' %}">My profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url '/planning' %}">Planning</a>
+                    <a class="dropdown-item" href="{% url '/coaching' %}">Coaching</a>
+                    <a class="dropdown-item" href="{% url '/messages' %}">Messages</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                </div>
+            </div>
+            {% else %}
+                <a href="{% url 'account_login' %}" class="btn btn-outline-success my-2 my-sm-0">Login</a>
+            {% endif %}
         </div>
     </nav>
 </header>

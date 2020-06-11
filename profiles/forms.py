@@ -16,7 +16,6 @@ class UserProfileForm(forms.ModelForm):
         placeholders = {
             'company_name': 'Company Name',
             'phone_number': 'Phone Number',
-            'email': 'Email',
             'postcode': 'Postal Code',
             'town_or_city': 'Town or City',
             'street_address1': 'Street Address 1',

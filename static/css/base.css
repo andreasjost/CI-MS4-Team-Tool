@@ -56,15 +56,16 @@ h4 {
 }
 
 .plans-wrapper {
-    background-color: #eee;
-    border: 1px solid #ddd;
+    background-color: #ffffcc;
+    
     border-radius: 8px;
     padding: 5px;
 }
 
 .plans-wrapper-sel {
-    background-color: #ddd;
-    border: 2px solid #000;
+    background-color: #ffff00;
+    
+    box-shadow: 3px 3px 6px #888;
     border-radius: 8px;
     padding: 5px;
 }

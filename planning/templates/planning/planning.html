@@ -39,14 +39,12 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="user-manage.html">User Management</a>
-                    <a class="dropdown-item" href="admin-settings.html">Global Settings</a>
-                    <a class="dropdown-item" href="personal-settings.html">Personal Settings</a>
-                    <a class="dropdown-item" href="manager-settings.html">Global settings (only visible for managers)</a>
-                    <a class="dropdown-item" href="#">Subscription info</a>
-                    <!-- no summary in admin or manager menu if they are not in the schedule -->
-                    <a class="dropdown-item" href="#">Summary</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Logout</a>
+                    <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                    <a class="dropdown-item" href="admin-settings.html">Team Settings</a>
+                    <a class="dropdown-item" href="admin-settings.html">Global Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
                 </div>
             </div>
         </div>

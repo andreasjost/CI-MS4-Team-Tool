@@ -48,14 +48,20 @@
             </div>
         </div>
         
-        <h3>2. Enter information to create an Admin Account</h3>
+        <h3>2. Create an Admin account</h3>
         {{ form|crispy }}
         {% if redirect_field_value %}
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
         {% endif %}
+
         <h3>3. Payment information </h3>
         (Include: I agree to the terms and conditions)
-        <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+        
+
+        <div class="allauth-btnwrapper">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">{% trans "Sign Up" %} &raquo;</button>
+        </div>
+
     </form>
 </div>
 {% endblock %}

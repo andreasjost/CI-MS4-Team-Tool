@@ -11,7 +11,7 @@ class UserProfile(models.Model):
     A user profile model for an initial admin
     account when signing up
     """
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # user = models.OneToOneField(User, on_delete=models.CASCADE)
     company_name = models.CharField(max_length=80, null=True, blank=True)
     street_address1 = models.CharField(max_length=80, null=True, blank=True)
     street_address2 = models.CharField(max_length=80, null=True, blank=True)
@@ -21,22 +21,23 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=80, null=True, blank=True)
     last_name = models.CharField(max_length=80, null=True, blank=True)
     phone_number = models.CharField(max_length=20, null=True, blank=True)
-    email = models.EmailField(max_length=254, null=False, blank=False)
     plan = models.CharField(max_length=40, null=True, blank=True)
     signup_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     renewal_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     payment = models.DecimalField(max_digits=2, decimal_places=0, default=0)
 
     def __str__(self):
-        return self.user.username
+        return self.email
 
 
+"""
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
-    """
-    Create or update the user profile
-    """
+
+    # Create or update the user profile
+
     if created:
         UserProfile.objects.create(user=instance)
     # Existing users: just save the profile
     instance.userprofile.save()
+"""
