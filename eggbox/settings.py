@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'landing',
     'planning',
+    'coaching',
+    'notifications',
     'profiles',
 ]
 
