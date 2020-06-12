@@ -1,4 +1,12 @@
 
+
+/* --------------------------------------------- Box-special */
+
+.section-maincontent {
+    margin-top: 55px;
+    background-image: linear-gradient(to bottom right, #fff, #ddd);
+}
+
 /* --------------------------------------------- Headers */
 
 h1 {

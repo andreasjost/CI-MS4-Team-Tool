@@ -1,1 +1,60 @@
-Global
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<header>
+    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-xl">
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'planning' %}">Planning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="navbar-brand" href="#">EggBox</a>
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                User Name
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="user-manage.html">User Management</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                    <a class="dropdown-item" href="{% url 'settings_team' %}">Team Settings</a>
+                    <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<section class="section-maincontent">
+    <div class="container-xl"> 
+        <h2>Global Settings</h2>
+    </div>
+</section>
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    <!-- js, see template in planning -->
+{% endblock %}
