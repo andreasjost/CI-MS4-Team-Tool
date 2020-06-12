@@ -47,6 +47,17 @@ class CompanyProfile(models.Model):
         return self.company_name
 
 
+class AgentRole(models.Model):
+    """
+    Manager defined roles (ie intern, junior, medior, senior)
+    """
+    role_name = models.CharField(max_length=80)
+    role_color = models.IntegerField()
+
+    def __str__(self):
+        return self.role_name
+
+
 """
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
