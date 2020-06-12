@@ -58,7 +58,7 @@ h4 {
 /* custom radio buttons to select the plan on signup */
 
 .plan-select {
-    background-color: #ffffcc;
+    background-color: #ccd9ff;
     border-radius: 8px;
     display : block;
     width: 100%;
@@ -74,9 +74,13 @@ h4 {
     cursor:pointer;
 }
 .plan-select > input:checked + div{
-    background-color: #ffff00;
+    background-color: #b3ffb3;
     box-shadow: 3px 3px 6px #888;
     border-radius: 8px;
+}
+
+.plan-select hr {
+    margin: 4px 2px;
 }
 
 /* --------------------------------------------- Landing-page */
