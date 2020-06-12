@@ -16,8 +16,6 @@ class CompanyProfile(models.Model):
     country = CountryField(blank_label='Country *', null=True, blank=True)
     postcode = models.CharField(max_length=20, null=True, blank=True)
     town_or_city = models.CharField(max_length=40, null=True, blank=True)
-    phone_number = models.CharField(max_length=20, null=True, blank=True)
-    email = models.EmailField(max_length=254, null=False, blank=False)
     plan = models.CharField(max_length=40, null=True, blank=True)
     signup_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     renewal_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
