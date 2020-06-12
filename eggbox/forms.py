@@ -6,7 +6,7 @@
 from django.contrib.auth import get_user_model
 """
 from profiles.models import UserProfile
-from profiles.models import CompanyProfile
+from settings.models import CompanyProfile
 
 from django import forms
 

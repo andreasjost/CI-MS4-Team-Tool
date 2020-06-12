@@ -17,9 +17,11 @@ def profile(request):
     return render(request, template, context)
 
 
+"""
 def thankyou(request):
-    """ Page to display after sign up of a new account """
+    # Page to display after sign up of a new account
 
     template = 'profiles/thankyou.html'
 
     return render(template)
+"""

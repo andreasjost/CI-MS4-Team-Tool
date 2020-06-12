@@ -1,6 +1,6 @@
 from django.db import models
 from profiles.models import UserProfile
-from profiles.models import AgentRole
+from settings.models import AgentRole
 
 
 class Event(models.Model):

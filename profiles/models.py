@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from django_countries.fields import CountryField
-
 
 class UserProfile(models.Model):
     """
@@ -24,38 +22,6 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.email
-
-
-class CompanyProfile(models.Model):
-    """
-    A company profile model created on sign up with the admin account
-    """
-    company_name = models.CharField(max_length=80, null=True, blank=True)
-    street_address1 = models.CharField(max_length=80, null=True, blank=True)
-    street_address2 = models.CharField(max_length=80, null=True, blank=True)
-    country = CountryField(blank_label='Country *', null=True, blank=True)
-    postcode = models.CharField(max_length=20, null=True, blank=True)
-    town_or_city = models.CharField(max_length=40, null=True, blank=True)
-    phone_number = models.CharField(max_length=20, null=True, blank=True)
-    email = models.EmailField(max_length=254, null=False, blank=False)
-    plan = models.CharField(max_length=40, null=True, blank=True)
-    signup_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    renewal_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    payment = models.DecimalField(max_digits=2, decimal_places=0, default=0)
-
-    def __str__(self):
-        return self.company_name
-
-
-class AgentRole(models.Model):
-    """
-    Manager defined roles (ie intern, junior, medior, senior)
-    """
-    role_name = models.CharField(max_length=80)
-    role_color = models.IntegerField()
-
-    def __str__(self):
-        return self.role_name
 
 
 """
