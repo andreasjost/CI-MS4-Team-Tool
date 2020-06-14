@@ -5,7 +5,7 @@
 <header>
     <nav class="navbar fixed-top navbar-expand-sm navbar-light">
         <div class="container-xl">
-            <a href="{% url 'account_signup' %}" class="btn btn-primary my-2 my-sm-0">Sign up</a>
+            <a href="{% url 'account_signup' %}" class="btn btn-secondary my-2 my-sm-0">Sign up</a>
             <!--
             <a class="navbar-brand" href="#">EggBox</a>
             -->
@@ -26,7 +26,7 @@
                 </div>
             </div>
             {% else %}
-                <a href="{% url 'account_login' %}" class="btn btn-success my-2 my-sm-0">Login</a>
+                <a href="{% url 'account_login' %}" class="btn my-2 my-sm-0">Login</a>
             {% endif %}
         </div>
     </nav>
@@ -35,16 +35,14 @@
     <br>
     <div class="light-row">
         <div class="container-xl">
-            <div class="row">
-                <div class="col-6">
-                    <div class="hero-image">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <h1>The best care for your greatest asset</h1>
-                    <h2>Take your Customer Service Team to the next level with one tool combining managament and coaching</h2>
-                </div>
+            
+               
+            <div class="hero-image">
             </div>
+            <h1><span class="tagline">Take care of your greatest asset - move your
+            customer service team forward with one tool combining managament and coaching</span></h1>
+  
+                    
         </div>
     </div>
     <div class="dark-row">
@@ -103,4 +101,9 @@
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'landing/js/landingscript.js' %}"></script>
 {% endblock %}
