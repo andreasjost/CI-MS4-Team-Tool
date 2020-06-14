@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'planning/css/planning.css' %}">
+{% endblock %}
+{% block content %}
+<header>
+    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">EggBox</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'planning' %}">Planning</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
+                </li>
+            </ul>
+        </div>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ profile.first_name }} {{ profile.last_name }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                <a class="dropdown-item" href="{% url 'settings_team' %}">Team Settings</a>
+                <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+            </div>
+        </div>
+    </nav>
+</header>
+<section class="section-maincontent">
+    <div class="container-xl">
+        <a class="float-right" href="{% url 'add_user' %}">
+            <button class="btn btn-primary">Add User</button>
+        </a>
+        <h2>User Management</h2>
+        
+        <h3>Active Users</h3>
+        <table>
+            <tr>
+                <th>First Name(s)</th>
+                <th>Last Name(s)</th>
+                <th>Birthday dd/mm</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Level</th>
+                <th>Agent Role</th>
+                <th>Contract Type</th>
+                <th>Contract %</th>
+                <th></th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.birthday_ddmm }}</td>
+                <td>{{ user.start_date }}</td>
+                <td>{{ user.end_date }}</td>
+                <td>{{ user.level }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.contract_type }}</td>
+                <td>{{ user.contract_percentage }}</td>
+                <td>
+                    <a href="{% url 'edit_user' user.id %}">
+                    <button class="btn btn-secondary btn-sm">edit</button>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No users are set up yet. Select 'Add users' to set up your team(s).</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <h3>Inactive Users</h3>
+    </div>
+</section>
+{% endblock %}
+{% block postloadjs %}
+{{ block.super }}
+<!-- any javascript -->
+{% endblock %}

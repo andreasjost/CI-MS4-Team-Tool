@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from .models import UserProfile
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from .models import UserProfile, User
 from .forms import UserProfileForm
+from django.contrib.auth.decorators import login_required
 
 
 def profile(request):
@@ -23,6 +24,80 @@ def profile(request):
         'form': form,
         'on_profile_page': True,
         'profile': profile
+    }
+
+    return render(request, template, context)
+
+
+def user_management(request):
+
+    # Show user management
+    users = UserProfile.objects.all()
+    profile = get_object_or_404(UserProfile, user=request.user)
+
+    template = 'profiles/user_management.html'
+    context = {
+        'users': users,
+        'profile': profile
+    }
+    return render(request, template, context)
+
+
+@login_required
+def add_user(request):
+    """ Add a user 
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save()
+            messages.success(request, 'Successfully added product!')
+            return redirect(reverse('product_detail', args=[product.id]))
+        else:
+            messages.error(request, 'Failed to add product. Please ensure the form is valid.')
+    else:
+        form = ProductForm()
+
+    template = 'products/add_product.html'
+    context = {
+        'form': form,
+    }
+
+    return render(request, template, context)
+    """
+
+
+@login_required
+def edit_user(request, user_id):
+    """ Edit a user, out of user management """
+
+    """ check the user level
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+    """
+    user = get_object_or_404(UserProfile, pk=user_id)
+    
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            print("Success")
+            """
+            return redirect(reverse('product_detail', args=[product.id]))
+            """
+        else:
+            print("failed")
+    else:
+        form = UserProfileForm(instance=user)
+
+    template = 'profiles/profile.html'
+    context = {
+        'form': form,
+        'profile': user,
     }
 
     return render(request, template, context)
