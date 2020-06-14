@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-6 col-sm-3">
             <label class="plan-select">
-                <input type="radio" name="signup-plan" value="one_value" checked />
+                <input type="radio" name="plan" value="one_value" checked />
                 <div class="">
                     <h4 class="text-uppercase">Starter</h4>
                     12 Users<br>
@@ -26,7 +26,7 @@
         </div>
         <div class="col-6 col-sm-3">
             <label class="plan-select">
-                <input type="radio" name="signup-plan" value="basic" />
+                <input type="radio" name="plan" value="basic" />
                 <div class="">
                     <h4 class="text-uppercase">Basic</h4>
                     24 Users <br>
@@ -38,7 +38,7 @@
         </div>
         <div class="col-6 col-sm-3">
             <label class="plan-select">
-                <input type="radio" name="signup-plan" value="advanced" />
+                <input type="radio" name="plan" value="advanced" />
                 <div class="">
                     <h4 class="text-uppercase">Advanced</h4>
                     40 Users<br>
@@ -50,7 +50,7 @@
         </div>
         <div class="col-6 col-sm-3">
             <label class="plan-select">
-                <input type="radio" name="signup-plan" value="max" />
+                <input type="radio" name="plan" value="max" />
                 <div class="">
                     <h4 class="text-uppercase">Max</h4>
                     120 Users<br>
@@ -62,15 +62,43 @@
         </div>
     </div>
     <h3>2. Create an Admin account</h3>
-    {{ form|crispy }}
+    {% for form_field in form %}
+        {{ form_field.label_tag }} {{ form_field }} <br>
+    {% endfor %}
+    <label for="first_name">First Name(s)</label>
+    <input type="text" id="first_name" name="first_name">
+    <label for="last_names">Last Name(s)</label>
+    <input type="text" id="last_name" name="last_name">
     {% if redirect_field_value %}
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
     {% endif %}
-    <h3>3. Payment information </h3>
+    <h3>3. Add your company information </h3>
+    
+    <label for="company_name">Company Name</label>
+    <input type="text" id="company_name" name="company_name">
+    <label for="street_address1">Street Address 1</label>
+    <input type="text" id="street_address1" name="street_address1">
+    <label for="street_address2">Street Address 2</label>
+    <input type="text" id="street_address2" name="street_address2">
+    <label for="country">Country</label>
+    <input type="text" id="country" name="country">
+    <label for="postcode">Postcode</label>
+    <input type="text" id="postcode" name="postcode">
+    <label for="town_or_city">Town or City</label>
+    <input type="text" id="town_or_city" name="town_or_city">
+    <label for="payment_rule">Pay for:</label>
+    <select name="payment" id="payment_rule">
+        <option value="volvo">3 months</option>
+        <option value="saab">6 months</option>
+        <option value="mercedes">1 year</option>
+    </select>
+    
+    <h3>4. Payment information </h3>
     (Include: I agree to the terms and conditions)
     <div class="allauth-btnwrapper">
-        <button class="btn btn-primary my-2 my-sm-0" type="submit">{% trans "Sign Up" %} &raquo;</button>
+        <button class="btn btn-primary my-2 my-sm-0" type="submit">{% trans "Sign Up" %}</button>
     </div>
+    <br><br>
 </form>
 </div>
 {% endblock %}

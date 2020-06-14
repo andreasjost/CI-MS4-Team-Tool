@@ -3,11 +3,12 @@
 {% load static %}
 {% block content %}
 <header>
-    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar fixed-top navbar-expand-sm navbar-light">
         <div class="container-xl">
-            <a href="{% url 'account_signup' %}" class="btn btn-outline-primary my-2 my-sm-0">Sign up</a>
+            <a href="{% url 'account_signup' %}" class="btn btn-primary my-2 my-sm-0">Sign up</a>
+            <!--
             <a class="navbar-brand" href="#">EggBox</a>
-          
+            -->
             
             {% if request.user.is_authenticated %}
              <div class="nav-item dropdown">
@@ -25,7 +26,7 @@
                 </div>
             </div>
             {% else %}
-                <a href="{% url 'account_login' %}" class="btn btn-outline-success my-2 my-sm-0">Login</a>
+                <a href="{% url 'account_login' %}" class="btn btn-success my-2 my-sm-0">Login</a>
             {% endif %}
         </div>
     </nav>
@@ -35,10 +36,15 @@
     <div class="light-row">
         <div class="container-xl">
             <h1>The best care for your greatest asset</h1>
-            <div class="hero-image">
+            <div class="row">
+                <div class="col-6">
+                    <div class="hero-image">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h2>Elevate your Customer Service Team with one tool combining managament and coaching</h2>
+                </div>
             </div>
-            <br>
-            <h2>Elevate your Customer Service Team with one tool combining managament and coaching</h2>
         </div>
     </div>
     <div class="dark-row">

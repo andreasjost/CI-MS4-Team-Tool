@@ -1,24 +1,6 @@
 from django.contrib import admin
 
-from .models import CompanyProfile, AgentRole, Team
-
-
-class AdminCompany(admin.ModelAdmin):
-    list_display = (
-        'company_name',
-        'street_address1',
-        'street_address2',
-        'country',
-        'postcode',
-        'town_or_city',
-        'plan',
-        'signup_date',
-        'renewal_date',
-        'payment',
-        'setting_weekstart',
-    )
-
-    ordering = ('company_name',)
+from .models import AgentRole, Team
 
 
 class AdminRole(admin.ModelAdmin):
@@ -41,6 +23,5 @@ class AdminTeam(admin.ModelAdmin):
     ordering = ('team_name',)
 
 
-admin.site.register(CompanyProfile, AdminCompany)
 admin.site.register(AgentRole, AdminRole)
 admin.site.register(Team, AdminTeam)

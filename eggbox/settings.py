@@ -110,7 +110,7 @@ LOGIN_REDIRECT_URL = '/planning/'
 WSGI_APPLICATION = 'eggbox.wsgi.application'
 
 # change the standart allauth forms
-ACCOUNT_SIGNUP_FORM_CLASS = 'eggbox.forms.SignupForm'
+# ACCOUNT_SIGNUP_FORM_CLASS = 'eggbox.forms.SignupForm'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

@@ -3,30 +3,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from django_countries.fields import CountryField
-
-
-class CompanyProfile(models.Model):
-    """
-    A company profile model created on sign up with the admin account
-    """
-    company_name = models.CharField(max_length=80, null=True, blank=True)
-    street_address1 = models.CharField(max_length=80, null=True, blank=True)
-    street_address2 = models.CharField(max_length=80, null=True, blank=True)
-    country = CountryField(blank_label='Country *', null=True, blank=True)
-    postcode = models.CharField(max_length=20, null=True, blank=True)
-    town_or_city = models.CharField(max_length=40, null=True, blank=True)
-    plan = models.CharField(max_length=40, null=True, blank=True)
-    signup_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    renewal_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    payment = models.DecimalField(max_digits=2, decimal_places=0, default=0)
-
-    # global settings: On what weekday does the week start
-    setting_weekstart = models.DecimalField(max_digits=1, decimal_places=0, default=0)
-
-    def __str__(self):
-        return self.company_name
-
 
 class AgentRole(models.Model):
     """
@@ -48,4 +24,3 @@ class Team(models.Model):
     min_lunchbreak = models.IntegerField(default=30)
     min_dinnerbreak = models.IntegerField(default=30)
     min_paidbreak = models.IntegerField(default=15)
-

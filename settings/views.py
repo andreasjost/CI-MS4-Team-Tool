@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 
-from settings.models import CompanyProfile
+from profiles.models import CompanyProfile
 
 
 def settings_global(request, company_id):

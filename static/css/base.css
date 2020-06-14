@@ -13,12 +13,11 @@ h1 {
     font-family: 'Blinker', sans-serif;
     font-weight: 600;
     text-align: center;
-    padding: 30px 0;
+    padding: 15px 0;
 }
 
 h2 {
     font-family: 'Blinker', sans-serif;
-    text-align: center;
     padding: 30px 0;
 }
 
@@ -45,6 +44,14 @@ h4 {
 /* used to keep elements centered if there is no button */
 .no-element {
     width: 100px;
+}
+
+.navbar-light {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+#navbarDropdown {
+    color: #fff;
 }
 
 
@@ -103,7 +110,7 @@ h4 {
     padding: 30px 0;
 }
 .hero-image {
-    background-image: url('/media/eggs.png');
+    background-image: url('/media/logo.png');
     background-repeat: no-repeat;
     background-size: contain; 
     background-position: center;
