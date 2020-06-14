@@ -8,9 +8,11 @@ def planning(request):
     Get the logged in user profile and show the planning template
     """
     profile = get_object_or_404(UserProfile, user=request.user)
+    users = get_object_or_404(UserProfile.objects.all())
     template = 'planning/planning.html'
     context = {
         'profile': profile,
+        'users': users
     }
 
     return render(request, template, context)

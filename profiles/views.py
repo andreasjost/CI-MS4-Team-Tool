@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from .models import UserProfile, User
-from .forms import UserProfileForm
+from .forms import UserProfileForm, UserForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -10,18 +10,30 @@ def profile(request):
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=profile)
+        user_email = UserForm(instance=request.user)
         if form.is_valid():
             form.save()
             # messages.success(request, 'Profile updated successfully')
         else:
             print("unsuccessful")
             # messages.error(request, 'Update failed. Please ensure the form is valid.')
+        
+        # doesnt work yet: Email is not saved:
+
+        if user_email.is_valid():
+            user_email.save()
+            # messages.success(request, 'Profile updated successfully')
+        else:
+            print("####### unsuccessful email")
+            # messages.error(request, 'Update failed. Please ensure the form is valid.')
     else:
         form = UserProfileForm(instance=profile)
+        user_email = UserForm(instance=request.user)
 
     template = 'profiles/profile.html'
     context = {
         'form': form,
+        'user_email': user_email,
         'on_profile_page': True,
         'profile': profile
     }

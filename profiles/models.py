@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from django_countries.fields import CountryField
+import datetime
 
 
 class UserProfile(models.Model):
@@ -14,8 +15,8 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=80, null=True, blank=True)
     last_name = models.CharField(max_length=80, null=True, blank=True)
     birthday_ddmm = models.CharField(max_length=16, null=False, default='0000')
-    start_date = models.DateTimeField(null=True)
-    end_date = models.DateTimeField(null=True)
+    start_date = models.DateField(null=False, default=datetime.date.today)
+    end_date = models.DateField(null=False, default=datetime.date.today)
     level = models.CharField(max_length=16, null=False, default='admin')
     role = models.CharField(max_length=32, null=True, blank=True)  # this will be a foreign key to the roles table
     team = models.CharField(max_length=32, null=True, blank=True)  # this will be a foreign key to the teams table

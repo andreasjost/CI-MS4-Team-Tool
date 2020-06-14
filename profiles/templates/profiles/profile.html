@@ -57,10 +57,21 @@
 <section class="section-maincontent">
     <div class="container-xl"> 
         <h2>My Profile</h2>
-        {{ form|crispy }}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+             <hr>
+            {{ user_email|crispy }}
+            <button class="btn btn-primary float-right" type="submit">Save</button>
+        </form>
     </div>
+    <br>
+<br>
+<br>
+<br>
 </section>
 
-<button class="btn btn-black rounded-0 text-uppercase float-right">Update Information</button>
+
+
 
 {% endblock %}
