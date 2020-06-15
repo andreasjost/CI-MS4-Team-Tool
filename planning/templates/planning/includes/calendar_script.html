@@ -1,8 +1,14 @@
+<!DOCTYPE html>
+{{ users|json_script:"userdata" }}
+<script>
+
 const startHour = 0
 const endHour = 24
 const hoursRange = endHour - startHour;
 const expandedDayWidth = 300;
 
+const prepareString = JSON.parse(document.getElementById('userdata').textContent);
+const allUsers = JSON.parse(prepareString);
 
 $(document).ready(function() {
     weekTables();
@@ -25,13 +31,10 @@ $(document).ready(function() {
 });
 
 
-
 let calendarLabels = {
     weekDays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     allMonths: ["January", "February", "March", "April", "Mai", "June", "July", "August", "September", "October", "November", "December"]
 };
-
-
 
 
 function weekTables() {
@@ -56,10 +59,10 @@ function weekTables() {
     colLeftTitle.innerHTML = '<br>' + "Name";
     colLeft.appendChild(colLeftTitle);
 
-    for (let i = 0; i < 24; i++) {
+    for (let i = 0; i < allUsers.length; i++) {
         let timeLabel = document.createElement('div');
         timeLabel.classList.add('table-cell');
-        timeLabel.innerText = String(i);
+        timeLabel.innerText = allUsers[i].fields.first_name;
         colLeft.appendChild(timeLabel);
     }
 
@@ -77,10 +80,10 @@ function weekTables() {
         dayColumnHead.innerHTML = '<a href="#!"><span class="hday">' +
             calendarLabels.weekDays[loopDate.getDay()] + '</span>' + loopDate.getDate() + 
             '<div class="expand-time"></div></a>';
-        dayColumn.appendChild(dayColumnHead);
+        dayColumn.appendChild(dayColumnHead);} 
 
         // create all the cells
-        for (let i = 0; i < 24; i++) {
+        for (let i = 0; i < allUsers.length; i++) {
             let cell = document.createElement('div');
             cell.classList.add('table-cell');
             if (i % 2 == 0) {
@@ -100,10 +103,10 @@ function weekTables() {
     
 }
 
-
-
 // get the calendarweek-number
 Date.prototype.getWeek = function() {
     var onejan = new Date(this.getFullYear(), 0, 1);
     return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
 }
+
+</script>

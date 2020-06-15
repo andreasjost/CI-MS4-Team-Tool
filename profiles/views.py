@@ -80,8 +80,6 @@ def add_user(request):
                                  password='glass onion')
             # messages.success(request, 'Profile updated successfully')
 
-            # self.user.refresh_from_db()
-            print (user.userprofile)
             first_name = form.data['first_name']
             last_name = form.data['last_name']
             # company_id = self._generate_company_id() -- take it from the company profile

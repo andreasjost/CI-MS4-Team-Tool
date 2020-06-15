@@ -122,6 +122,7 @@ h4 {
     background-size: contain; 
     background-position: center;
     height: 280px;
+    display: none;
 }
 
 
