@@ -56,7 +56,7 @@
 </header>
 <section class="section-maincontent">
     <div class="container-xl"> 
-        <h2>My Profile</h2>
+        <h2>Add a new user</h2>
         <form method="POST">
             {% csrf_token %}
             {{ form|crispy }}
@@ -70,8 +70,5 @@
 <br>
 <br>
 </section>
-
-
-
 
 {% endblock %}
