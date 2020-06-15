@@ -18,6 +18,7 @@ h1 {
 }
 
 h1 .tagline {
+    margin-top: 240px;
     font-weight: 300;
     color: #555;
 }
@@ -115,7 +116,7 @@ h4 {
     background-color: white;
     padding: 30px 0;
 }
-.hero-image {
+#hero-image {
     background-image: url('/media/logo.png');
     background-repeat: no-repeat;
     background-size: contain; 

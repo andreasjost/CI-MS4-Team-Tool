@@ -6,9 +6,6 @@
     <nav class="navbar fixed-top navbar-expand-sm navbar-light">
         <div class="container-xl">
             <a href="{% url 'account_signup' %}" class="btn btn-secondary my-2 my-sm-0">Sign up</a>
-            <!--
-            <a class="navbar-brand" href="#">EggBox</a>
-            -->
             
             {% if request.user.is_authenticated %}
              <div class="nav-item dropdown">
@@ -30,19 +27,17 @@
             {% endif %}
         </div>
     </nav>
+    <div class="fixed-top">
+                 <div id="hero-image">
+            </div>
+    </div>
 </header>
 <section>
     <br>
     <div class="light-row">
         <div class="container-xl">
-            
-               
-            <div class="hero-image">
-            </div>
-            <h1><span class="tagline">Take care of your greatest asset - move your
-            customer service team forward with one tool combining managament and coaching</span></h1>
-  
-                    
+            <h1><div class="tagline">Take care of your greatest asset - move your
+            customer service team forward with one tool combining managament and coaching</div></h1>    
         </div>
     </div>
     <div class="dark-row">
