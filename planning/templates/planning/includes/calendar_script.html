@@ -80,7 +80,7 @@ function weekTables() {
         dayColumnHead.innerHTML = '<a href="#!"><span class="hday">' +
             calendarLabels.weekDays[loopDate.getDay()] + '</span>' + loopDate.getDate() + 
             '<div class="expand-time"></div></a>';
-        dayColumn.appendChild(dayColumnHead);} 
+        dayColumn.appendChild(dayColumnHead);
 
         // create all the cells
         for (let i = 0; i < allUsers.length; i++) {
@@ -100,7 +100,8 @@ function weekTables() {
         }
         loopDate.setDate(loopDate.getDate() + 1); 
     }
-    
+
+
 }
 
 // get the calendarweek-number
