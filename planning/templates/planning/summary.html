@@ -3,12 +3,13 @@
 {% load static %}
 
 {% block extra_title %}
-    - Planning
+    - Summary
 {% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'planning/css/planning.css' %}">
+    <link rel="stylesheet" href="{% static 'profiles/css/profiles.css' %}" />
 {% endblock %}
+
 {% block content %}
 <header>
     <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
@@ -26,7 +27,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'planning' %}">Planning</a>
                     </li>
                     <li class="nav-item">
@@ -54,35 +55,22 @@
     </nav>
 </header>
 <section class="section-maincontent">
-    <div class="form-group">
-        <label for="select-team">Team:</label>
-        <select class="form-control" id="select-team">
-         <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select>
-
+    <div class="container-xl"> 
+        <h2>Summary</h2>
+        
+            {{ user.first_name }}
+            {{ user.last_name }}
+           
+            <button class="btn btn-primary float-right" type="submit">Save</button>
+        
     </div>
-    <div class="text-center">
-        <button type="button" class="control-btn" onclick="monthMinus();" >Month minus</button>
-        <p id="month-title">Month</p>
-
-        <button type="button" class="control-btn" onclick="monthPlus();" >Month plus</button>
-    </div>
-
-
-<div class="table-container">
-    <div class="month-table" id="weeks-container">
-        <!-- JS magic -->
-    </div>
-</div>
-
+    <br>
+<br>
+<br>
+<br>
 </section>
-{% endblock %}
 
-{% block postloadjs %}
-{{ block.super }}
-{% include 'planning/includes/calendar_script.html' %}
+
+
+
 {% endblock %}

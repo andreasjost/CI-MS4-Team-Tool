@@ -7,6 +7,7 @@ const endHour = 24
 const hoursRange = endHour - startHour;
 const expandedDayWidth = 300;
 let chosenDate = new Date();
+let buildingSpace = document.getElementById("weeks-container");
 
 const prepareString = JSON.parse(document.getElementById('userdata').textContent);
 const allUsers = JSON.parse(prepareString);
@@ -40,7 +41,6 @@ let calendarLabels = {
 
 function weekTables() {
 
-    let buildingSpace = document.getElementById("weeks-container");
     let today = getDate();
     let loopDate = new Date();
     loopDate.setDate(1);
@@ -49,7 +49,6 @@ function weekTables() {
     cssGrid.classList.add('month-table');
     buildingSpace.appendChild(cssGrid);
 
-    
     // build the left column
     let colLeft = document.createElement('div');
     colLeft.classList.add('table-column', 'table-col-fixed');
@@ -61,13 +60,14 @@ function weekTables() {
     colLeft.appendChild(colLeftTitle);
 
     for (let i = 0; i < allUsers.length; i++) {
-        let timeLabel = document.createElement('div');
-        timeLabel.classList.add('table-cell');
+        let userLabel = document.createElement('div');
+        userLabel.classList.add('table-cell');
         if (i % 2 == 0) {
-                timeLabel.classList.add('even-row');
+                userLabel.classList.add('even-row');
             }
-        timeLabel.innerText = allUsers[i].fields.first_name;
-        colLeft.appendChild(timeLabel);
+        url = `/planning/summary/${allUsers[i].pk}`
+        userLabel.innerHTML = `<a href="${url}">${allUsers[i].fields.first_name} ${allUsers[i].fields.last_name}</a>`;
+        colLeft.appendChild(userLabel);
     }
 
     while (loopDate.getMonth() == today.getMonth()) {
@@ -109,18 +109,27 @@ function weekTables() {
 }
 
 function getDate() {
+    let today = new Date();
     let monthTitle = document.getElementById("month-title");
-    monthTitle.innerHTML = calendarLabels.allMonths[chosenDate.getMonth()];
+
+    // add the year to the title if outside the current year
+    if (today.getFullYear() === chosenDate.getFullYear()){
+        monthTitle.innerHTML = calendarLabels.allMonths[chosenDate.getMonth()];
+    } else {
+        monthTitle.innerHTML = calendarLabels.allMonths[chosenDate.getMonth()] + " " + chosenDate.getFullYear();
+    }
     return chosenDate;
 }
 
 function monthPlus() {
     chosenDate = new Date(chosenDate.setMonth(chosenDate.getMonth()+1));
+    buildingSpace.innerHTML = "";
     weekTables();
 }
 
 function monthMinus() {
     chosenDate = new Date(chosenDate.setMonth(chosenDate.getMonth()-1));
+    buildingSpace.innerHTML = "";
     weekTables();
 }
 

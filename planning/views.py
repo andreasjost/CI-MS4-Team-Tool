@@ -20,3 +20,17 @@ def planning(request):
     }
 
     return render(request, template, context)
+
+
+def summary(request, user_id):
+    """ Display the user's summary. """
+    profile = get_object_or_404(UserProfile, user=request.user)
+    user = get_object_or_404(UserProfile, pk=user_id)
+
+    template = 'planning/summary.html'
+    context = {
+        'profile': profile,
+        'user': user
+    }
+
+    return render(request, template, context)
