@@ -49,12 +49,31 @@
     </nav>
 </header>
 <section class="section-maincontent">
-<br>
+    <div class="form-group">
+        <label for="select-team">Team:</label>
+        <select class="form-control" id="select-team">
+         <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+    </select>
+
+    </div>
+    <div class="text-center">
+        <button type="button" class="control-btn" onclick="monthMinus();" >Month minus</button>
+        <p id="month-title">Month</p>
+
+        <button type="button" class="control-btn" onclick="monthPlus();" >Month plus</button>
+    </div>
+
+
 <div class="table-container">
     <div class="month-table" id="weeks-container">
         <!-- JS magic -->
     </div>
 </div>
+
 </section>
 {% endblock %}
 

@@ -6,6 +6,7 @@ const startHour = 0
 const endHour = 24
 const hoursRange = endHour - startHour;
 const expandedDayWidth = 300;
+let chosenDate = new Date();
 
 const prepareString = JSON.parse(document.getElementById('userdata').textContent);
 const allUsers = JSON.parse(prepareString);
@@ -40,7 +41,7 @@ let calendarLabels = {
 function weekTables() {
 
     let buildingSpace = document.getElementById("weeks-container");
-    let today = new Date();
+    let today = getDate();
     let loopDate = new Date();
     loopDate.setDate(1);
 
@@ -56,12 +57,15 @@ function weekTables() {
 
     let colLeftTitle = document.createElement('div');
     colLeftTitle.classList.add('table-header');
-    colLeftTitle.innerHTML = '<br>' + "Name";
+    colLeftTitle.innerHTML = '<div class="name-label">Name</div>';
     colLeft.appendChild(colLeftTitle);
 
     for (let i = 0; i < allUsers.length; i++) {
         let timeLabel = document.createElement('div');
         timeLabel.classList.add('table-cell');
+        if (i % 2 == 0) {
+                timeLabel.classList.add('even-row');
+            }
         timeLabel.innerText = allUsers[i].fields.first_name;
         colLeft.appendChild(timeLabel);
     }
@@ -102,6 +106,22 @@ function weekTables() {
     }
 
 
+}
+
+function getDate() {
+    let monthTitle = document.getElementById("month-title");
+    monthTitle.innerHTML = calendarLabels.allMonths[chosenDate.getMonth()];
+    return chosenDate;
+}
+
+function monthPlus() {
+    chosenDate = new Date(chosenDate.setMonth(chosenDate.getMonth()+1));
+    weekTables();
+}
+
+function monthMinus() {
+    chosenDate = new Date(chosenDate.setMonth(chosenDate.getMonth()-1));
+    weekTables();
 }
 
 // get the calendarweek-number
