@@ -65,11 +65,11 @@
     </select>
 
     </div>
-    <div class="text-center">
-        <a class="control-btn" href="{% url 'month_change' nav_month.previous %}">Month minus</a>
+    <div class="month-navigation">
         <p id="month-title">Month</p>
-        <a class="control-btn" href="{% url 'month_change' nav_month.next %}">Month plus</a>
-        <a class="control-btn" href="{% url 'month_current' %}">Current month</a>
+        <a class="control-btn" href="{% url 'month_change' nav_month.previous %}"><i class="fas fa-arrow-alt-circle-left"></i></a>
+        <a class="control-btn" href="{% url 'month_change' nav_month.next %}"><i class="fas fa-arrow-alt-circle-right"></i></a>
+        <a class="control-btn" href="{% url 'month_current' %}"> <i class="fas fa-home"></i></i></a>
     </div>
 
 

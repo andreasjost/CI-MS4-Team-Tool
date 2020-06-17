@@ -5,6 +5,15 @@
     width: 140px;
 }
 
+.month-navigation {
+    padding-left: 280px;
+}
+
+.month-navigation i {
+    font-size: 1.5rem;
+    padding: 0 10px;
+}
+
 
 .week-number {
     padding-left: 2px;
