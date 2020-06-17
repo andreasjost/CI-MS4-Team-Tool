@@ -59,7 +59,7 @@ def user_management(request):
 @login_required
 def add_user(request):
     """
-    Add a user 
+    Add a new user by an admin 
     """
     profile = get_object_or_404(UserProfile, user=request.user)
     # put some logic that only managers and admins can add a user
@@ -92,7 +92,6 @@ def add_user(request):
             print("unsuccessful email")
             # messages.error(request, 'Update failed. Please ensure the form is valid.')
 
-        
         users = UserProfile.objects.all()
 
         template = 'profiles/user_management.html'

@@ -16,11 +16,3 @@ class Event(models.Model):
     agent_role = models.ForeignKey(AgentRole, on_delete=models.SET_NULL,
                                      null=True, blank=True)
     status = models.IntegerField()  # status of approvement
-
-
-class EventCategory(models.Model):
-    """
-    Work, Training, Sick, lunch, dinner, absence, Holidays, leave, other
-    """
-    category = models.CharField(max_length=16)
-    color = models.IntegerField()

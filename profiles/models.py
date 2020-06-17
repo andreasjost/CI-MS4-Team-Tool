@@ -30,8 +30,7 @@ class CompanyProfile(models.Model):
     """
     A company profile model created on sign up with the admin account
     """
-    user = models.ForeignKey(User, on_delete=models.SET_NULL,
-                                     null=True, blank=True, related_name='user_made_profile')
+    company_id = models.CharField(max_length=32, null=False, editable=False)
     company_name = models.CharField(max_length=80, null=True, blank=True)
     street_address1 = models.CharField(max_length=80, null=True, blank=True)
     street_address2 = models.CharField(max_length=80, null=True, blank=True)
@@ -63,8 +62,6 @@ def create_update_user_profile(sender, instance, created, **kwargs):
     # Create user profile
     if created:
         UserProfile.objects.create(user=instance)
-        
+
     # Existing users: just save the profile
     instance.userprofile.save()
-    
-

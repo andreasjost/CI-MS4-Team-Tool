@@ -1,9 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from profiles.models import UserProfile
-from .models import Event, EventCategory
+from .models import Event
 from django.core import serializers  # used to use template variables in JS
 import datetime
-
 
 
 def planning(request):
@@ -53,7 +52,6 @@ def month_minus(request):
     context = context = render_data(request)
 
     return render(request, template, context)
-
 
 
 def summary(request, user_id):

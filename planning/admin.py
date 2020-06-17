@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Event, EventCategory
+from .models import Event
 
 
 class AdminEvent(admin.ModelAdmin):
@@ -15,12 +15,4 @@ class AdminEvent(admin.ModelAdmin):
     )
 
 
-class AdminEventCategory(admin.ModelAdmin):
-        list_display = (
-        'category',
-        'color',
-    )
-
-
 admin.site.register(Event, AdminEvent)
-admin.site.register(EventCategory, AdminEventCategory)

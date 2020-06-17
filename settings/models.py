@@ -14,6 +14,7 @@ class AgentRole(models.Model):
     def __str__(self):
         return self.role_name
 
+
 class Team(models.Model):
     """
     Model for the different teams
@@ -24,3 +25,15 @@ class Team(models.Model):
     min_lunchbreak = models.IntegerField(default=30)
     min_dinnerbreak = models.IntegerField(default=30)
     min_paidbreak = models.IntegerField(default=15)
+
+
+class Shift(models.Model):
+    """
+    Different kinds of work shifts at different times
+    """
+    shift_name = models.CharField(max_length=64, null=False, blank=False)
+    weekday = models.IntegerField(default=0)
+    shift_start = models.TimeField()
+    shift_end = models.TimeField()
+    team = models.ForeignKey(Team, on_delete=models.CASCADE,
+                                     null=True, blank=True)
