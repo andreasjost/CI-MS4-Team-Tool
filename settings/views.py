@@ -58,6 +58,7 @@ def delete_team(request):
 
     return render(request, template, context)
 
+
 def settings_team(request):
     """
     show the team settings
