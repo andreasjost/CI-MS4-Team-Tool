@@ -66,10 +66,9 @@
 
     </div>
     <div class="text-center">
-        <button type="button" class="control-btn" onclick="monthMinus();" >Month minus</button>
+        <a class="control-btn" href="{% url 'month_minus' %}">Month minus</a>
         <p id="month-title">Month</p>
-
-        <button type="button" class="control-btn" onclick="monthPlus();" >Month plus</button>
+        <a class="control-btn" href="{% url 'month_plus' %}">Month plus</a>
     </div>
 
 

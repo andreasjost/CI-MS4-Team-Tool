@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 {{ users|json_script:"userdata" }}
+{{ mmyyyy|json_script:"datedata" }}
 <script>
 
 const startHour = 0
 const endHour = 24
 const hoursRange = endHour - startHour;
 const expandedDayWidth = 300;
-let chosenDate = new Date();
 let buildingSpace = document.getElementById("weeks-container");
 
 const prepareString = JSON.parse(document.getElementById('userdata').textContent);
 const allUsers = JSON.parse(prepareString);
+
+const prepareDate = JSON.parse(document.getElementById('datedata').textContent);
+const chosenMMYYYY = JSON.parse(prepareDate);
 
 $(document).ready(function() {
     weekTables();
@@ -41,8 +44,8 @@ let calendarLabels = {
 
 function weekTables() {
 
-    let today = getDate();
-    let loopDate = new Date();
+    let dateReference = getDate();
+    let loopDate = getDate();
     loopDate.setDate(1);
 
     let cssGrid = document.createElement('div');
@@ -70,7 +73,7 @@ function weekTables() {
         colLeft.appendChild(userLabel);
     }
 
-    while (loopDate.getMonth() == today.getMonth()) {
+    while (loopDate.getMonth() == dateReference.getMonth()) {
 
         // create a new column
         let dayColumn = document.createElement('div');
@@ -104,12 +107,14 @@ function weekTables() {
         }
         loopDate.setDate(loopDate.getDate() + 1); 
     }
-
-
 }
 
 function getDate() {
-    let today = new Date();
+    let today = new Date()
+    let chosenDate = new Date();
+    chosenDate.setMonth(chosenMMYYYY.month);
+    chosenDate.setYear(chosenMMYYYY.year);
+
     let monthTitle = document.getElementById("month-title");
 
     // add the year to the title if outside the current year
@@ -119,18 +124,6 @@ function getDate() {
         monthTitle.innerHTML = calendarLabels.allMonths[chosenDate.getMonth()] + " " + chosenDate.getFullYear();
     }
     return chosenDate;
-}
-
-function monthPlus() {
-    chosenDate = new Date(chosenDate.setMonth(chosenDate.getMonth()+1));
-    buildingSpace.innerHTML = "";
-    weekTables();
-}
-
-function monthMinus() {
-    chosenDate = new Date(chosenDate.setMonth(chosenDate.getMonth()-1));
-    buildingSpace.innerHTML = "";
-    weekTables();
 }
 
 // get the calendarweek-number
