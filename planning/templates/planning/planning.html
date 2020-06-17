@@ -66,9 +66,10 @@
 
     </div>
     <div class="text-center">
-        <a class="control-btn" href="{% url 'month_minus' %}">Month minus</a>
+        <a class="control-btn" href="{% url 'month_change' nav_month.previous %}">Month minus</a>
         <p id="month-title">Month</p>
-        <a class="control-btn" href="{% url 'month_plus' %}">Month plus</a>
+        <a class="control-btn" href="{% url 'month_change' nav_month.next %}">Month plus</a>
+        <a class="control-btn" href="{% url 'month_current' %}">Current month</a>
     </div>
 
 

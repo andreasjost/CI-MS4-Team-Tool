@@ -21,35 +21,34 @@ def planning(request):
     return render(request, template, context)
 
 
-def month_plus(request):
-    """ user pushed one month ahead in the planning """
-    month = request.session['sel_month']
+def month_change(request, new_month):
+    """ user pushed one month forward or back """
+    # month = request.session['sel_month']
     year = request.session['sel_year']
-    month += 1
-    if month == 12:
-        month = 0
+    if new_month > 12:
+        new_month = 0
         year += 1
-    request.session['sel_month'] = month
+    if new_month < 0:
+        new_month = 11
+        year -= 1
+    request.session['sel_month'] = new_month
     request.session['sel_year'] = year
 
     template = 'planning/planning.html'
-    context = context = render_data(request)
+    context = render_data(request)
 
     return render(request, template, context)
 
 
-def month_minus(request):
-    """ user pushed one month back in the planning """
-    month = request.session['sel_month']
-    year = request.session['sel_year']
-    month -= 1
-    if month == -1:
-        month = 11
-        year -= 1
-    request.session['sel_month'] = month
-    request.session['sel_year'] = year
+def month_current(request):
+    """
+    Reset the month
+    """
+    now = datetime.datetime.now()
+    request.session['sel_month'] = now.month-1
+    request.session['sel_year'] = now.year
     template = 'planning/planning.html'
-    context = context = render_data(request)
+    context = render_data(request)
 
     return render(request, template, context)
 
@@ -73,12 +72,16 @@ def render_data(request):
     users = serializers.serialize("json", UserProfile.objects.all())
 
     now_json = '{"month": "%s", "year": "%s"}' % (request.session['sel_month'], request.session['sel_year'])
+    navmonth = {
+        'previous': request.session['sel_month'] - 1,
+        'next': request.session['sel_month'] + 1
+    }
 
-    template = 'planning/planning.html'
     context = {
         'profile': profile,
         'users': users,
-        'mmyyyy': now_json
+        'mmyyyy': now_json,
+        'nav_month': navmonth
     }
 
     return context

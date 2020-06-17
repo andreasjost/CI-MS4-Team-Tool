@@ -5,6 +5,6 @@ from . import views
 urlpatterns = [
     path('', views.planning, name='planning'),
     path('summary/<int:user_id>/', views.summary, name='summary'),
-    path('month_plus/', views.month_plus, name='month_plus'),
-    path('month_minus/', views.month_minus, name='month_minus')
+    path('month_change/<int:new_month>/', views.month_change, name='month_change'),
+    path('month_current/', views.month_current, name='month_current'),
 ]
