@@ -18,8 +18,7 @@ def profile(request):
         else:
             print("unsuccessful")
             # messages.error(request, 'Update failed. Please ensure the form is valid.')
-        
-        # doesnt work yet: Email is not saved:
+            # doesnt work yet: Email is not saved:
 
         if user_email.is_valid():
             user_email.save()

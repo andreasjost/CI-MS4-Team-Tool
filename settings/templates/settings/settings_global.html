@@ -4,61 +4,97 @@
 {% block content %}
 <header>
     <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">EggBox</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'planning' %}">Planning</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
-                    </li>
-                </ul>
+        <a class="navbar-brand" href="#">EggBox</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'planning' %}">Planning</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
+                </li>
+            </ul>
+        </div>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ profile.first_name }} {{ profile.last_name }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                <a class="dropdown-item" href="{% url 'settings_team' %}">Team Settings</a>
+                <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
             </div>
-            <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ profile.first_name }} {{ profile.last_name }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                    <a class="dropdown-item" href="{% url 'settings_team' %}">Team Settings</a>
-                    <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                </div>
-            </div>
+        </div>
     </nav>
 </header>
 <section class="section-maincontent">
-    <div class="container-xl"> 
+    <div class="container-xl">
         <h2>Global Settings</h2>
+        <h3>Company Information</h3>
         <form method="POST">
             {% csrf_token %}
             {{ form|crispy }}
-             
+            <button class="btn btn-primary float-right" type="submit">Save</button>
+        </form>
+        <form method="POST">
+            <h3>Teams</h3>
+            <table>
+                <tr>
+                    <th>Team Name</th>
+                    <th>Planning deadline</th>
+                    <th>Coaching every x week</th>
+                    <th>Lunch break</th>
+                    <th>Dinner break</th>
+                    <th>Paid break</th>
+                    <th></th>
+                </tr>
+                {% for team in teams %}
+                <tr>
+                    <td>{{ team.team_name }}</td>
+                    <td>{{ team.planning_deadline }}</td>
+                    <td>{{ team.coaching_rep }}</td>
+                    <td>{{ team.min_lunchbreak }}</td>
+                    <td>{{ team.min_dinnerbreak }}</td>
+                    <td>{{ team.min_paidbreak }}</td>
+                    <td>
+                        <a href="{% url 'delete_team' team.id %}">
+                        <button class="btn btn-secondary btn-sm">delete</button>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>No teams are set up yet. Select 'Add team' to get started.</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <a class="float-right" href="{% url 'add_team' %}">
+                <button class="btn btn-primary">Add Team</button>
+            </a>
             <button class="btn btn-primary float-right" type="submit">Save</button>
         </form>
     </div>
 </section>
 {% endblock %}
-
 {% block postloadjs %}
-    {{ block.super }}
-    <!-- js, see template in planning -->
+{{ block.super }}
+<!-- js, see template in planning -->
 {% endblock %}

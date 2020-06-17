@@ -4,7 +4,7 @@
 {% block content %}
 <header>
     <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
-        <div class="container-xl">
+            <a class="navbar-brand" href="#">EggBox</a>
             <button
                 class="navbar-toggler"
                 type="button"
@@ -29,13 +29,12 @@
                     </li>
                 </ul>
             </div>
-            <a class="navbar-brand" href="#">EggBox</a>
             <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                User Name
+                {{ profile.first_name }} {{ profile.last_name }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="user-manage.html">User Management</a>
+                    <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
                     <a class="dropdown-item" href="{% url 'settings_team' %}">Team Settings</a>
@@ -44,7 +43,6 @@
                     <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
                 </div>
             </div>
-        </div>
     </nav>
 </header>
 <section class="section-maincontent">
