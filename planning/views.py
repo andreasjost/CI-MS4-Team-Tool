@@ -16,17 +16,8 @@ def planning(request):
         now = datetime.datetime.now()
         request.session['sel_month'] = now.month-1
         request.session['sel_year'] = now.year
-    profile = get_object_or_404(UserProfile, user=request.user)
-    users = serializers.serialize("json", UserProfile.objects.all())
-
-    now_json = '{"month": "%s", "year": "%s"}' % (request.session['sel_month'], request.session['sel_year'])
-
     template = 'planning/planning.html'
-    context = {
-        'profile': profile,
-        'users': users,
-        'mmyyyy': now_json
-    }
+    context = render_data(request)
 
     return render(request, template, context)
 
@@ -41,17 +32,9 @@ def month_plus(request):
         year += 1
     request.session['sel_month'] = month
     request.session['sel_year'] = year
-    profile = get_object_or_404(UserProfile, user=request.user)
-    users = serializers.serialize("json", UserProfile.objects.all())
-
-    now_json = '{"month": "%s", "year": "%s"}' % (request.session['sel_month'], request.session['sel_year'])
 
     template = 'planning/planning.html'
-    context = {
-        'profile': profile,
-        'users': users,
-        'mmyyyy': now_json
-    }
+    context = context = render_data(request)
 
     return render(request, template, context)
 
@@ -66,19 +49,11 @@ def month_minus(request):
         year -= 1
     request.session['sel_month'] = month
     request.session['sel_year'] = year
-    profile = get_object_or_404(UserProfile, user=request.user)
-    users = serializers.serialize("json", UserProfile.objects.all())
-
-    now_json = '{"month": "%s", "year": "%s"}' % (request.session['sel_month'], request.session['sel_year'])
-
     template = 'planning/planning.html'
-    context = {
-        'profile': profile,
-        'users': users,
-        'mmyyyy': now_json
-    }
+    context = context = render_data(request)
 
     return render(request, template, context)
+
 
 
 def summary(request, user_id):
@@ -93,3 +68,19 @@ def summary(request, user_id):
     }
 
     return render(request, template, context)
+
+
+def render_data(request):
+    profile = get_object_or_404(UserProfile, user=request.user)
+    users = serializers.serialize("json", UserProfile.objects.all())
+
+    now_json = '{"month": "%s", "year": "%s"}' % (request.session['sel_month'], request.session['sel_year'])
+
+    template = 'planning/planning.html'
+    context = {
+        'profile': profile,
+        'users': users,
+        'mmyyyy': now_json
+    }
+
+    return context
