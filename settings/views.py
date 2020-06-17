@@ -1,13 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 
 from profiles.models import CompanyProfile
+from profiles.models import UserProfile
 
 
-def settings_global(request, company_id):
+def settings_global(request):
     """ Show the global settings According to the company id
     """
-
-    company = get_object_or_404(CompanyProfile, pk=company_id)
+    profile = get_object_or_404(UserProfile, user=request.user)
+    print(profile.company_id)
+    company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
 
     context = {
         'company': company,
