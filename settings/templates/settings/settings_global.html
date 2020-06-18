@@ -54,43 +54,102 @@
             {{ form|crispy }}
             <button class="btn btn-primary float-right" type="submit">Save</button>
         </form>
-        <form method="POST">
-            <h3>Teams</h3>
-            <table>
-                <tr>
-                    <th>Team Name</th>
-                    <th>Planning deadline</th>
-                    <th>Coaching every x week</th>
-                    <th>Lunch break</th>
-                    <th>Dinner break</th>
-                    <th>Paid break</th>
-                    <th></th>
-                </tr>
-                {% for team in teams %}
-                <tr>
-                    <td>{{ team.team_name }}</td>
-                    <td>{{ team.planning_deadline }}</td>
-                    <td>{{ team.coaching_rep }}</td>
-                    <td>{{ team.min_lunchbreak }}</td>
-                    <td>{{ team.min_dinnerbreak }}</td>
-                    <td>{{ team.min_paidbreak }}</td>
+        <h3>Teams</h3>
+        <table>
+            <tr>
+                <th>Team Name</th>
+                <th>Planning deadline</th>
+                <th>Coaching</th>
+                <th>Lunch break</th>
+                <th>Dinner break</th>
+                <th>Paid break</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for team in teams %}
+            <tr class="showtable-row">
+                <td>{{ team.team_name }}</td>
+                <td>{{ team.planning_deadline }}</td>
+                <td>Every {{ team.coaching_rep }} week</td>
+                <td>{{ team.min_lunchbreak }} min</td>
+                <td>{{ team.min_dinnerbreak }} min</td>
+                <td>{{ team.min_paidbreak }} min</td>
+                <!-- don't show the delete button if there's only one team -->
+                {% if teams.count > 1 %}
+                <td>
+                    <a href="{% url 'delete_team' team.id %}">
+                    <button class="btn btn-secondary btn-sm">delete</button>
+                    </a>
+                </td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                <td>
+                    <button class="btn btn-secondary btn-sm edit-table-row">Edit</button>
+                </td>
+            </tr>
+            <tr class="editable-row toggle-row-none">
+                <form method="POST">
+                    {% csrf_token %}
                     <td>
-                        <a href="{% url 'delete_team' team.id %}">
-                        <button class="btn btn-secondary btn-sm">delete</button>
-                        </a>
+                        <input type="text" value="{{ team.team_name }}" name="new_team_name">
                     </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td>No teams are set up yet. Select 'Add team' to get started.</td>
-                </tr>
-                {% endfor %}
-            </table>
-            <a class="float-right" href="">
-                <button class="btn btn-primary">Add Team</button>
-            </a>
-            <button class="btn btn-primary float-right" type="submit">Save</button>
-        </form>
+                    <td>
+                        <input type="number" placeholder="{{ team.planning_deadline }}" Days name="new_planning_deadline">
+                    </td>
+                    <td>
+                        <input type="number" placeholder="Every {{ team.coaching_rep }} week" name="new_coaching_rep">
+                    </td>
+                    <td>
+                        <input type="number" placeholder="{{ team.min_lunchbreak }} min" name="new_min_lunchbreak">
+                    </td>
+                    <td>
+                        <input type="number" placeholder="{{ team.min_dinnerbreak }} min" name="new_min_dinnerbreak">
+                    </td>
+                    <td>
+                        <input type="number" placeholder="{{ team.min_paidbreak }} min" name="new_min_paidbreak">
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm" type="submit">Save</button>
+                    </td>
+                </form>
+                <td>
+                    <button class="btn btn-secondary btn-sm canceltable-row">Cancel</button>
+                </td>
+            </tr>
+            {% endfor %}
+            <!-- empty form to create a new team-->
+            <tr class="input-row toggle-row-none">
+                <form method="POST">
+                    {% csrf_token %}
+                    <td>
+                        <input type="text" placeholder="Team name" name="new_team_name">
+                    </td>
+                    <td>
+                        <input type="number" placeholder="Days" name="new_planning_deadline">
+                    </td>
+                    <td>
+                        <input type="number" placeholder="every x week" name="new_coaching_rep">
+                    </td>
+                    <td>
+                        <input type="number" placeholder="Minutes" name="new_min_lunchbreak">
+                    </td>
+                    <td>
+                        <input type="number" placeholder="Minutes" name="new_min_dinnerbreak">
+                    </td>
+                    <td>
+                        <input type="number" placeholder="Minutes" name="new_min_paidbreak">
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm" type="submit">Save</button>
+                    </td>
+                </form>
+                <td>
+                    <button class="btn btn-secondary btn-sm canceltable-newrow">Cancel</button>
+                </td>
+            </tr>
+        </table>
+        <button class="btn btn-primary add-table-row">Add Team</button>
     </div>
 </section>
 {% endblock %}

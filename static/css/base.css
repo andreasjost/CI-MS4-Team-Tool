@@ -149,6 +149,12 @@ h4 {
     background-image: url('/media/screenshot-settings.jpg');
 }
 
+/* --------------------------------------------- Forms-special */
+
+.toggle-row-none {
+    display: none;
+}
+
 
 /* --------------------------------------------- Footer */
 

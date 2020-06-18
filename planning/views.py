@@ -22,7 +22,12 @@ def planning(request):
 
 
 def month_change(request, new_month):
-    """ user pushed one month forward or back """
+    """
+    user pushed one month forward or back
+    
+    --- YEAR BREAK DOESN'T WORK. FIX IT ---
+    
+    """
     # month = request.session['sel_month']
     year = request.session['sel_year']
     if new_month > 12:
