@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}
+    - Profile
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'profiles/css/profiles.css' %}" />
+{% endblock %}
+
+{% block content %}
+<header>
+    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">EggBox</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'planning' %}">Planning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ profile.first_name }} {{ profile.last_name }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
+                    <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                    <a class="dropdown-item" href="{% url 'settings_team' %}">Team Settings</a>
+                    <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                </div>
+            </div>
+    </nav>
+</header>
+<section class="section-maincontent">
+    <div class="container-xl"> 
+
+    <h2>Teams</h2>
+                <a class="float-right" href="{% url 'add_team' %}">
+            <button class="btn btn-primary">Add Team</button>
+        </a>
+        <h3>Add a new team</h3>
+        <table>
+            <tr>
+                <th>Team Name</th>
+                <th>Planning deadline</th>
+                <th>Coaching</th>
+                <th>Lunch break</th>
+                <th>Dinner break</th>
+                <th>Paid break</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for team in teams %}
+            <tr>
+                <td>{{ team.team_name }}</td>
+                <td>{{ team.planning_deadline }}</td>
+                <td>Every {{ team.coaching_rep }} week</td>
+                <td>{{ team.min_lunchbreak }} min</td>
+                <td>{{ team.min_dinnerbreak }} min</td>
+                <td>{{ team.min_paidbreak }} min</td>
+                <!-- don't show the delete button if there's only one team -->
+                {% if teams.count > 1 %}
+                <td>
+                    <a href="{% url 'delete_team' team.id %}">
+                    <button class="btn btn-secondary btn-sm">delete</button>
+                    </a>
+                </td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                <td>
+                    <button class="btn btn-secondary btn-sm edit-table-row">Edit</button>
+                </td>
+            </tr>
+            {% endfor %}
+            <!-- empty form to create a new team-->
+            <tr class="input-row">
+                <form method="POST">
+                    {% csrf_token %}
+                    <td>{{ form.team_name }}</td>
+                    <td>{{ form.planning_deadline }}</td>
+                    <td>{{ form.coaching_rep }}</td>
+                    <td>{{ form.min_lunchbreak }}</td>
+                    <td>{{ form.min_dinnerbreak }}</td>
+                    <td>{{ form.min_paidbreak }}</td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm" type="submit">Save</button>
+                    </td>
+                </form>
+                <td>
+                <a  href="{% url 'teams' %}">
+                    <button class="btn btn-secondary btn-sm canceltable-newrow">Cancel</button>
+                </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br>
+<br>
+<br>
+<br>
+</section>
+
+{% endblock %}

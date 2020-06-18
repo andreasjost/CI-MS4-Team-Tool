@@ -35,7 +35,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
-                <a class="dropdown-item" href="{% url 'teams' %}">teams</a>
+                <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
                 <a class="dropdown-item" href="{% url 'settings_team' %}">Team Settings</a>
@@ -48,13 +48,48 @@
 </header>
 <section class="section-maincontent">
     <div class="container-xl">
-        <h2>Global Settings</h2>
-        <h3>Company Information</h3>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form_company|crispy }}
-            <button class="btn btn-primary float-right" type="submit">Save</button>
-        </form>
+        <h2>Teams</h2>
+                <a class="float-right" href="{% url 'add_team' %}">
+            <button class="btn btn-primary">Add Team</button>
+        </a>
+        <h3>Teams</h3>
+        <table>
+            <tr>
+                <th>Team Name</th>
+                <th>Planning deadline</th>
+                <th>Coaching</th>
+                <th>Lunch break</th>
+                <th>Dinner break</th>
+                <th>Paid break</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for team in teams %}
+            <tr class="showtable-row">
+                <td>{{ team.team_name }}</td>
+                <td>{{ team.planning_deadline }}</td>
+                <td>Every {{ team.coaching_rep }} week</td>
+                <td>{{ team.min_lunchbreak }} min</td>
+                <td>{{ team.min_dinnerbreak }} min</td>
+                <td>{{ team.min_paidbreak }} min</td>
+                <!-- don't show the delete button if there's only one team -->
+                {% if teams.count > 1 %}
+                <td>
+                    <a href="{% url 'delete_team' team.id %}">
+                    <button class="btn btn-secondary btn-sm">delete</button>
+                    </a>
+                </td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                <td>
+                <a href="{% url 'edit_team' team.id %}">
+                    <button class="btn btn-secondary btn-sm edit-table-row">Edit</button>
+                </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
         
     </div>
 </section>

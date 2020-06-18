@@ -81,7 +81,6 @@ def add_user(request):
 
             first_name = form.data['first_name']
             last_name = form.data['last_name']
-            # company_id = self._generate_company_id() -- take it from the company profile
             user.userprofile.first_name = first_name
             user.userprofile.last_name = last_name
             user.userprofile.company_id = profile.company_id
