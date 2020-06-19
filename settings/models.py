@@ -26,10 +26,8 @@ class AgentRole(models.Model):
     Manager defined roles (ie intern, junior, medior, senior)
     TEAM SETTING
     """
-    team = models.ForeignKey(Team, on_delete=models.CASCADE,
-                             null=True, blank=True, related_name='team_role')
-    role_name = models.CharField(max_length=80)
-    role_color = models.IntegerField()
+    role_name = models.CharField(max_length=64)
+    role_color = models.CharField(max_length=6)
 
     def __str__(self):
         return self.role_name
