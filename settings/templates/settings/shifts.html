@@ -53,26 +53,41 @@
                 <a class="float-right" href="{% url 'add_team' %}">
             <button class="btn btn-primary">Add Shift</button>
         </a>
-        <h3>Shifts</h3>
+Reasons for choosing more than one shift:
+- Different salary according to the shift
+- Office closed during lunch break
+The shifts don't have to correspond to actual work shifts of people. Users can work accross shifts.
+        <h3>{{ shifts.team }}</h3>
         <table>
             <tr>
-                <th>Team Name</th>
-                <th>Planning deadline</th>
-                <th>Coaching</th>
-                <th>Lunch break</th>
-                <th>Dinner break</th>
-                <th>Paid break</th>
+                <th>Shift Name</th>
+                <th>Min Agents</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
                 <th></th>
                 <th></th>
             </tr>
-            {% for team in teams %}
+            {% for shift in shifts %}
             <tr class="showtable-row">
-                <td>{{ team.team_name }}</td>
-                <td>{{ team.planning_deadline }}</td>
-                <td>Every {{ team.coaching_rep }} week</td>
-                <td>{{ team.min_lunchbreak }} min</td>
-                <td>{{ team.min_dinnerbreak }} min</td>
-                <td>{{ team.min_paidbreak }} min</td>
+                <td>{{ shift.shift_name }}</td>
+                <td>{{ shift.min_agents }}</td>
+                <td>{{ shift.shift_start }}</td>
+                <td>{{ shift.shift_end }} min</td>
+                <td>{{ shift_weekday_sunday }}</td>
+                <td>{{ shift_weekday_monday }}</td>
+                <td>{{ shift_weekday_tuesday }}</td>
+                <td>{{ shift_weekday_wednesday }}</td>
+                <td>{{ shift_weekday_thursday }}</td>
+                <td>{{ shift_weekday_friday }}</td>
+                <td>{{ shift_weekday_saturday }}</td>
+
                 <!-- don't show the delete button if there's only one team -->
                 {% if teams.count > 1 %}
                 <td>

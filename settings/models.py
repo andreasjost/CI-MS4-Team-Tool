@@ -42,9 +42,16 @@ class Shift(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE,
                              null=True, blank=True, related_name='team_shift')
     shift_name = models.CharField(max_length=64, null=False, blank=False)
-    weekday = models.IntegerField(default=0)
     shift_start = models.TimeField()
     shift_end = models.TimeField()
+    min_agents = models.IntegerField(default=1)
+    weekday_sunday = models.BooleanField (default=True)
+    weekday_monday = models.BooleanField (default=True)
+    weekday_tuesday = models.BooleanField (default=True)
+    weekday_wednesday = models.BooleanField (default=True)
+    weekday_thursday = models.BooleanField (default=True)
+    weekday_friday = models.BooleanField (default=True)
+    weekday_saturday = models.BooleanField (default=True)
 
     def __str__(self):
         return self.shift_name

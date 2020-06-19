@@ -1,6 +1,6 @@
 from django import forms
 from profiles.models import CompanyProfile
-from settings.models import Team
+from settings.models import Team, AgentRole, Shift
 
 
 class CompanyProfileForm(forms.ModelForm):
@@ -50,11 +50,70 @@ class TeamsForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         placeholders = {
             'team_name': 'Team name',
-            'planning_deadline': 'Street Address 1',
-            'coaching_rep': 'Street Address 2',
-            'min_lunchbreak': 'Country or State',
-            'min_dinnerbreak': 'Postcode',
-            'min_paidbreak': 'Town or City'
+            'planning_deadline': 'planning_deadline',
+            'coaching_rep': 'coaching_rep',
+            'min_lunchbreak': 'min_lunchbreak',
+            'min_dinnerbreak': 'min_dinnerbreak',
+            'min_paidbreak': 'min_paidbreak'
+        }
+
+        for field in self.fields:
+            if self.fields[field].required:
+                placeholder = f'{placeholders[field]} *'
+            else:
+                placeholder = placeholders[field]
+            self.fields[field].widget.attrs['placeholder'] = placeholder
+            self.fields[field].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
+            self.fields[field].label = False
+
+
+class AgentRoleForm(forms.ModelForm):
+    class Meta:
+        model = AgentRole
+        exclude = ('company_id',)
+
+    def __init__(self, *args, **kwargs):
+        """
+        Add placeholders and classes
+        """
+        super().__init__(*args, **kwargs)
+        placeholders = {
+            'role_name': 'Role name',
+            'role_color': 'role color',
+        }
+
+        for field in self.fields:
+            if self.fields[field].required:
+                placeholder = f'{placeholders[field]} *'
+            else:
+                placeholder = placeholders[field]
+            self.fields[field].widget.attrs['placeholder'] = placeholder
+            self.fields[field].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
+            self.fields[field].label = False
+
+
+class ShiftForm(forms.ModelForm):
+    class Meta:
+        model = Shift
+        exclude = ('team',)
+
+    def __init__(self, *args, **kwargs):
+        """
+        Add placeholders and classes
+        """
+        super().__init__(*args, **kwargs)
+        placeholders = {
+            'Shift_name': 'Shift name',
+            'min_agents': 'Minimum Number of Agents',
+            'shift_start': 'Start time',
+            'shift_end': 'End time',
+            'weekday_sunday': 'Sunday',
+            'weekday_monday': 'Monday',
+            'weekday_tuesday': 'Tuesday',
+            'weekday_wednesday': 'Wednesday',
+            'weekday_thursday': 'Thursday',
+            'weekday_friday': 'Friday',
+            'weekday_saturday': 'Saturday'
         }
 
         for field in self.fields:
