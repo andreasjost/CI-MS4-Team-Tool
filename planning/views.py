@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from profiles.models import UserProfile
+from settings.models import Team
 from .models import Event
 from django.core import serializers  # used to use template variables in JS
 import datetime
@@ -15,10 +16,12 @@ def planning(request):
         now = datetime.datetime.now()
         request.session['sel_month'] = now.month-1
         request.session['sel_year'] = now.year
+
     template = 'planning/planning.html'
     context = render_data(request)
 
     return render(request, template, context)
+    
 
 
 def month_change(request, new_month):
@@ -74,7 +77,23 @@ def summary(request, user_id):
 
 def render_data(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    users = serializers.serialize("json", UserProfile.objects.all())
+    teams = Team.objects.filter(company_id=profile.company_id)
+
+    team=''
+
+    if 'team' in request.GET:
+        team = request.GET['team']
+    
+    elif profile.level == 'agent' or profile.level == 'manager':
+        team = profile.team
+    
+    else:
+        team = "The best team"
+    
+
+    users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id))
+    # users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id, team__team_name__in=team))
+
 
     now_json = '{"month": "%s", "year": "%s"}' % (request.session['sel_month'], request.session['sel_year'])
     navmonth = {
@@ -85,6 +104,8 @@ def render_data(request):
     context = {
         'profile': profile,
         'users': users,
+        'teams': teams,
+        'current_team': team,
         'mmyyyy': now_json,
         'nav_month': navmonth
     }

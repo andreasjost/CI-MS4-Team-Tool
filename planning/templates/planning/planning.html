@@ -1,89 +1,94 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% load static %}
-
 {% block extra_title %}
-    - Planning
+- Planning
 {% endblock %}
-
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'planning/css/planning.css' %}">
+<link rel="stylesheet" href="{% static 'planning/css/planning.css' %}">
 {% endblock %}
 {% block content %}
 <header>
     <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">EggBox</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'planning' %}">Planning</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
-                    </li>
-                </ul>
+        <a class="navbar-brand" href="#">EggBox</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'planning' %}">Planning</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
+                </li>
+            </ul>
+        </div>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ profile.first_name }} {{ profile.last_name }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% if profile.level == 'admin' or profile.level == 'manager' %}
+                <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
+                <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
+                <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
+                <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
+                <div class="dropdown-divider"></div>
+                {% endif %}
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                {% if profile.level == 'admin' %}
+                <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
+                {% endif %}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
             </div>
-            <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ profile.first_name }} {{ profile.last_name }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
-                    <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
-                    <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
-                    <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                    <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                </div>
-            </div>
+        </div>
     </nav>
 </header>
 <section class="section-maincontent">
-    <div class="form-group">
-        <label for="select-team">Team:</label>
-        <select class="form-control" id="select-team">
-         <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select>
+    <h2>{{ current_team }}</h2>
 
+    <!-- only show team dropdown menu if there's more than 1 team -->
+    {% if teams.count > 1 %}
+    <div class="dropdown show">
+        <a class="dropdown-toggle" href="#" role="button" id="teams_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Change team
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for team in teams %}
+            <a class="dropdown-item" href="{% url 'planning' %}?team={{ team.team_name }}">{{ team.team_name }}</a>
+            {% endfor %}
+        </div>
     </div>
+    {% endif %}
+       <br>
+    <br>
+    <br>
     <div class="month-navigation">
         <p id="month-title">Month</p>
         <a class="control-btn" href="{% url 'month_change' nav_month.previous %}"><i class="fas fa-arrow-alt-circle-left"></i></a>
         <a class="control-btn" href="{% url 'month_change' nav_month.next %}"><i class="fas fa-arrow-alt-circle-right"></i></a>
         <a class="control-btn" href="{% url 'month_current' %}"> <i class="fas fa-home"></i></i></a>
     </div>
-
-
-<div class="table-container">
-    <div class="month-table" id="weeks-container">
-        <!-- JS magic -->
+    <div class="table-container">
+        <div class="month-table" id="weeks-container">
+            <!-- JS magic -->
+        </div>
     </div>
-</div>
-
 </section>
 {% endblock %}
-
 {% block postloadjs %}
 {{ block.super }}
 {% include 'planning/includes/calendar_script.html' %}
