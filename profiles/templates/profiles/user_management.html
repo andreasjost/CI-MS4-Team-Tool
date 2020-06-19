@@ -38,9 +38,11 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
+                <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
+                <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
+                <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                <a class="dropdown-item" href="{% url 'settings_team' %}">Team Settings</a>
                 <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>

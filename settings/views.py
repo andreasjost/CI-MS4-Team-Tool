@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from profiles.models import UserProfile, CompanyProfile
-from .models import Team
+from .models import Team, AgentRole, Shift
 from .forms import CompanyProfileForm, TeamsForm
 
 
@@ -36,8 +36,9 @@ def settings_global(request):
 
 
 def teams(request):
-
-    # Show user management
+    """
+    Show all teams related to the company
+    """
     profile = get_object_or_404(UserProfile, user=request.user)
     teams = Team.objects.filter(company_id=profile.company_id)
 
@@ -153,30 +154,31 @@ def delete_team(request):
     return render(request, template, context)
 
 
-def settings_team(request):
+def roles(request):
     """
-    show the team settings
+    Show all roles related to the company
     """
     profile = get_object_or_404(UserProfile, user=request.user)
-    # company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
-    """
-    if request.method == 'POST':
-        form = CompanyProfileForm(request.POST, instance=company)
-        if form.is_valid():
-            form.save()
-            # messages.success(request, 'Profile updated successfully')
-        else:
-            print("unsuccessful")
-            # messages.error(request, 'Update failed. Please ensure the form is valid.')
+    roles = AgentRole.objects.filter(company_id=profile.company_id)
 
-    else:
-        form = CompanyProfileForm(instance=company)
-    """
-    template = 'settings/settings_team.html'
+    template = 'settings/roles.html'
     context = {
-        'profile': profile,
-        'company': company,
-        'form': form
+        'roles': roles,
+        'profile': profile
     }
+    return render(request, template, context)
 
+
+def shifts(request):
+    """
+    Show all shifts related to the company, sorted by team
+    """
+    profile = get_object_or_404(UserProfile, user=request.user)
+    shifts = Shift.objects.filter(company_id=profile.company_id)
+
+    template = 'settings/roles.html'
+    context = {
+        'shifts': shifts,
+        'profile': profile
+    }
     return render(request, template, context)

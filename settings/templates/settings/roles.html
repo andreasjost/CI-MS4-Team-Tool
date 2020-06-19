@@ -35,9 +35,11 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
+                    <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
+                    <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
+                    <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                    <a class="dropdown-item" href="{% url 'settings_team' %}">Team Settings</a>
                     <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
@@ -46,8 +48,42 @@
     </nav>
 </header>
 <section class="section-maincontent">
-    <div class="container-xl"> 
-        <h2>Team Settings</h2>
+    <div class="container-xl">
+        <h2>Roles</h2>
+                <a class="float-right" href="{% url 'add_team' %}">
+            <button class="btn btn-primary">Add Role</button>
+        </a>
+        <h3>Roles</h3>
+        <table>
+            <tr>
+                <th>Role definition</th>
+                <th>Role color</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for role in roles %}
+            <tr class="showtable-row">
+                <td>{{ role.role_name }}</td>
+                <td>{{ role.role_color }}</td>
+                <!-- don't show the delete button if there's only one role -->
+                {% if roles.count > 1 %}
+                <td>
+                    <a href="{% url 'delete_team' team.id %}">
+                    <button class="btn btn-secondary btn-sm">delete</button>
+                    </a>
+                </td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                <td>
+                <a href="{% url 'edit_team' role.id %}">
+                    <button class="btn btn-secondary btn-sm edit-table-row">Edit</button>
+                </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        
     </div>
 </section>
 {% endblock %}

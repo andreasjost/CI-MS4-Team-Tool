@@ -28,6 +28,7 @@ class AgentRole(models.Model):
     """
     role_name = models.CharField(max_length=64)
     role_color = models.CharField(max_length=6)
+    company_id = models.CharField(max_length=32, null=False, editable=False)
 
     def __str__(self):
         return self.role_name
