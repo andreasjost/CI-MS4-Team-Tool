@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from django_countries.fields import CountryField
+from settings.models import Team, AgentRole
 import datetime
 
 
@@ -17,9 +18,23 @@ class UserProfile(models.Model):
     birthday_ddmm = models.CharField(max_length=16, null=False, default='0000')
     start_date = models.DateField(null=False, default=datetime.date.today)
     end_date = models.DateField(null=False, default=datetime.date.today)
-    level = models.CharField(max_length=16, null=False, default='admin')
-    role = models.CharField(max_length=32, null=True, blank=True)  # this will be a foreign key to the roles table
-    team = models.CharField(max_length=32, null=True, blank=True)  # this will be a foreign key to the teams table
+
+    level_choices = (
+        ('admin', 'Admin'),
+        ('manager', 'Manager'),
+        ('agent', 'Agent'),
+        ('visitor', 'Visitor'),
+    )
+    level = models.CharField(max_length=16, null=False,
+                             default='admin', choices=level_choices)
+
+    # Only Agents have a role assigned
+    role = models.ForeignKey(AgentRole, on_delete=models.SET_NULL,
+                             null=True, blank=True, related_name='agent_role')
+
+    # Only Agents and Managers have a role assigned
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL,
+                             null=True, blank=True, related_name='team_member')
     contract_type = models.CharField(max_length=32, null=True, blank=True)
     contract_percentage = models.DecimalField(max_digits=3, decimal_places=0, default=0)
     agent_goal = models.CharField(max_length=256, null=True, blank=True)

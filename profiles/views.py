@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from .models import UserProfile, User
+from settings.models import Team, AgentRole  # Used to save a new created user profile
 from .forms import UserProfileForm, UserForm
 from django.contrib.auth.decorators import login_required
 import uuid
@@ -44,8 +45,8 @@ def profile(request):
 def user_management(request):
 
     # Show user management
-    users = UserProfile.objects.all()
     profile = get_object_or_404(UserProfile, user=request.user)
+    users = UserProfile.objects.filter(company_id=profile.company_id)
 
     template = 'profiles/user_management.html'
     context = {
@@ -79,18 +80,27 @@ def add_user(request):
                                  password='glass onion')
             # messages.success(request, 'Profile updated successfully')
 
-            first_name = form.data['first_name']
-            last_name = form.data['last_name']
-            user.userprofile.first_name = first_name
-            user.userprofile.last_name = last_name
+            user.userprofile.first_name = form.data['first_name']
+            user.userprofile.last_name = form.data['last_name']
             user.userprofile.company_id = profile.company_id
+
+            user.userprofile.birthday_ddmm = form.data['birthday_ddmm']
+            user.userprofile.start_date = form.data['start_date']
+            user.userprofile.end_date = form.data['end_date']
+            user.userprofile.level = form.data['level']
+            # user.userprofile.role = form.data['role']
+            profile = get_object_or_404(UserProfile, user=request.user)
+            user.userprofile.team = Team.objects.get(pk=form.data['team'])
+            user.userprofile.contract_type = form.data['contract_type']
+            user.userprofile.contract_percentage = form.data['contract_percentage']
+            user.userprofile.agent_goal = form.data['agent_goal']
 
             user.userprofile.save()
         else:
             print("unsuccessful email")
             # messages.error(request, 'Update failed. Please ensure the form is valid.')
 
-        users = UserProfile.objects.all()
+        users = UserProfile.objects.filter(company_id=profile.company_id)
 
         template = 'profiles/user_management.html'
         context = {
@@ -131,7 +141,7 @@ def edit_user(request, user_id):
         return redirect(reverse('home'))
     """
     user = get_object_or_404(UserProfile, pk=user_id)
-    
+
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():

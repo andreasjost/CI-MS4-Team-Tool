@@ -27,7 +27,7 @@ class AgentRole(models.Model):
     TEAM SETTING
     """
     team = models.ForeignKey(Team, on_delete=models.CASCADE,
-                                     null=True, blank=True, related_name='team')
+                             null=True, blank=True, related_name='team_role')
     role_name = models.CharField(max_length=80)
     role_color = models.IntegerField()
 
@@ -41,13 +41,11 @@ class Shift(models.Model):
     TEAM SETTING
     """
     team = models.ForeignKey(Team, on_delete=models.CASCADE,
-                                     null=True, blank=True, related_name='team')
+                             null=True, blank=True, related_name='team_shift')
     shift_name = models.CharField(max_length=64, null=False, blank=False)
     weekday = models.IntegerField(default=0)
     shift_start = models.TimeField()
     shift_end = models.TimeField()
-    team = models.ForeignKey(Team, on_delete=models.CASCADE,
-                                     null=True, blank=True)
 
     def __str__(self):
         return self.shift_name
