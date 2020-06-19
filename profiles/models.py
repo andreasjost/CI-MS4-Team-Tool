@@ -35,7 +35,13 @@ class UserProfile(models.Model):
     # Only Agents and Managers have a role assigned
     team = models.ForeignKey(Team, on_delete=models.SET_NULL,
                              null=True, blank=True, related_name='team_member')
-    contract_type = models.CharField(max_length=32, null=True, blank=True)
+    # only Agents and Managers have a contract type
+    contract_choices = (
+        ('hour', 'Paid by the hour'),
+        ('fix', 'Fix contract'),
+    )
+    contract_type = models.CharField(max_length=16, null=False,
+                                     default='admin', choices=contract_choices)
     contract_percentage = models.DecimalField(max_digits=3, decimal_places=0, default=0)
     agent_goal = models.CharField(max_length=256, null=True, blank=True)
     company_id = models.CharField(max_length=32, null=False, editable=False)
