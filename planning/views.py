@@ -79,7 +79,7 @@ def render_data(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     teams = Team.objects.filter(company_id=profile.company_id)
 
-    team=''
+    team = ''
 
     if 'team' in request.GET:
         team = request.GET['team']
@@ -88,10 +88,11 @@ def render_data(request):
         team = profile.team
 
     else:
-        team = "The best team"
+        team = teams[0]
 
-    users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id))
+    # users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id))
     # users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id, team__team_name__in=team))
+    users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=team))
 
 
     now_json = '{"month": "%s", "year": "%s"}' % (request.session['sel_month'], request.session['sel_year'])
