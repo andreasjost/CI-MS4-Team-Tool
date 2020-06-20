@@ -83,13 +83,12 @@ def render_data(request):
 
     if 'team' in request.GET:
         team = request.GET['team']
-    
+
     elif profile.level == 'agent' or profile.level == 'manager':
         team = profile.team
-    
+
     else:
         team = "The best team"
-    
 
     users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id))
     # users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id, team__team_name__in=team))
@@ -98,7 +97,8 @@ def render_data(request):
     now_json = '{"month": "%s", "year": "%s"}' % (request.session['sel_month'], request.session['sel_year'])
     navmonth = {
         'previous': request.session['sel_month'] - 1,
-        'next': request.session['sel_month'] + 1
+        'next': request.session['sel_month'] + 1,
+        'current': request.session['sel_month']
     }
 
     context = {

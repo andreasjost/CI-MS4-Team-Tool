@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 from profiles.models import UserProfile, CompanyProfile
 from .models import Team, AgentRole, Shift
-from .forms import CompanyProfileForm, TeamsForm
+from .forms import CompanyProfileForm, TeamsForm, AgentRoleForm
 
 
 def settings_global(request):
@@ -127,7 +127,7 @@ def edit_team(request, team_id):
             print("failed")
     else:
         form = TeamsForm(instance=team_selected)
-        
+
     teams = Team.objects.filter(company_id=profile.company_id)
     template = 'settings/edit_team.html'
     context = {
@@ -169,14 +169,104 @@ def roles(request):
     return render(request, template, context)
 
 
+@login_required
+def edit_role(request, role_id):
+    """ Edit a role, out of the roles """
+
+    """ check the user level
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+    """
+    profile = get_object_or_404(UserProfile, user=request.user)
+    role_selected = get_object_or_404(AgentRole, pk=role_id)
+
+    if request.method == 'POST':
+        form = AgentRoleForm(request.POST, instance=role_selected)
+        if form.is_valid():
+            form.save()
+            print("Success")
+            roles = AgentRole.objects.filter(company_id=profile.company_id)
+            template = 'settings/roles.html'
+            context = {
+                'roles': roles,
+                'profile': profile
+            }
+            return render(request, template, context)
+
+        else:
+            print("failed")
+    else:
+        form = AgentRoleForm(instance=role_selected)
+
+    roles = AgentRole.objects.filter(company_id=profile.company_id)
+    template = 'settings/edit_role.html'
+    context = {
+        'form': form,
+        'roles': roles,
+        'role_selected': role_selected,
+        'profile': profile
+    }
+
+    return render(request, template, context)
+
+
+@login_required
+def add_role(request):
+    """
+    Add a new role
+    """
+    profile = get_object_or_404(UserProfile, user=request.user)
+    # put some logic that only managers and admins can add a user
+    """
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+    """
+
+    if request.method == 'POST':
+        form = AgentRoleForm(request.POST)
+        if form.is_valid():
+            role = form.save(commit=False)
+            role.company_id = profile.company_id
+            role.save()
+            # messages.success(request, 'Profile updated successfully')
+
+        else:
+            print("unsuccessful role save")
+            # messages.error(request, 'Update failed. Please ensure the form is valid.')
+
+        roles = AgentRole.objects.filter(company_id=profile.company_id)
+
+        template = 'settings/roles.html'
+        context = {
+            'roles': roles,
+            'profile': profile
+        }
+        return render(request, template, context)
+
+    else:
+        form = AgentRoleForm()
+        roles = AgentRole.objects.filter(company_id=profile.company_id)
+
+        template = 'settings/add_role.html'
+        context = {
+            'form': form,
+            'profile': profile,
+            'roles': roles
+        }
+
+        return render(request, template, context)
+
+
 def shifts(request):
     """
     Show all shifts related to the company, sorted by team
     """
     profile = get_object_or_404(UserProfile, user=request.user)
-    shifts = Shift.objects.filter(company_id=profile.company_id)
+    shifts = Shift.objects.filter() # add filter for the teams of the same company
 
-    template = 'settings/roles.html'
+    template = 'settings/shifts.html'
     context = {
         'shifts': shifts,
         'profile': profile

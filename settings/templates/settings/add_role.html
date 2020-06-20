@@ -50,7 +50,7 @@
 <section class="section-maincontent">
     <div class="container-xl">
         <h2>Roles</h2>
-                <a class="float-right" href="{% url 'add_role' %}">
+                <a class="float-right" href="{% url 'add_team' %}">
             <button class="btn btn-primary">Add Role</button>
         </a>
         <h3>Roles</h3>
@@ -82,6 +82,22 @@
                 </td>
             </tr>
             {% endfor %}
+            <!-- empty form to create a new team-->
+            <tr class="input-row">
+                <form method="POST">
+                    {% csrf_token %}
+                    <td>{{ form.role_name }}</td>
+                    <td>{{ form.role_color }}</td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm" type="submit">Save</button>
+                    </td>
+                </form>
+                <td>
+                <a  href="{% url 'roles' %}">
+                    <button class="btn btn-secondary btn-sm canceltable-newrow">Cancel</button>
+                </a>
+                </td>
+            </tr>
         </table>
         
     </div>

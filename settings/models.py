@@ -23,7 +23,7 @@ class Team(models.Model):
 
 class AgentRole(models.Model):
     """
-    Manager defined roles (ie intern, junior, medior, senior)
+    Manager defined roles (default: intern, junior, medior, senior)
     TEAM SETTING
     """
     role_name = models.CharField(max_length=64)
