@@ -1,19 +1,16 @@
 #month-title {
     display: inline-block;
-    font-size: 1.2rem;
-    font-family: 'Blinker', sans-serif;
-    width: 140px;
+    
 }
 
-.month-navigation {
-    padding-left: 280px;
+#teams-dropdown {
+    z-index: 9998;
 }
 
 .month-navigation i {
     font-size: 1.5rem;
-    padding: 0 10px;
+    padding: 15px 10px;
 }
-
 
 .week-number {
     padding-left: 2px;
@@ -58,7 +55,7 @@
   position: sticky;
   left: 0;
   width: 280px;
-  z-index: 9998;
+  z-index: 999;
 }
 
 .table-cell {

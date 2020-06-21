@@ -58,29 +58,34 @@
     </nav>
 </header>
 <section class="section-maincontent">
-    <h2>{{ current_team }}</h2>
-
-    <!-- only show team dropdown menu if there's more than 1 team -->
-    {% if teams.count > 1 %}
-    <div class="dropdown show">
-        <a class="dropdown-toggle" href="#" role="button" id="teams_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Change team
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            {% for team in teams %}
-            <a class="dropdown-item" href="{% url 'planning' %}?team={{ team.team_name }}">{{ team.team_name }}</a>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-       <br>
-    <br>
-    <br>
     <div class="month-navigation">
-        <p id="month-title">Month</p>
-        <a class="control-btn" href="{% url 'month_change' nav_month.previous %}"><i class="fas fa-arrow-alt-circle-left"></i></a>
-        <a class="control-btn" href="{% url 'month_change' nav_month.next %}"><i class="fas fa-arrow-alt-circle-right"></i></a>
-        <a class="control-btn" href="{% url 'month_current' %}"> <i class="fas fa-home"></i></i></a>
+        <div class="row">
+            <div class="col-6 col-sm-4">
+                <h2 id="month-title">Month</h2>
+            </div>
+            <div class="col-6 col-sm-4 text-center">
+                <a class="control-btn" href="{% url 'month_change' nav_month.previous %}"><i class="fas fa-arrow-alt-circle-left"></i></a>
+                <a class="control-btn" href="{% url 'month_change' nav_month.next %}"><i class="fas fa-arrow-alt-circle-right"></i></a>
+                <a class="control-btn" href="{% url 'month_current' %}"> <i class="fas fa-home"></i></i></a>
+            </div>
+            <div class="col-6 col-sm-4 text-right">
+                <!-- only show team dropdown menu if there's more than 1 team -->
+                {% if teams.count > 1 %}
+                <div class="dropdown show">
+                    <a class="dropdown-toggle" href="#" role="button" id="teams_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ current_team }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% for team in teams %}
+                        <a class="dropdown-item" href="{% url 'planning' %}?team={{ team.team_name }}">{{ team.team_name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                {{ current_team }}
+                {% endif %}
+            </div>
+        </div>
     </div>
     <div class="table-container">
         <div class="month-table" id="weeks-container">
