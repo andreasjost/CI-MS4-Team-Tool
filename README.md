@@ -88,6 +88,8 @@ I decided to use a Shared table architecture (vs Multi tenant or multi database 
 - Company account creation and deletion
 - Offering 4 different plans
 - User account creation through an admin
+- An Agent/Manager sees the planning of the corresponding team as a starting page after Login
+- The 'Messages' navigation item is red if there's a pending notification
 - Creation of planning of work shifts/breaks/absence
 - Planning and conducting of coaching
 - Users who stopped working and had no shift planned for this months appear under "inactive" in User management
@@ -111,6 +113,7 @@ I decided to use a Shared table architecture (vs Multi tenant or multi database 
 - Keyword search queries
 - Optional email notifications in addition to the internal Messages
 - Automatic alert email to Admins if the contract plan is about to run out and should be renewed.
+- One manager can manage more than 1 team (important for coaching)
 
 # Technologies used
 - HTML
