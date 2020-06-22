@@ -64,12 +64,13 @@
                 <h2 id="month-title">Month</h2>
             </div>
             <div class="col-6 col-sm-4 text-center">
-                <a class="control-btn" href="{% url 'month_change' nav_month.previous %}"><i class="fas fa-arrow-alt-circle-left"></i></a>
-                <a class="control-btn" href="{% url 'month_change' nav_month.next %}"><i class="fas fa-arrow-alt-circle-right"></i></a>
-                <a class="control-btn" href="{% url 'month_current' %}"> <i class="fas fa-home"></i></i></a>
+                <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.previous }}"><i class="fas fa-arrow-alt-circle-left"></i></a>
+                <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.next }}"><i class="fas fa-arrow-alt-circle-right"></i></a>
+                <a class="control-btn" href="{% url 'planning' %}?month=0"> <i class="fas fa-home"></i></i></a>
             </div>
             <div class="col-6 col-sm-4 text-right">
-                <!-- only show team dropdown menu if there's more than 1 team -->
+
+                <!-- Team selector - only show if more than 1 team -->
                 {% if teams.count > 1 %}
                 <div class="dropdown show">
                     <a class="dropdown-toggle" href="#" role="button" id="teams_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
