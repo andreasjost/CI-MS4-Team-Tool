@@ -66,7 +66,9 @@
             <div class="col-6 col-sm-4 text-center">
                 <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.previous }}"><i class="fas fa-arrow-alt-circle-left"></i></a>
                 <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.next }}"><i class="fas fa-arrow-alt-circle-right"></i></a>
-                <a class="control-btn" href="{% url 'planning' %}?month=0"> <i class="fas fa-home"></i></i></a>
+                <a class="control-btn" href="{% url 'planning' %}?month=0"> <i class="fas fa-home"></i></a>
+                <a class="control-btn" href="#!"> <i class="fas fa-edit"></i></a>
+                <a class="control-btn" href="#!"> <i class="fas fa-copy"></i></a>
             </div>
             <div class="col-6 col-sm-4 text-right">
 
@@ -93,6 +95,7 @@
             <!-- JS magic -->
         </div>
     </div>
+    You are working xx/xx hours this month. (Submit planning link)
 </section>
 {% endblock %}
 {% block postloadjs %}

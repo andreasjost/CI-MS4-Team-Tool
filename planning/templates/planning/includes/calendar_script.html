@@ -26,16 +26,18 @@ $(document).ready(function() {
 
     // select a date column to expand
     $('.select-col').click(function() {
+
+        // if already expanded, then collaps (unselect)
         if ($(this).parent().hasClass('expand-day')) {
             $(this).parent().removeClass('expand-day');
             $(this).find('div.expand-time').removeClass('show-timescale');
-            console.log("Her it should reme");
         }
         else {
             $('.expand-day').removeClass('expand-day');
             $('.show-timescale').removeClass('show-timescale');
             $(this).parent().addClass('expand-day');
             $(this).find('div.expand-time').addClass('show-timescale');
+            console.log($(this).find('span.day-display').text());
         }
         $(this).find('div.time-label').remove();
         x = expandedDayWidth / hoursRange; // for the with of the time grid
@@ -53,7 +55,6 @@ let calendarLabels = {
     weekDays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     allMonths: ["January", "February", "March", "April", "Mai", "June", "July", "August", "September", "October", "November", "December"]
 };
-
 
 function weekTables() {
 
@@ -99,7 +100,8 @@ function weekTables() {
         dayColumnHead.classList.add('table-header');
         dayColumnHead.classList.add('select-col'); // reaction to click
         dayColumnHead.innerHTML = '<a href="#!"><span class="hday">' +
-            calendarLabels.weekDays[loopDate.getDay()] + '</span>' + loopDate.getDate() + 
+            calendarLabels.weekDays[loopDate.getDay()] + '</span>' + 
+            '<span class="day-display">' + loopDate.getDate() + '</span>' + 
             '<div class="expand-time"></div></a>';
         dayColumn.appendChild(dayColumnHead);
 
