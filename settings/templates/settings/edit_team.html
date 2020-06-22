@@ -9,7 +9,7 @@
 {% endblock %}
 {% block content %}
 <header>
-    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+   <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
         <a class="navbar-brand" href="#">EggBox</a>
         <button
             class="navbar-toggler"
@@ -24,7 +24,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="{% url 'planning' %}">Planning</a>
                 </li>
                 <li class="nav-item">
@@ -40,34 +40,39 @@
             {{ profile.first_name }} {{ profile.last_name }}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
-                    <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
-                    <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
-                    <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                    <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                </div>
+                {% if profile.level == 'admin' or profile.level == 'manager' %}
+                <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
+                <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
+                <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
+                <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
+                <div class="dropdown-divider"></div>
+                {% endif %}
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                {% if profile.level == 'admin' %}
+                <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
+                {% endif %}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+            </div>
         </div>
     </nav>
 </header>
 <section class="section-maincontent">
     <div class="container-xl">
-        <h2>Teams</h2>
         <a class="float-right" href="{% url 'add_team' %}">
-        <button class="btn btn-primary">Add Team</button>
+        <button class="btn btn-primary add-button">Add Team</button>
         </a>
+        <h2>Teams</h2>
+        
         <h3>Edit Team</h3>
         <table>
             <tr>
-                <th>Team Name</th>
-                <th>Planning deadline</th>
-                <th>Coaching</th>
-                <th>Lunch break</th>
-                <th>Dinner break</th>
-                <th>Paid break</th>
+                <th class="width-t-title">Team Name</th>
+                <th class="width-t-numbers">Planning done</th>
+                <th class="width-t-numbers">Coaching</th>
+                <th class="width-t-numbers">Lunch break</th>
+                <th class="width-t-numbers">Dinner break</th>
+                <th class="width-t-numbers">Paid break</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -76,13 +81,13 @@
             <tr class="input-row">
                 <form method="POST">
                     {% csrf_token %}
-                    <td>{{ form.team_name }}</td>
-                    <td>{{ form.planning_deadline }}</td>
-                    <td>{{ form.coaching_rep }}</td>
-                    <td>{{ form.min_lunchbreak }}</td>
-                    <td>{{ form.min_dinnerbreak }}</td>
-                    <td>{{ form.min_paidbreak }}</td>
-                    <td>
+                    <td class="width-t-title">{{ form.team_name }}</td>
+                    <td class="width-t-numbers">{{ form.planning_deadline }}</td>
+                    <td class="width-t-numbers">{{ form.coaching_rep }}</td>
+                    <td class="width-t-numbers">{{ form.min_lunchbreak }}</td>
+                    <td class="width-t-numbers">{{ form.min_dinnerbreak }}</td>
+                    <td class="width-t-numbers">{{ form.min_paidbreak }}</td>
+                    <td class="width-t-numbers">
                         <button class="btn btn-secondary btn-sm" type="submit">Save</button>
                     </td>
                 </form>
@@ -94,12 +99,12 @@
             </tr>
             {% else %}
             <tr>
-                <td>{{ team.team_name }}</td>
-                <td>{{ team.planning_deadline }}</td>
-                <td>Every {{ team.coaching_rep }} week</td>
-                <td>{{ team.min_lunchbreak }} min</td>
-                <td>{{ team.min_dinnerbreak }} min</td>
-                <td>{{ team.min_paidbreak }} min</td>
+                <td class="width-t-title">{{ team.team_name }}</td>
+                <td class="width-t-numbers">{{ team.planning_deadline }}</td>
+                <td class="width-t-numbers">Every {{ team.coaching_rep }} week</td>
+                <td class="width-t-numbers">{{ team.min_lunchbreak }} min</td>
+                <td class="width-t-numbers">{{ team.min_dinnerbreak }} min</td>
+                <td class="width-t-numbers">{{ team.min_paidbreak }} min</td>
                 <!-- don't show the delete button if there's only one team -->
                 {% if teams.count > 1 %}
                 <td>

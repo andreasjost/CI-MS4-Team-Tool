@@ -7,6 +7,10 @@
     background-image: linear-gradient(to bottom right, #fff, #ddd);
 }
 
+.add-button {
+    margin-top: 15px;
+}
+
 /* --------------------------------------------- Headers */
 
 h1 {
@@ -148,11 +152,42 @@ h4 {
     background-image: url('/media/screenshot-settings.jpg');
 }
 
-/* --------------------------------------------- Forms-special */
+/* --------------------------------------------- table-width */
 
+.width-t-title {
+    width: 400px;
+}
 
-.profile-form-input {
-    width: 100%;
+.width-t-numbers {
+    width: 300px;
+    overflow: hidden;
+}
+
+.width-t-smallnumbers {
+    width: 280px;
+    overflow: hidden;
+}
+
+.wdith-t-weekday {
+    width: 100px;
+}
+
+.width-t-title .profile-form-input {
+    width: 190px;
+}
+
+.width-t-numbers .profile-form-input{
+    width: 140px;
+    overflow: hidden;
+}
+
+.width-t-smallnumbers .profile-form-input{
+    width: 130px;
+    overflow: hidden;
+}
+
+.wdith-t-weekday .profile-form-input{
+    width: 40px;
 }
 
 /* --------------------------------------------- Footer */

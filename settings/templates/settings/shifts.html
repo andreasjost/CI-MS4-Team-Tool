@@ -3,56 +3,62 @@
 {% load static %}
 {% block content %}
 <header>
-    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">EggBox</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'planning' %}">Planning</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
-                    </li>
-                </ul>
+      <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">EggBox</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'planning' %}">Planning</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
+                </li>
+            </ul>
+        </div>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ profile.first_name }} {{ profile.last_name }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% if profile.level == 'admin' or profile.level == 'manager' %}
+                <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
+                <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
+                <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
+                <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
+                <div class="dropdown-divider"></div>
+                {% endif %}
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                {% if profile.level == 'admin' %}
+                <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
+                {% endif %}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
             </div>
-            <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ profile.first_name }} {{ profile.last_name }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
-                    <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
-                    <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
-                    <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                    <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                </div>
-            </div>
+        </div>
     </nav>
 </header>
 <section class="section-maincontent">
     <div class="container-xl">
-        <h2>Shifts</h2>
-                <a class="float-right" href="{% url 'add_team' %}">
-            <button class="btn btn-primary">Add Shift</button>
+
+        <a class="float-right" href="{% url 'add_team' %}">
+            <button class="btn btn-primary add-button">Add Shift</button>
         </a>
+        <h2>Shifts</h2>
+
 Reasons for choosing more than one shift:
 - Different salary according to the shift
 - Office closed during lunch break
@@ -60,33 +66,33 @@ The shifts don't have to correspond to actual work shifts of people. Users can w
         <h3>{{ shifts.team }}</h3>
         <table>
             <tr>
-                <th>Shift Name</th>
-                <th>Min Agents</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Sunday</th>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
+                <th class="width-t-title">Shift Name</th>
+                <th class="width-t-smallnumbers">Min Agents</th>
+                <th class="width-t-smallnumbers">Start</th>
+                <th class="width-t-smallnumbers">End</th>
+                <th class="width-t-weekday">Su</th>
+                <th class="width-t-weekday">Mo</th>
+                <th class="width-t-weekday">Di</th>
+                <th class="width-t-weekday">Mi</th>
+                <th class="width-t-weekday">Do</th>
+                <th class="width-t-weekday">Fr</th>
+                <th class="width-t-weekday">Sa</th>
                 <th></th>
                 <th></th>
             </tr>
             {% for shift in shifts %}
             <tr class="showtable-row">
-                <td>{{ shift.shift_name }}</td>
-                <td>{{ shift.min_agents }}</td>
-                <td>{{ shift.shift_start }}</td>
-                <td>{{ shift.shift_end }} min</td>
-                <td>{{ shift_weekday_sunday }}</td>
-                <td>{{ shift_weekday_monday }}</td>
-                <td>{{ shift_weekday_tuesday }}</td>
-                <td>{{ shift_weekday_wednesday }}</td>
-                <td>{{ shift_weekday_thursday }}</td>
-                <td>{{ shift_weekday_friday }}</td>
-                <td>{{ shift_weekday_saturday }}</td>
+                <td class="width-t-title">{{ shift.shift_name }}</td>
+                <td class="width-t-smallnumbers">{{ shift.min_agents }}</td>
+                <td class="width-t-smallnumbers">{{ shift.shift_start }}</td>
+                <td class="width-t-smallnumbers">{{ shift.shift_end }} min</td>
+                <td class="width-t-weekday">{{ shift_weekday_sunday }}</td>
+                <td class="width-t-weekday">{{ shift_weekday_monday }}</td>
+                <td class="width-t-weekday">{{ shift_weekday_tuesday }}</td>
+                <td class="width-t-weekday">{{ shift_weekday_wednesday }}</td>
+                <td class="width-t-weekday">{{ shift_weekday_thursday }}</td>
+                <td class="width-t-weekday">{{ shift_weekday_friday }}</td>
+                <td class="width-t-weekday">{{ shift_weekday_saturday }}</td>
 
                 <!-- don't show the delete button if there's only one team -->
                 {% if shifts.count > 1 %}

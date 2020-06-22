@@ -4,60 +4,65 @@
 {% block content %}
 <header>
     <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">EggBox</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'planning' %}">Planning</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
-                    </li>
-                </ul>
+        <a class="navbar-brand" href="#">EggBox</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'planning' %}">Planning</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
+                </li>
+            </ul>
+        </div>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ profile.first_name }} {{ profile.last_name }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% if profile.level == 'admin' or profile.level == 'manager' %}
+                <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
+                <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
+                <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
+                <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
+                <div class="dropdown-divider"></div>
+                {% endif %}
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                {% if profile.level == 'admin' %}
+                <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
+                {% endif %}
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
             </div>
-            <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ profile.first_name }} {{ profile.last_name }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
-                    <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
-                    <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
-                    <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
-                    <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                </div>
-            </div>
+        </div>
     </nav>
 </header>
 <section class="section-maincontent">
     <div class="container-xl">
-        <h2>Roles</h2>
-                <a class="float-right" href="{% url 'add_team' %}">
-            <button class="btn btn-primary">Add Role</button>
+            <a class="float-right" href="{% url 'add_role' %}">
+            <button class="btn btn-primary add-button">Add Role</button>
         </a>
+        <h2>Roles</h2>
+
         <h3>Roles</h3>
         <table>
             <tr>
-                <th>Role definition</th>
-                <th>Role color</th>
+                <th class="width-t-title">Role definition</th>
+                <th class="width-t-numbers">Role color</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -67,8 +72,8 @@
             <tr class="input-row">
                 <form method="POST">
                     {% csrf_token %}
-                    <td>{{ form.role_name }}</td>
-                    <td>{{ form.role_color }}</td>
+                    <td class="width-t-title">{{ form.role_name }}</td>
+                    <td class="width-t-numbers">{{ form.role_color }}</td>
                     <td>
                         <button class="btn btn-secondary btn-sm" type="submit">Save</button>
                     </td>
@@ -82,8 +87,8 @@
             {% else %}
 
             <tr class="showtable-row">
-                <td>{{ role.role_name }}</td>
-                <td>{{ role.role_color }}</td>
+                <td class="width-t-title">{{ role.role_name }}</td>
+                <td class="width-t-numbers">{{ role.role_color }}</td>
                 <!-- don't show the delete button if there's only one role -->
                 {% if roles.count > 1 %}
                 <td>
