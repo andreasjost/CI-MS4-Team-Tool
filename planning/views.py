@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from profiles.models import UserProfile, CompanyProfile
 from settings.models import Team
+from django.contrib import messages
 from .models import Event
 from django.core import serializers  # used to use template variables in JS
 from datetime import datetime, timedelta
