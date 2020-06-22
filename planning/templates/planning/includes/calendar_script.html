@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 {{ users|json_script:"userdata" }}
 {{ mmyyyy|json_script:"datedata" }}
+{{ daySpan|json_script:"dayspandata" }}
 <script>
 
-const startHour = 0
-const endHour = 24
+// getting user preferences what hour the day starts and what hour it ends
+const prepareNumbers = JSON.parse(document.getElementById('dayspandata').textContent);
+const chosenDaySpan = JSON.parse(prepareNumbers);
+const startHour = chosenDaySpan.start;
+const endHour = chosenDaySpan.end;
 const hoursRange = endHour - startHour;
+
+// width of expanded day
 const expandedDayWidth = 300;
 let buildingSpace = document.getElementById("weeks-container");
 

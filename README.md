@@ -107,6 +107,7 @@ I decided to use a Shared table architecture (vs Multi tenant or multi database 
 
 
 ### Planned Features
+- Localized weekstart (user can select if the weeks starts on Sunday, Monday, or any other day of the week)
 - Options for Agents to change their shift without a manager, if either:
     - Two people with the same role are exchanging two shifts
     - There are already enough people in a shft

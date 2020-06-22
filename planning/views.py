@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from profiles.models import UserProfile
+from profiles.models import UserProfile, CompanyProfile
 from settings.models import Team
 from .models import Event
 from django.core import serializers  # used to use template variables in JS
@@ -13,6 +13,7 @@ def planning(request):
     """
     profile = get_object_or_404(UserProfile, user=request.user)
     teams = Team.objects.filter(company_id=profile.company_id)
+    company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
     # set the session variable for month and year
     if 'sel_month' not in request.session:
         date_now = datetime.now()
@@ -72,6 +73,7 @@ def planning(request):
 
     users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=team))
     now_json = '{"month": "%s", "year": "%s"}' % (js_month, request.session['sel_year'])
+    dayspan_json = '{"start": "%s", "end": "%s"}' % (company.setting_daystart, company.setting_dayend)
 
     template = 'planning/planning.html'
     context = {
@@ -80,6 +82,7 @@ def planning(request):
         'teams': teams,
         'current_team': team,
         'mmyyyy': now_json,
+        'daySpan': dayspan_json,
         'nav_month': navmonth
     }
 

@@ -64,7 +64,8 @@ class CompanyProfile(models.Model):
     payment = models.DecimalField(max_digits=2, decimal_places=0, default=0)
 
     # global settings: On what weekday does the week start
-    setting_weekstart = models.DecimalField(max_digits=1, decimal_places=0, default=0)
+    setting_daystart = models.DecimalField(max_digits=2, decimal_places=0, default=0)
+    setting_dayend = models.DecimalField(max_digits=2, decimal_places=0, default=24)
 
 
 @receiver(post_save, sender=User)

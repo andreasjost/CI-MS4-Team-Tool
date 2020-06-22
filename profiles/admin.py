@@ -33,7 +33,8 @@ class AdminCompany(admin.ModelAdmin):
         'signup_date',
         'renewal_date',
         'payment',
-        'setting_weekstart',
+        'setting_daystart',
+        'setting_dayend'
     )
 
     ordering = ('company_name',)

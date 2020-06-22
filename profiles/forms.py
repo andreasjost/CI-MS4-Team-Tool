@@ -25,7 +25,6 @@ class UserProfileForm(forms.ModelForm):
             'contract_type': 'Contract Type',
             'contract_percentage': 'Contract Percentage',
             'agent_goal': 'State an overall goal',
-
         }
 
         for field in self.fields:
