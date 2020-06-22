@@ -1,4 +1,4 @@
-console.log("here")
+/*
 
 $(document).ready(function(){
     $(document).scroll(function() {
@@ -13,3 +13,4 @@ $(document).ready(function(){
         }
     });
 });
+*/

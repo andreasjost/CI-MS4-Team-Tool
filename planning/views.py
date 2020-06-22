@@ -69,11 +69,11 @@ def planning(request):
     else:
         team = teams[0]
 
+    # code to pass data to JS
     js_month = int(request.session['sel_month'])-1
-
     users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=team))
     now_json = '{"month": "%s", "year": "%s"}' % (js_month, request.session['sel_year'])
-    dayspan_json = '{"start": "%s", "end": "%s"}' % (company.setting_daystart, company.setting_dayend)
+    dayspan_json = '{"start": "%s", "end": "%s"}'% (company.setting_daystart, company.setting_dayend)
 
     template = 'planning/planning.html'
     context = {
