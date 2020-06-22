@@ -26,18 +26,25 @@ $(document).ready(function() {
 
     // select a date column to expand
     $('.select-col').click(function() {
-        $(this).parent().toggleClass('expand-day');
-        $(this).find('div.expand-time').toggleClass('show-timescale');
+        if ($(this).parent().hasClass('expand-day')) {
+            $(this).parent().removeClass('expand-day');
+            $(this).find('div.expand-time').removeClass('show-timescale');
+            console.log("Her it should reme");
+        }
+        else {
+            $('.expand-day').removeClass('expand-day');
+            $('.show-timescale').removeClass('show-timescale');
+            $(this).parent().addClass('expand-day');
+            $(this).find('div.expand-time').addClass('show-timescale');
+        }
         $(this).find('div.time-label').remove();
         x = expandedDayWidth / hoursRange; // for the with of the time grid
-        
         for (let i = startHour; i < endHour; i++) {
             var el = '<div class="time-label" ' +
                 'style="width: ' + x + 'px;">'+ i +
                  '</div>';
             $(this).find('div.expand-time').append(el);
         }
-        
     });
 });
 
