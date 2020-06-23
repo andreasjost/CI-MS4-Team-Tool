@@ -15,7 +15,7 @@ class Event(models.Model):
         ('meeting', 'Meeting'),
         ('holidays', 'Holidays'),
         ('sick', 'Sick'),
-        ('Leave', 'leave'),
+        ('leave', 'Leave'),
         ('lunch', 'Lunch break'),
         ('dinner', 'Dinner break'),
         ('break', 'Paid break'),

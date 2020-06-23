@@ -11,6 +11,9 @@ const startHour = chosenDaySpan.start;
 const endHour = chosenDaySpan.end;
 const hoursRange = endHour - startHour;
 
+// variable for the day selected. 0 if nothing selected.
+let day_selected = 0;
+
 // width of expanded day
 const expandedDayWidth = 300;
 let buildingSpace = document.getElementById("weeks-container");
@@ -31,13 +34,17 @@ $(document).ready(function() {
         if ($(this).parent().hasClass('expand-day')) {
             $(this).parent().removeClass('expand-day');
             $(this).find('div.expand-time').removeClass('show-timescale');
+            $('.create-event-btn').addClass('btn-inactive');
+            day_selected = 0;
         }
         else {
             $('.expand-day').removeClass('expand-day');
             $('.show-timescale').removeClass('show-timescale');
             $(this).parent().addClass('expand-day');
             $(this).find('div.expand-time').addClass('show-timescale');
-            console.log($(this).find('span.day-display').text());
+            $('.create-event-btn').removeClass('btn-inactive');
+            day_selected = $(this).find('span.day-display').text();
+            $('#hidden-day').val(day_selected);
         }
         $(this).find('div.time-label').remove();
         x = expandedDayWidth / hoursRange; // for the with of the time grid
@@ -48,6 +55,11 @@ $(document).ready(function() {
             $(this).find('div.expand-time').append(el);
         }
     });
+
+    // modal view
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })
 });
 
 

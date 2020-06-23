@@ -83,6 +83,17 @@ a {
     color: blue;
 }
 
+.btn-inactive {
+    color: #bbb;
+    pointer-events: none;
+}
+
+.btn-invisible {
+    border: 0;
+    background: transparent;
+    outline: none;
+}
+
 a:hover {
     text-decoration: none;
     color: darkorange;

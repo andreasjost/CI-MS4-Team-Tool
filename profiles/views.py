@@ -16,18 +16,16 @@ def profile(request):
         user_email = UserForm(instance=request.user)
         if form.is_valid():
             form.save()
-            # messages.success(request, 'Profile updated successfully')
+            messages.success(request, 'Profile updated successfully')
         else:
-            print("unsuccessful")
-            # messages.error(request, 'Update failed. Please ensure the form is valid.')
+            messages.error(request, 'Update failed. Please ensure the form is valid.')
             # doesnt work yet: Email is not saved:
 
         if user_email.is_valid():
             user_email.save()
-            # messages.success(request, 'Profile updated successfully')
+            messages.success(request, 'Profile updated successfully')
         else:
-            print("####### unsuccessful email")
-            # messages.error(request, 'Update failed. Please ensure the form is valid.')
+            messages.error(request, 'Update failed. Please ensure the form is valid.')
     else:
         form = UserProfileForm(instance=profile)
         user_email = UserForm(instance=request.user)
@@ -79,7 +77,7 @@ def add_user(request):
             user = User.objects.create_user(username=random_username(),
                                  email=request.POST.get('email'),
                                  password='glass onion')
-            # messages.success(request, 'Profile updated successfully')
+            messages.success(request, 'Profile added successfully')
 
             user.userprofile.first_name = form.data['first_name']
             user.userprofile.last_name = form.data['last_name']
@@ -98,8 +96,7 @@ def add_user(request):
 
             user.userprofile.save()
         else:
-            print("unsuccessful email")
-            # messages.error(request, 'Update failed. Please ensure the form is valid.')
+            messages.error(request, 'Update failed. Please ensure the form is valid.')
 
         users = UserProfile.objects.filter(company_id=profile.company_id)
 

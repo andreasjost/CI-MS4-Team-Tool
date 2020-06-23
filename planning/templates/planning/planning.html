@@ -67,8 +67,8 @@
                 <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.previous }}"><i class="fas fa-arrow-alt-circle-left"></i></a>
                 <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.next }}"><i class="fas fa-arrow-alt-circle-right"></i></a>
                 <a class="control-btn" href="{% url 'planning' %}?month=0"> <i class="fas fa-home"></i></a>
-                <a class="control-btn" href="#!"> <i class="fas fa-edit"></i></a>
-                <a class="control-btn" href="#!"> <i class="fas fa-copy"></i></a>
+                <a class="control-btn create-event-btn btn-inactive" data-toggle="modal" data-target="#newEventModal" href="#!"><i class="fas fa-edit"></i></a>
+                <a class="control-btn jcopy-btn btn-inactive" href="#!"> <i class="fas fa-copy"></i></a>
             </div>
             <div class="col-6 col-sm-4 text-right">
 
@@ -95,8 +95,65 @@
             <!-- JS magic -->
         </div>
     </div>
-    You are working xx/xx hours this month. (Submit planning link)
+    {% if profile.level == 'agent' %}
+        You are working xx/xx hours this month. (Submit planning link)
+    {% endif %}
 </section>
+<div class="modal fade" id="newEventModal" tabindex="-1" role="dialog" aria-labelledby="newEventModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="newEventModalLabel">New event</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+        {% csrf_token %}
+            <label for="fname">Start time:</label><br>
+            <input type="time" name="start_time" value="08:00"><br>
+            <label for="lname">End time:</label><br>
+            <input type="time" name="end_time" value="17:00"><br><br>
+            <label for="sel-category">Category:</label><br>
+            <select id="sel-category" name="category">
+                <option value="work">Work</option>
+                <option value="training">Training</option>
+                <option value="meeting">Meeting</option>
+                <option value="holidays">Holidays</option>
+                <option value="sick">Sick</option>
+                <option value="leave">Leave</option>
+                <option value="lunch">Lunch break</option>
+                <option value="dinner">Dinner break</option>
+                <option value="break">Paid break</option>
+                <option value="absence">Absence</option>
+            </select>
+            <br>
+            <label for="sel-role">Agent Role</label><br>
+            <select id="sel-role" name="role">
+            {% for role in roles %}
+                {% if profile.role == role %}
+                    <option value="{{ role }}" selected>{{ role }}</option>
+                {% else %}
+                    <option value="{{ role }}">{{ role }}</option>
+                {% endif %}
+            {% endfor %}
+            </select>
+            <br>
+            <input type="hidden" id="hidden-day" name="day" value="0">
+            {% if profile.level == 'admin' or profile.level == 'manager' %}
+                <input type="hidden" name="status" value="1">
+            {% else %}
+                <input type="hidden" name="status" value="0">
+            {% endif %}
+            <input type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}
 {% block postloadjs %}
 {{ block.super }}
