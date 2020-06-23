@@ -2,6 +2,7 @@
 {{ users|json_script:"userdata" }}
 {{ mmyyyy|json_script:"datedata" }}
 {{ daySpan|json_script:"dayspandata" }}
+{{ events|json_script:"eventsdata"}}
 <script>
 
 // getting user preferences what hour the day starts and what hour it ends
@@ -23,6 +24,10 @@ const allUsers = JSON.parse(prepareString);
 
 const prepareDate = JSON.parse(document.getElementById('datedata').textContent);
 const chosenMMYYYY = JSON.parse(prepareDate);
+
+const prepareEvents = JSON.parse(document.getElementById('eventsdata').textContent);
+const events = JSON.parse(prepareEvents);
+console.log(events);
 
 $(document).ready(function() {
     weekTables();
@@ -111,9 +116,10 @@ function weekTables() {
         let dayColumnHead = document.createElement('div');
         dayColumnHead.classList.add('table-header');
         dayColumnHead.classList.add('select-col'); // reaction to click
+        dayAt = loopDate.getDate()
         dayColumnHead.innerHTML = '<a href="#!"><span class="hday">' +
             calendarLabels.weekDays[loopDate.getDay()] + '</span>' + 
-            '<span class="day-display">' + loopDate.getDate() + '</span>' + 
+            '<span class="day-display">' + dayAt + '</span>' + 
             '<div class="expand-time"></div></a>';
         dayColumn.appendChild(dayColumnHead);
 
@@ -131,10 +137,58 @@ function weekTables() {
                     cell.classList.add('week-number');
                 }
             }
+            
+            for (let j = 0; j < events.length; j++) {
+                eventDate = events[j].fields.date.split("-");
+                if (allUsers[i].pk == events[j].fields.user_id &&
+                    dayAt == parseInt(eventDate[2]) &&
+                    chosenMMYYYY.month == parseInt(eventDate[1]-1) &&
+                    chosenMMYYYY.year == parseInt(eventDate[0])) {
+                    cell.appendChild(colorBar(events[j]));
+                }
+                
+            }
+
             dayColumn.appendChild(cell);
         }
         loopDate.setDate(loopDate.getDate() + 1); 
     }
+}
+
+function colorBar(oneEvent) {
+
+    // calculating the time into the with of the color bar
+    startTimeSplit = oneEvent.fields.start_time.split(":")
+    endTimeSplit = oneEvent.fields.end_time.split(":")
+    startH = parseInt(startTimeSplit[0]) * 100;
+    startM = parseInt(startTimeSplit[1]) / 6 * 10;
+    startDec = startH + startM;
+    endH = parseInt(endTimeSplit[0]) * 100;
+    endM = parseInt(endTimeSplit[1]) / 6 * 10;
+    endDec = endH + endM;
+
+    dayStartHourDec = startHour * 100
+    dayEndHourDec = endHour * 100
+    dayHoursRangeDec = hoursRange * 100
+
+    spaceLeft = startDec - dayStartHourDec;
+    spaceRight = dayEndHourDec - endDec;
+
+        console.log('***************');
+    console.log(spaceLeft);
+    console.log(spaceRight);
+
+    marginLeft = 100 / dayHoursRangeDec * spaceLeft;
+    marginRight = 100 / dayHoursRangeDec * spaceRight;
+
+    let colorBarElement = document.createElement('div');
+    colorBarElement.style.height = "21px"
+    colorBarElement.style.backgroundColor = "#f00";
+    console.log("1px " + marginRight + "% 1px " + marginLeft + "%");
+    colorBarElement.style.margin = "2px " + marginRight + "% 2px " + marginLeft + "%";
+    //colorBarElement.style.margin = "30px";
+    
+    return colorBarElement
 }
 
 function getDate() {

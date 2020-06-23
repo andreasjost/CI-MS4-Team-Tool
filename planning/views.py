@@ -118,12 +118,14 @@ def planning(request):
             team = teams[0]
 
         users_select = UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=team)
+        events_filtered = Event.objects.filter(date__month=sel_month, date__year=sel_year)
 
         # preparing data to read in JS
         js_month = int(request.session['sel_month'])-1
         users = serializers.serialize("json", users_select)
+        events = serializers.serialize("json", events_filtered)
         now_json = '{"month": "%s", "year": "%s"}' % (js_month, request.session['sel_year'])
-        dayspan_json = '{"start": "%s", "end": "%s"}'% (company.setting_daystart, company.setting_dayend)
+        dayspan_json = '{"start": "%s", "end": "%s"}' % (company.setting_daystart, company.setting_dayend)
 
         template = 'planning/planning.html'
 
@@ -137,6 +139,7 @@ def planning(request):
             'daySpan': dayspan_json,
             'nav_month': navmonth,
             'roles': roles,
+            'events': events
         }
 
         return render(request, template, context)

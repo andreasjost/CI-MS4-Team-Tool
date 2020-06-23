@@ -111,10 +111,6 @@
       <div class="modal-body">
         <form method="post">
         {% csrf_token %}
-            <label for="fname">Start time:</label><br>
-            <input type="time" name="start_time" value="08:00"><br>
-            <label for="lname">End time:</label><br>
-            <input type="time" name="end_time" value="17:00"><br><br>
             <label for="sel-category">Category:</label><br>
             <select id="sel-category" name="category">
                 <option value="work">Work</option>
@@ -129,6 +125,10 @@
                 <option value="absence">Absence</option>
             </select>
             <br>
+            <label for="fname">Start time:</label><br>
+            <input type="time" name="start_time" value="08:00"><br>
+            <label for="lname">End time:</label><br>
+            <input type="time" name="end_time" value="17:00"><br>
             <label for="sel-role">Agent Role</label><br>
             <select id="sel-role" name="role">
             {% for role in roles %}
@@ -146,7 +146,6 @@
                 <select id="sel-user" name="user_id">
                     {% for user in users_select %}
                         <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
-                        
                     {% endfor %}
                 </select>
                 <input type="hidden" name="status" value="1">
