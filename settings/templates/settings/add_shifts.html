@@ -54,9 +54,6 @@
 <section class="section-maincontent">
     <div class="container-xl">
 
-        <a class="float-right" href="{% url 'add_shift' %}">
-            <button class="btn btn-primary add-button">Add Shift</button>
-        </a>
         <h2>Shifts</h2>
 
 Reasons for choosing more than one shift:
@@ -94,7 +91,7 @@ The shifts don't have to correspond to actual work shifts of people. Users can w
                 <td class="width-t-weekday">{{ shift.weekday_friday }}</td>
                 <td class="width-t-weekday">{{ shift.weekday_saturday }}</td>
 
-                <!-- don't show the delete button if there's only one shift -->
+                <!-- don't show the delete button if there's only one team -->
                 {% if shifts.count > 1 %}
                 <td>
                     <a href="{% url 'delete_shift' shift.id %}">
@@ -111,8 +108,32 @@ The shifts don't have to correspond to actual work shifts of people. Users can w
                 </td>
             </tr>
             {% endfor %}
+            <!-- empty form to create a new shift-->
+            <tr class="input-row">
+                <form method="POST">
+                    {% csrf_token %}
+                    <td class="width-t-title">{{ form.shift_name }}</td>
+                    <td class="width-t-numbers">{{ form.min_agents }}</td>
+                    <td class="width-t-numbers">{{ form.shift_start }}</td>
+                    <td class="width-t-numbers">{{ form.shift_end }}</td>
+                    <td class="width-t-numbers">{{ form.weekday_sunday }}</td>
+                    <td class="width-t-numbers">{{ form.weekday_monday }}</td>
+                    <td class="width-t-numbers">{{ form.weekday_tuesday }}</td>
+                    <td class="width-t-numbers">{{ form.weekday_wednesday }}</td>
+                    <td class="width-t-numbers">{{ form.weekday_thursday }}</td>
+                    <td class="width-t-numbers">{{ form.weekday_friday }}</td>
+                    <td class="width-t-numbers">{{ form.weekday_saturday }}</td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm" type="submit">Save</button>
+                    </td>
+                </form>
+                <td>
+                <a  href="{% url 'shifts' %}">
+                    <button class="btn btn-secondary btn-sm canceltable-newrow">Cancel</button>
+                </a>
+                </td>
+            </tr>
         </table>
-        
     </div>
 </section>
 {% endblock %}
