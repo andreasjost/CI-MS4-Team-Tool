@@ -24,7 +24,8 @@ class CompanyProfileForm(forms.ModelForm):
             'signup_date': 'Date Signed up',
             'renewal_date': 'Last Plan renewal',
             'payment': 'Paid for number of months',
-            'setting_weekstart': 'The Day your week starts'
+            'setting_daystart': 'Hour when your day starts',
+            'setting_dayend': 'hour when your day ends'
         }
 
         for field in self.fields:
