@@ -142,8 +142,16 @@
             <br>
             <input type="hidden" id="hidden-day" name="day" value="0">
             {% if profile.level == 'admin' or profile.level == 'manager' %}
+                <label for="sel-user">Select a user</label><br>
+                <select id="sel-user" name="user_id">
+                    {% for user in users_select %}
+                        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                        
+                    {% endfor %}
+                </select>
                 <input type="hidden" name="status" value="1">
             {% else %}
+                <input type="hidden" name="user_id" value="{{ profile.id }}">
                 <input type="hidden" name="status" value="0">
             {% endif %}
             <input type="submit" value="Submit">

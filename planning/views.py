@@ -32,6 +32,9 @@ def planning(request):
         sel_role = get_object_or_404(AgentRole, role_name=data['role'],
                                      company_id=profile.company_id)
 
+        # connect event to correct user
+        sel_user = get_object_or_404(UserProfile, user_id=data['user_id'])
+
         try:
             Event.objects.create(
                 category=data['category'],
@@ -39,6 +42,7 @@ def planning(request):
                 start_time=data['start_time'],
                 end_time=data['end_time'],
                 agent_role=sel_role,
+                user_id=sel_user,
                 status=data['status'],
             )
 
@@ -49,7 +53,7 @@ def planning(request):
 
         teams = Team.objects.filter(company_id=profile.company_id)
 
-        template = 'settings/summary.html'
+        template = 'settings/planning.html'
         context = {
             'teams': teams,
             'profile': profile
@@ -113,9 +117,11 @@ def planning(request):
         else:
             team = teams[0]
 
-        # code to pass data to JS
+        users_select = UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=team)
+
+        # preparing data to read in JS
         js_month = int(request.session['sel_month'])-1
-        users = serializers.serialize("json", UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=team))
+        users = serializers.serialize("json", users_select)
         now_json = '{"month": "%s", "year": "%s"}' % (js_month, request.session['sel_year'])
         dayspan_json = '{"start": "%s", "end": "%s"}'% (company.setting_daystart, company.setting_dayend)
 
@@ -123,6 +129,7 @@ def planning(request):
 
         context = {
             'profile': profile,
+            'users_select': users_select,
             'users': users,
             'teams': teams,
             'current_team': team,
