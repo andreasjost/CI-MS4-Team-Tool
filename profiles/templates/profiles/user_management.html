@@ -6,8 +6,7 @@
 {% endblock %}
 {% block content %}
 <header>
-    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">EggBox</a>
+   <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
         <button
             class="navbar-toggler"
             type="button"
@@ -32,18 +31,23 @@
                 </li>
             </ul>
         </div>
+        <a class="logo-small" href="{% url 'planning' %}"></a>
         <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{ profile.first_name }} {{ profile.last_name }}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% if profile.level == 'admin' or profile.level == 'manager' %}
                 <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
                 <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
                 <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
                 <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
                 <div class="dropdown-divider"></div>
+                {% endif %}
                 <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                {% if profile.level == 'admin' %}
                 <a class="dropdown-item" href="{% url 'settings_global' %}">Global Settings</a>
+                {% endif %}
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
             </div>

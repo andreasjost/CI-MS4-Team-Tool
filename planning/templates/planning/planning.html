@@ -10,7 +10,6 @@
 {% block content %}
 <header>
     <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">EggBox</a>
         <button
             class="navbar-toggler"
             type="button"
@@ -35,6 +34,7 @@
                 </li>
             </ul>
         </div>
+        <a class="logo-small" href="{% url 'planning' %}"></a>
         <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{ profile.first_name }} {{ profile.last_name }}

@@ -94,15 +94,9 @@ a {
     pointer-events: none;
 }
 
-.btn-invisible {
-    border: 0;
-    background: transparent;
-    outline: none;
-}
-
 a:hover {
     text-decoration: none;
-    color: darkorange;
+    color: #ffaa00;
 }
 
 .expand-day {
