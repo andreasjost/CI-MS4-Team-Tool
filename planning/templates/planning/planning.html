@@ -60,18 +60,18 @@
 <section class="section-maincontent">
     <div class="month-navigation">
         <div class="row">
-            <div class="col-6 col-sm-4">
+            <div class="col-12 col-sm-4">
                 <h2 id="month-title">Month</h2>
             </div>
-            <div class="col-6 col-sm-4 text-center">
+            <div class="col-12 col-sm-4 text-center">
                 <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.previous }}"><i class="fas fa-arrow-alt-circle-left"></i></a>
                 <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.next }}"><i class="fas fa-arrow-alt-circle-right"></i></a>
                 <a class="control-btn" href="{% url 'planning' %}?month=0"> <i class="fas fa-home"></i></a>
                 <a class="control-btn create-event-btn btn-inactive" data-toggle="modal" data-target="#newEventModal" href="#!"><i class="fas fa-edit"></i></a>
                 <a class="control-btn jcopy-btn btn-inactive" href="#!"> <i class="fas fa-copy"></i></a>
             </div>
-            <div class="col-6 col-sm-4 text-right">
-
+            <div class="col-12 col-sm-4 text-right">
+                <div id="team-selector-wrapper">
                 <!-- Team selector - only show if more than 1 team -->
                 {% if teams.count > 1 %}
                 <div class="dropdown show">
@@ -87,6 +87,7 @@
                 {% else %}
                 {{ current_team }}
                 {% endif %}
+                </div>
             </div>
         </div>
     </div>

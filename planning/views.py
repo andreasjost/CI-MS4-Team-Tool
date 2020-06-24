@@ -50,15 +50,16 @@ def planning(request):
 
         except IndexError:
             messages.success(request, 'An error occured')
-
+        """
         teams = Team.objects.filter(company_id=profile.company_id)
 
-        template = 'settings/planning.html'
+        template = 'planning.html'
         context = {
             'teams': teams,
             'profile': profile
         }
-        return render(request, template, context)
+        """
+        return redirect(reverse('planning', ))
 
     else:
 
