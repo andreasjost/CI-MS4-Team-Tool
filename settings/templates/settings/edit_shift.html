@@ -91,13 +91,13 @@ The shifts don't have to correspond to actual work shifts of people. Users can w
                     <td class="width-t-numbers">{{ form.min_agents }}</td>
                     <td class="width-t-numbers">{{ form.shift_start }}</td>
                     <td class="width-t-numbers">{{ form.shift_end }}</td>
-                    <td class="width-t-numbers">{{ form.weekday_sunday }}</td>
-                    <td class="width-t-numbers">{{ form.weekday_monday }}</td>
-                    <td class="width-t-numbers">{{ form.weekday_tuesday }}</td>
-                    <td class="width-t-numbers">{{ form.weekday_wednesday }}</td>
-                    <td class="width-t-numbers">{{ form.weekday_thursday }}</td>
-                    <td class="width-t-numbers">{{ form.weekday_friday }}</td>
-                    <td class="width-t-numbers">{{ form.weekday_saturday }}</td>
+                    <td class="width-t-weekday">{{ form.weekday_sunday }}</td>
+                    <td class="width-t-weekday">{{ form.weekday_monday }}</td>
+                    <td class="width-t-weekday">{{ form.weekday_tuesday }}</td>
+                    <td class="width-t-weekday">{{ form.weekday_wednesday }}</td>
+                    <td class="width-t-weekday">{{ form.weekday_thursday }}</td>
+                    <td class="width-t-weekday">{{ form.weekday_friday }}</td>
+                    <td class="width-t-weekday">{{ form.weekday_saturday }}</td>
                     <td>
                         <button class="btn btn-secondary btn-sm" type="submit">Save</button>
                     </td>
@@ -108,26 +108,38 @@ The shifts don't have to correspond to actual work shifts of people. Users can w
                 </a>
                 </td>
             </tr>
-
-
             {% else %}
             <tr class="showtable-row">
                 <td class="width-t-title">{{ shift.shift_name }}</td>
                 <td class="width-t-smallnumbers">{{ shift.min_agents }}</td>
                 <td class="width-t-smallnumbers">{{ shift.shift_start }}</td>
                 <td class="width-t-smallnumbers">{{ shift.shift_end }} min</td>
-                <td class="width-t-weekday">{{ shift.weekday_sunday }}</td>
-                <td class="width-t-weekday">{{ shift.weekday_monday }}</td>
-                <td class="width-t-weekday">{{ shift.weekday_tuesday }}</td>
-                <td class="width-t-weekday">{{ shift.weekday_wednesday }}</td>
-                <td class="width-t-weekday">{{ shift.weekday_thursday }}</td>
-                <td class="width-t-weekday">{{ shift.weekday_friday }}</td>
-                <td class="width-t-weekday">{{ shift.weekday_saturday }}</td>
+                {% if shift.weekday_sunday == True %}
+                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}<td></td>{% endif %}
+                {% if shift.weekday_monday == True %}
+                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}<td></td>{% endif %}
+                {% if shift.weekday_tuesday == True %}
+                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}<td></td>{% endif %}
+                {% if shift.weekday_wednesday == True %}
+                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}<td></td>{% endif %}
+                {% if shift.weekday_thursday == True %}
+                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}<td></td>{% endif %}
+                {% if shift.weekday_friday == True %}
+                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}<td></td>{% endif %}
+                {% if shift.weekday_saturday == True %}
+                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}<td></td>{% endif %}
 
                 <!-- don't show the delete button if there's only one team -->
                 {% if shifts.count > 1 %}
                 <td>
-                    <a href="{% url 'delete_shift' shift.id %}">
+                    <a href="">
                     <button class="btn btn-secondary btn-sm">delete</button>
                     </a>
                 </td>

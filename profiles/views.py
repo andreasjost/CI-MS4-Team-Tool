@@ -144,10 +144,16 @@ def edit_user(request, user_id):
         form = UserProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            print("Success")
-            """
-            return redirect(reverse('product_detail', args=[product.id]))
-            """
+            messages.success(request, 'User edited successfully')
+            profile = get_object_or_404(UserProfile, user=request.user)
+            users = UserProfile.objects.filter(company_id=profile.company_id)
+            template = 'profiles/user_management.html'
+            context = {
+                'users': users,
+                'profile': profile
+            }
+            return render(request, template, context)
+
         else:
             print("failed")
     else:
