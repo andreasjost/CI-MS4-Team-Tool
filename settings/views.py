@@ -351,7 +351,7 @@ def add_shift(request):
 
     else:
         form = ShiftForm()
-        shfits = Shift.objects.filter(company_id=profile.company_id)
+        shifts = Shift.objects.filter(company_id=profile.company_id)
 
         template = 'settings/add_shift.html'
         context = {
