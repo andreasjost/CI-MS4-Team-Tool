@@ -58,6 +58,9 @@
     </nav>
 </header>
 <section class="section-maincontent">
+
+<!-- check if there are any users. Otherwise show welcome message + tips -->
+{% if users_select %}
     <div class="month-navigation">
         <div class="row">
             <div class="col-12 col-sm-4">
@@ -99,6 +102,9 @@
     {% if profile.level == 'agent' %}
         You are working xx/xx hours this month. (Submit planning link)
     {% endif %}
+{% else %}
+    {% include 'planning/includes/welcome.html' %}
+{% endif %}
 </section>
 <div class="modal fade" id="newEventModal" tabindex="-1" role="dialog" aria-labelledby="newEventModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
