@@ -96,7 +96,7 @@ class AgentRoleForm(forms.ModelForm):
 class ShiftForm(forms.ModelForm):
     class Meta:
         model = Shift
-        exclude = ('team',)
+        exclude = ('company_id',)
 
     def __init__(self, *args, **kwargs):
         """
@@ -104,7 +104,7 @@ class ShiftForm(forms.ModelForm):
         """
         super().__init__(*args, **kwargs)
         placeholders = {
-            'Shift_name': 'Shift name',
+            'shift_name': 'Shift name',
             'min_agents': 'Minimum Number of Agents',
             'shift_start': 'Start time',
             'shift_end': 'End time',

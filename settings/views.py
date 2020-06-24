@@ -18,10 +18,9 @@ def settings_global(request):
         form = CompanyProfileForm(request.POST, instance=company)
         if form.is_valid():
             form.save()
-            # messages.success(request, 'Profile updated successfully')
+            messages.success(request, 'Profile updated successfully')
         else:
-            print("unsuccessful")
-            # messages.error(request, 'Update failed. Please ensure the form is valid.')
+            messages.error(request, 'Update failed. Please ensure the form is valid.')
 
     else:
         form = CompanyProfileForm(instance=company)
@@ -74,8 +73,7 @@ def add_team(request):
             # messages.success(request, 'Profile updated successfully')
 
         else:
-            print("unsuccessful team save")
-            # messages.error(request, 'Update failed. Please ensure the form is valid.')
+            messages.error(request, 'Update failed. Please ensure the form is valid.')
 
         teams = Team.objects.filter(company_id=profile.company_id)
 
@@ -116,7 +114,7 @@ def edit_team(request, team_id):
         form = TeamsForm(request.POST, instance=team_selected)
         if form.is_valid():
             form.save()
-            print("Success")
+            messages.success(request, 'Team edited successfully')
             teams = Team.objects.filter(company_id=profile.company_id)
             template = 'settings/teams.html'
             context = {
@@ -126,7 +124,7 @@ def edit_team(request, team_id):
             return render(request, template, context)
 
         else:
-            print("failed")
+            messages.error(request, 'Save failed. Please ensure the form is valid.')
     else:
         form = TeamsForm(instance=team_selected)
 
@@ -188,7 +186,7 @@ def edit_role(request, role_id):
         form = AgentRoleForm(request.POST, instance=role_selected)
         if form.is_valid():
             form.save()
-            print("Success")
+            messages.success(request, 'Role edited successfully')
             roles = AgentRole.objects.filter(company_id=profile.company_id)
             template = 'settings/roles.html'
             context = {
@@ -233,11 +231,10 @@ def add_role(request):
             role = form.save(commit=False)
             role.company_id = profile.company_id
             role.save()
-            # messages.success(request, 'Profile updated successfully')
+            messages.success(request, 'Profile updated successfully')
 
         else:
-            print("unsuccessful role save")
-            # messages.error(request, 'Update failed. Please ensure the form is valid.')
+            messages.error(request, 'Save failed. Please ensure the form is valid.')
 
         roles = AgentRole.objects.filter(company_id=profile.company_id)
 
@@ -293,8 +290,8 @@ def edit_shift(request, shift_id):
         form = ShiftForm(request.POST, instance=shift_selected)
         if form.is_valid():
             form.save()
-            print("Success")
-            roles = AgentRole.objects.filter(company_id=profile.company_id)
+            messages.success(request, 'Shift edited successfully')
+            shifts = Shift.objects.filter(company_id=profile.company_id)
             template = 'settings/shifts.html'
             context = {
                 'shifts': shifts,
@@ -303,11 +300,11 @@ def edit_shift(request, shift_id):
             return render(request, template, context)
 
         else:
-            print("failed")
+            messages.error(request, 'Save failed. Please ensure the form is valid.')
     else:
         form = ShiftForm(instance=shift_selected)
 
-    roles = AgentRole.objects.filter(company_id=profile.company_id)
+    shifts = Shift.objects.filter(company_id=profile.company_id)
     template = 'settings/edit_shift.html'
     context = {
         'form': form,
@@ -333,35 +330,34 @@ def add_shift(request):
     """
 
     if request.method == 'POST':
-        form = AgentRoleForm(request.POST)
+        form = ShiftForm(request.POST)
         if form.is_valid():
-            role = form.save(commit=False)
-            role.company_id = profile.company_id
-            role.save()
-            # messages.success(request, 'Profile updated successfully')
+            shift = form.save(commit=False)
+            shift.company_id = profile.company_id
+            shift.save()
+            messages.success(request, 'Shift added successfully')
 
         else:
-            print("unsuccessful role save")
-            # messages.error(request, 'Update failed. Please ensure the form is valid.')
+            messages.error(request, 'Save failed. Please ensure the form is valid.')
 
-        roles = AgentRole.objects.filter(company_id=profile.company_id)
+        shifts = Shift.objects.filter(company_id=profile.company_id)
 
         template = 'settings/shifts.html'
         context = {
-            'roles': roles,
+            'shifts': shifts,
             'profile': profile
         }
         return render(request, template, context)
 
     else:
-        form = AgentRoleForm()
-        roles = AgentRole.objects.filter(company_id=profile.company_id)
+        form = ShiftForm()
+        shfits = Shift.objects.filter(company_id=profile.company_id)
 
-        template = 'settings/add_role.html'
+        template = 'settings/add_shift.html'
         context = {
             'form': form,
             'profile': profile,
-            'roles': roles
+            'shifts': shifts
         }
 
         return render(request, template, context)

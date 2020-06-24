@@ -60,7 +60,7 @@ Reasons for choosing more than one shift:
 - Different salary according to the shift
 - Office closed during lunch break
 The shifts don't have to correspond to actual work shifts of people. Users can work accross shifts.
-        <h3>{{ shifts.team }}</h3>
+        <h3>Shifts</h3>
         <table>
             <tr>
                 <th class="width-t-title">Shift Name</th>
@@ -91,7 +91,7 @@ The shifts don't have to correspond to actual work shifts of people. Users can w
                 <td class="width-t-weekday">{{ shift.weekday_friday }}</td>
                 <td class="width-t-weekday">{{ shift.weekday_saturday }}</td>
 
-                <!-- don't show the delete button if there's only one team -->
+                <!-- don't show the delete button if there's only one shift -->
                 {% if shifts.count > 1 %}
                 <td>
                     <a href="{% url 'delete_shift' shift.id %}">
