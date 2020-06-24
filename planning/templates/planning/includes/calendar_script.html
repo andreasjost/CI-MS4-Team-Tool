@@ -8,8 +8,8 @@
 // getting user preferences what hour the day starts and what hour it ends
 const prepareNumbers = JSON.parse(document.getElementById('dayspandata').textContent);
 const chosenDaySpan = JSON.parse(prepareNumbers);
-const startHour = chosenDaySpan.start;
-const endHour = chosenDaySpan.end;
+const startHour = parseInt(chosenDaySpan.start);
+const endHour = parseInt(chosenDaySpan.end);
 const hoursRange = endHour - startHour;
 
 // variable for the day selected. 0 if nothing selected.
@@ -54,6 +54,7 @@ $(document).ready(function() {
         $(this).find('div.time-label').remove();
         x = expandedDayWidth / hoursRange; // for the with of the time grid
         for (let i = startHour; i < endHour; i++) {
+            console.log("Why not");
             var el = '<div class="time-label" ' +
                 'style="width: ' + x + 'px;">'+ i +
                  '</div>';
