@@ -29,6 +29,7 @@ class UserProfile(models.Model):
                              default='admin', choices=level_choices)
 
     # Only Agents have a role assigned
+    # Roles are currently disabled
     role = models.ForeignKey(AgentRole, on_delete=models.SET_NULL,
                              null=True, blank=True, related_name='agent_role')
 

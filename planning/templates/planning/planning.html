@@ -43,7 +43,6 @@
                 {% if profile.level == 'admin' or profile.level == 'manager' %}
                 <a class="dropdown-item" href="{% url 'user_management' %}">User Management</a>
                 <a class="dropdown-item" href="{% url 'teams' %}">Teams</a>
-                <a class="dropdown-item" href="{% url 'roles' %}">Roles</a>
                 <a class="dropdown-item" href="{% url 'shifts' %}">Shifts</a>
                 <div class="dropdown-divider"></div>
                 {% endif %}
@@ -144,17 +143,8 @@
             <input type="time" name="start_time" value="08:00"><br>
             <label for="lname">End time:</label><br>
             <input type="time" name="end_time" value="17:00"><br>
-            <label for="sel-role">Agent Role</label><br>
-            <select id="sel-role" name="role">
-            {% for role in roles %}
-                {% if profile.role == role %}
-                    <option value="{{ role }}" selected>{{ role }}</option>
-                {% else %}
-                    <option value="{{ role }}">{{ role }}</option>
-                {% endif %}
-            {% endfor %}
-            </select>
-            <br>
+           
+            
             <input type="hidden" id="hidden-day" name="day" value="0">
             {% if profile.level == 'admin' or profile.level == 'manager' %}
                 <label for="sel-user">Select a user</label><br>
