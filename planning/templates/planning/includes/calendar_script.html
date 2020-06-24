@@ -176,6 +176,8 @@ function colorBar(oneEvent) {
 
     marginLeft = 100 / dayHoursRangeDec * spaceLeft;
     marginRight = 100 / dayHoursRangeDec * spaceRight;
+    if (marginLeft < 0) {marginLeft = 0}
+    if (marginRight < 0) {marginRight = 0}
 
     let colorBarElement = document.createElement('div');
     colorBarElement.style.height = "21px"
