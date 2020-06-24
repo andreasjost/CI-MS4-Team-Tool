@@ -68,6 +68,7 @@
   border-right: 1px solid gray;
   background-color: #fff;
   overflow: hidden;
+  position: relative;
 }
 
 .hday {

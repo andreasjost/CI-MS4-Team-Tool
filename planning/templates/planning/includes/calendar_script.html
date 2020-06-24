@@ -145,6 +145,7 @@ function weekTables() {
                     chosenMMYYYY.month == parseInt(eventDate[1]-1) &&
                     chosenMMYYYY.year == parseInt(eventDate[0])) {
                     cell.appendChild(colorBar(events[j]));
+                    //cell.innerHTML = `<div style="background-color: #5a5; width: 20px; height: 10px;"></div>`
                 }
                 
             }
@@ -203,7 +204,11 @@ function colorBar(oneEvent) {
             colorBarElement.style.backgroundColor = "#fff";
     } 
     colorBarElement.style.margin = "2px " + marginRight + "% 2px " + marginLeft + "%";
-    
+    //colorBarElement.style.padding = "2px " + marginRight + "% 2px " + marginLeft + "%";
+    //colorBarElement.style.position = "absolute";
+    //colorBarElement.style.top = "0";
+    //colorBarElement.style.left = "0";
+
     return colorBarElement
 }
 
