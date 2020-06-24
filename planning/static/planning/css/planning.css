@@ -128,6 +128,11 @@ a:hover {
     display: block;
 }
 
+#color-coding {
+    padding: 15px;
+    font-size: 0.8em;
+}
+
 /* ------------------------------------------------------ media queries */
 
 @media screen and (max-width : 576px) {

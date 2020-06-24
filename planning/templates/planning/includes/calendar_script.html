@@ -27,7 +27,7 @@ const chosenMMYYYY = JSON.parse(prepareDate);
 
 const prepareEvents = JSON.parse(document.getElementById('eventsdata').textContent);
 const events = JSON.parse(prepareEvents);
-console.log(events);
+//console.log(events);
 
 $(document).ready(function() {
     weekTables();
@@ -54,7 +54,6 @@ $(document).ready(function() {
         $(this).find('div.time-label').remove();
         x = expandedDayWidth / hoursRange; // for the with of the time grid
         for (let i = startHour; i < endHour; i++) {
-            console.log("Why not");
             var el = '<div class="time-label" ' +
                 'style="width: ' + x + 'px;">'+ i +
                  '</div>';
@@ -167,14 +166,11 @@ function colorBar(oneEvent) {
     endH = parseInt(endTimeSplit[0]) * 100;
     endM = parseInt(endTimeSplit[1]) / 6 * 10;
     endDec = endH + endM;
-
     dayStartHourDec = startHour * 100
     dayEndHourDec = endHour * 100
     dayHoursRangeDec = hoursRange * 100
-
     spaceLeft = startDec - dayStartHourDec;
     spaceRight = dayEndHourDec - endDec;
-
     marginLeft = 100 / dayHoursRangeDec * spaceLeft;
     marginRight = 100 / dayHoursRangeDec * spaceRight;
     if (marginLeft < 0) {marginLeft = 0}
@@ -182,10 +178,31 @@ function colorBar(oneEvent) {
 
     let colorBarElement = document.createElement('div');
     colorBarElement.style.height = "21px"
-    colorBarElement.style.backgroundColor = "#f00";
-    console.log("1px " + marginRight + "% 1px " + marginLeft + "%");
+    switch (oneEvent.fields.category) {
+        case 'work':
+            colorBarElement.style.backgroundColor = "#0f0";
+            break;
+        case 'training':
+        case 'meeting':
+            colorBarElement.style.backgroundColor = "#f00";
+            break;
+        case 'lunch':
+        case 'dinner':
+        case 'break':
+            colorBarElement.style.backgroundColor = "#0ff";
+            break;
+        case 'holidays':
+        case 'leave':
+            colorBarElement.style.backgroundColor = "#00f";
+            break;
+        case 'sick':
+        case 'absence':
+            colorBarElement.style.backgroundColor = "#ff0";
+            break;
+        default:
+            colorBarElement.style.backgroundColor = "#fff";
+    } 
     colorBarElement.style.margin = "2px " + marginRight + "% 2px " + marginLeft + "%";
-    //colorBarElement.style.margin = "30px";
     
     return colorBarElement
 }
