@@ -159,7 +159,7 @@ def shifts(request):
     Show all shifts related to the company, sorted by team
     """
     profile = get_object_or_404(UserProfile, user=request.user)
-    shifts = Shift.objects.filter() # add filter for the teams of the same company
+    shifts = Shift.objects.filter(company_id=profile.company_id)
 
     template = 'settings/shifts.html'
     context = {

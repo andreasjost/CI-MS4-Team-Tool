@@ -15,6 +15,9 @@ const hoursRange = endHour - startHour;
 // variable for the day selected. 0 if nothing selected.
 let day_selected = 0;
 
+// mode: 0 = normal, 1 = copy
+let copyMode = false;
+
 // width of expanded day
 const expandedDayWidth = 300;
 let buildingSpace = document.getElementById("weeks-container");
@@ -34,31 +37,40 @@ $(document).ready(function() {
 
     // select a date column to expand
     $('.select-col').click(function() {
+        if (copyMode == false) {
+            // if already expanded, then collaps (unselect)
+            if ($(this).parent().hasClass('expand-day')) {
+                $(this).parent().removeClass('expand-day');
+                $(this).find('div.expand-time').removeClass('show-timescale');
+                $('.create-event-btn, .jcopy-btn').addClass('btn-inactive');
+                day_selected = 0;
+            }
+            else {
+                $('.expand-day').removeClass('expand-day');
+                $('.show-timescale').removeClass('show-timescale');
+                $(this).parent().addClass('expand-day');
+                $(this).find('div.expand-time').addClass('show-timescale');
+                $('.create-event-btn, .jcopy-btn').removeClass('btn-inactive');
+                day_selected = $(this).find('span.day-display').text();
+                $('.hidden-day').val(day_selected);
+            }
+            $(this).find('div.time-label').remove();
+            x = expandedDayWidth / hoursRange; // for the with of the time grid
+            for (let i = startHour; i < endHour; i++) {
+                var el = '<div class="time-label" ' +
+                    'style="width: ' + x + 'px;">'+ i +
+                     '</div>';
+                $(this).find('div.expand-time').append(el);
+            }
+        } else {
+            if (!$(this).hasClass("selected-column")) {
+                $(this).toggleClass('copyto-column');
+            }
+        }
+    });
 
-        // if already expanded, then collaps (unselect)
-        if ($(this).parent().hasClass('expand-day')) {
-            $(this).parent().removeClass('expand-day');
-            $(this).find('div.expand-time').removeClass('show-timescale');
-            $('.create-event-btn').addClass('btn-inactive');
-            day_selected = 0;
-        }
-        else {
-            $('.expand-day').removeClass('expand-day');
-            $('.show-timescale').removeClass('show-timescale');
-            $(this).parent().addClass('expand-day');
-            $(this).find('div.expand-time').addClass('show-timescale');
-            $('.create-event-btn').removeClass('btn-inactive');
-            day_selected = $(this).find('span.day-display').text();
-            $('.hidden-day').val(day_selected);
-        }
-        $(this).find('div.time-label').remove();
-        x = expandedDayWidth / hoursRange; // for the with of the time grid
-        for (let i = startHour; i < endHour; i++) {
-            var el = '<div class="time-label" ' +
-                'style="width: ' + x + 'px;">'+ i +
-                 '</div>';
-            $(this).find('div.expand-time').append(el);
-        }
+    $('#cancel-copy').click(function() {
+        copyMode = false;  
     });
 
     // modal view
@@ -137,7 +149,6 @@ function weekTables() {
                     cell.classList.add('week-number');
                 }
             }
-            
             for (let j = 0; j < events.length; j++) {
                 eventDate = events[j].fields.date.split("-");
                 if (allUsers[i].pk == events[j].fields.user_id &&
@@ -146,9 +157,7 @@ function weekTables() {
                     chosenMMYYYY.year == parseInt(eventDate[0])) {
                     cell.appendChild(colorBar(events[j]));
                 }
-                
             }
-
             dayColumn.appendChild(cell);
         }
         loopDate.setDate(loopDate.getDate() + 1); 
@@ -205,9 +214,6 @@ function colorBar(oneEvent) {
     colorBarElement.classList.add("color-bar");
     colorBarElement.style.margin = "2px " + marginRight + "% 2px " + marginLeft + "%";
     colorBarElement.addEventListener('click', function (event) {
-        console.log(oneEvent);
-        // window.location.assign(`edit_event/${oneEvent.pk}/`);
-        
         $('#edit-event-start').val(oneEvent.fields.start_time);
         $('#edit-event-end').val(oneEvent.fields.end_time);
         $('#set-category option:selected').removeAttr('selected');
@@ -216,7 +222,6 @@ function colorBar(oneEvent) {
         $("#set-user > [value=" + oneEvent.fields.user_id + "]").attr("selected", "true");
         $('#hidden-event-id').val(oneEvent.pk); 
         $('#editEventModal').modal('show');
-        
     });
 
     let colorBarContainer = document.createElement('div');
@@ -248,5 +253,25 @@ Date.prototype.getWeek = function() {
     var onejan = new Date(this.getFullYear(), 0, 1);
     return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
 }
+
+// copy function
+function copyEvents() {
+    $('.button-panel').hide();
+    $('.copy-panel').show();
+    selectedColumn = $(`.day-display:contains("${day_selected}"):first`);
+    selectedColumn.parent().parent().parent().removeClass('expand-day');
+    selectedColumn.parent().find('div.expand-time').removeClass('show-timescale');
+    selectedColumn.parent().parent().addClass('selected-column');
+    copyMode = true;
+    
+}
+
+/*
+ 
+    
+
+day_selected = $(this).find('span.day-display').text();
+*/
+
 
 </script>

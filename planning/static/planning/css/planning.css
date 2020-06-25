@@ -101,6 +101,7 @@ a {
     height: 21px;
     cursor: pointer;
     border-radius: 4px;
+    background-image: linear-gradient(rgba(255,255,255,0.6), transparent, rgba(0,0,0,0.4));
 }
 
 .btn-inactive {
@@ -141,6 +142,25 @@ a:hover {
     padding: 15px;
     font-size: 0.8em;
 }
+
+/* ------------------------------------------------------ copy function */
+
+.copy-panel {
+    display: none;
+}
+
+.selected-column {
+    background-color:#e6e6ff;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+}
+
+.copyto-column {
+    background-color:#fff2e6;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+}
+
 
 /* ------------------------------------------------------ media queries */
 

@@ -65,12 +65,26 @@
             <div class="col-12 col-sm-4">
                 <h2 id="month-title">Month</h2>
             </div>
-            <div class="col-12 col-sm-4 text-center">
+            <div class="col-12 col-sm-4 text-center button-panel">
                 <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.previous }}"><i class="fas fa-arrow-alt-circle-left"></i></a>
                 <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.next }}"><i class="fas fa-arrow-alt-circle-right"></i></a>
                 <a class="control-btn" href="{% url 'planning' %}?month=0"> <i class="fas fa-home"></i></a>
                 <a class="control-btn create-event-btn btn-inactive" data-toggle="modal" data-target="#newEventModal" href="#!"><i class="fas fa-plus"></i></a>
-                <a class="control-btn jcopy-btn btn-inactive" href="#!"> <i class="fas fa-copy"></i></a>
+                <a class="control-btn jcopy-btn btn-inactive" onclick="copyEvents()" href="javascript:void(0);"> <i class="fas fa-copy"></i></a>
+            </div>
+            <div class="col-12 col-sm-4 text-center copy-panel">
+                {% if profile.level == 'admin' or profile.level == 'manager' %}
+                <select id="set-user" name="user_id">
+                    {% for user in users_select %}
+                        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    {% endfor %}
+                </select>
+                {% endif %}
+                <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.previous }}"><i class="fas fa-check"></i></a>
+                <a class="control-btn" id="cancel-copy" href="{% url 'planning' %}"><i class="fas fa-times"></i></a>
+                <br>
+                <p class="small text-justify">Click on all the days where you want to copy the selected date, followed by clicking the check mark.
+                A copy overwrites existing events. Tip: You can also copy an empty day to delete multiple events quickly.</p>
             </div>
             <div class="col-12 col-sm-4 text-right">
                 <div id="team-selector-wrapper">
