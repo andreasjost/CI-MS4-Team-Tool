@@ -89,6 +89,20 @@ a {
     color: blue;
 }
 
+/* interacting with overlapping elements */
+
+.color-bar-container {
+    pointer-events: none;
+    width: 100%;
+    position: absolute;
+}
+.color-bar {
+    pointer-events: auto;
+    height: 21px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
 .btn-inactive {
     color: #bbb;
     pointer-events: none;

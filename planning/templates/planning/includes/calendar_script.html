@@ -203,20 +203,15 @@ function colorBar(oneEvent) {
         default:
             colorBarElement.style.backgroundColor = "#fff";
     }
-    colorBarElement.style.height = "21px"
+    colorBarElement.classList.add("color-bar");
     colorBarElement.style.margin = "2px " + marginRight + "% 2px " + marginLeft + "%";
+    colorBarElement.addEventListener('click', function (event) {
+            console.log("Listen");
+        });
 
-/*
-    let eventLink = document.createElement('a');
-    eventLink.style.width = "100%";
-    eventLink.style.height = "100%";
-    eventLink.href = "";
-    colorBarElement.appendChild(eventLink);
-    */
-
+    
     let colorBarContainer = document.createElement('div');
-    colorBarContainer.style.position = "absolute";
-    colorBarContainer.style.width = "100%";
+    colorBarContainer.classList.add("color-bar-container");
     colorBarContainer.appendChild(colorBarElement);
 
     return colorBarContainer
