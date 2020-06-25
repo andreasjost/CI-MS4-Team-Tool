@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from profiles.models import UserProfile, CompanyProfile
-from settings.models import Team, AgentRole
+from settings.models import Team
 from django.contrib import messages
 from .models import Event
 from django.core import serializers  # used to use template variables in JS
 from datetime import datetime, timedelta
+from .forms import EventForm
 
 
 @login_required
@@ -16,40 +17,55 @@ def planning(request):
     """
     profile = get_object_or_404(UserProfile, user=request.user)
     teams = Team.objects.filter(company_id=profile.company_id)
-    roles = AgentRole.objects.filter(company_id=profile.company_id)
     company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
 
     if request.method == 'POST':
         data = request.POST
 
-        # construct the date
-        sel_day = int(data['day'])
-        sel_month = int(request.session['sel_month'])
-        sel_year = int(request.session['sel_year'])
-        date_sel = datetime(sel_year, sel_month, sel_day)
+        # in case of edit event
+        if data['event_id']:
+            event_selected = get_object_or_404(Event, pk=data['event_id'])
 
-        # get the AgentRole instance
-        sel_role = get_object_or_404(AgentRole, role_name=data['role'],
-                                     company_id=profile.company_id)
+            # connect event to correct user
+            sel_user = get_object_or_404(UserProfile, user_id=data['user_id'])
 
-        # connect event to correct user
-        sel_user = get_object_or_404(UserProfile, user_id=data['user_id'])
+            try:
+                event_selected.category = data['category']
+                event_selected.start_time = data['start_time']
+                event_selected.end_time = data['end_time']
+                event_selected.user_id = sel_user
+                event_selected.save()
+                messages.success(request, 'Event changed successfully')
 
-        try:
-            Event.objects.create(
-                category=data['category'],
-                date=date_sel,
-                start_time=data['start_time'],
-                end_time=data['end_time'],
-                agent_role=sel_role,
-                user_id=sel_user,
-                status=data['status'],
-            )
+            except IndexError:
+                messages.error(request, 'An error occured')
 
-            messages.success(request, 'Event created successfully')
+        # in case of new event
+        else:
 
-        except IndexError:
-            messages.success(request, 'An error occured')
+            # construct the date
+            sel_day = int(data['day'])
+            sel_month = int(request.session['sel_month'])
+            sel_year = int(request.session['sel_year'])
+            date_sel = datetime(sel_year, sel_month, sel_day)
+
+            # connect event to correct user
+            sel_user = get_object_or_404(UserProfile, user_id=data['user_id'])
+
+            try:
+                Event.objects.create(
+                    category=data['category'],
+                    date=date_sel,
+                    start_time=data['start_time'],
+                    end_time=data['end_time'],
+                    user_id=sel_user,
+                    status=data['status'],
+                )
+
+                messages.success(request, 'Event created successfully')
+
+            except IndexError:
+                messages.success(request, 'An error occured')
         """
         teams = Team.objects.filter(company_id=profile.company_id)
 
@@ -139,11 +155,16 @@ def planning(request):
             'mmyyyy': now_json,
             'daySpan': dayspan_json,
             'nav_month': navmonth,
-            'roles': roles,
             'events': events
         }
 
         return render(request, template, context)
+
+
+@login_required
+def delete_event(request):
+    template = 'planning/planning.html'
+    return render(request, template)
 
 
 def summary(request, user_id):

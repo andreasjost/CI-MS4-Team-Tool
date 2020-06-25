@@ -49,7 +49,7 @@ $(document).ready(function() {
             $(this).find('div.expand-time').addClass('show-timescale');
             $('.create-event-btn').removeClass('btn-inactive');
             day_selected = $(this).find('span.day-display').text();
-            $('#hidden-day').val(day_selected);
+            $('.hidden-day').val(day_selected);
         }
         $(this).find('div.time-label').remove();
         x = expandedDayWidth / hoursRange; // for the with of the time grid
@@ -145,7 +145,6 @@ function weekTables() {
                     chosenMMYYYY.month == parseInt(eventDate[1]-1) &&
                     chosenMMYYYY.year == parseInt(eventDate[0])) {
                     cell.appendChild(colorBar(events[j]));
-                    //cell.innerHTML = `<div style="background-color: #5a5; width: 20px; height: 10px;"></div>`
                 }
                 
             }
@@ -206,10 +205,20 @@ function colorBar(oneEvent) {
     colorBarElement.classList.add("color-bar");
     colorBarElement.style.margin = "2px " + marginRight + "% 2px " + marginLeft + "%";
     colorBarElement.addEventListener('click', function (event) {
-            console.log("Listen");
-        });
+        console.log(oneEvent);
+        // window.location.assign(`edit_event/${oneEvent.pk}/`);
+        
+        $('#edit-event-start').val(oneEvent.fields.start_time);
+        $('#edit-event-end').val(oneEvent.fields.end_time);
+        $('#set-category option:selected').removeAttr('selected');
+        $("#set-category > [value=" + oneEvent.fields.category + "]").attr("selected", "true");
+        $('#set-user option:selected').removeAttr('selected');
+        $("#set-user > [value=" + oneEvent.fields.user_id + "]").attr("selected", "true");
+        $('#hidden-event-id').val(oneEvent.pk); 
+        $('#editEventModal').modal('show');
+        
+    });
 
-    
     let colorBarContainer = document.createElement('div');
     colorBarContainer.classList.add("color-bar-container");
     colorBarContainer.appendChild(colorBarElement);
