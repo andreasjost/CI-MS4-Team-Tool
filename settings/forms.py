@@ -35,7 +35,10 @@ class CompanyProfileForm(forms.ModelForm):
                 else:
                     placeholder = placeholders[field]
                 self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
+            if field == 'setting_daystart' or field == 'setting_dayend' or field == 'payment':
+                self.fields[field].widget.attrs['class'] = 'width-numbers'
+            else:
+                self.fields[field].widget.attrs['class'] = 'profile-form-input'
             self.fields[field].label = placeholder
 
 
@@ -64,7 +67,7 @@ class TeamsForm(forms.ModelForm):
             else:
                 placeholder = placeholders[field]
             self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
+            self.fields[field].widget.attrs['class'] = 'profile-form-input'
             self.fields[field].label = False
 
 
@@ -89,7 +92,7 @@ class AgentRoleForm(forms.ModelForm):
             else:
                 placeholder = placeholders[field]
             self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
+            self.fields[field].widget.attrs['class'] = 'profile-form-input'
             self.fields[field].label = False
 
 
@@ -123,5 +126,5 @@ class ShiftForm(forms.ModelForm):
             else:
                 placeholder = placeholders[field]
             self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'border-black rounded-0 profile-form-input'
+            self.fields[field].widget.attrs['class'] = 'profile-form-input'
             self.fields[field].label = False

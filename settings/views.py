@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -140,18 +140,25 @@ def edit_team(request, team_id):
     return render(request, template, context)
 
 
-def delete_team(request):
-
-    # Show user management
+def delete_team(request, team_id):
+    """
+    Delete a team after checking if no users are attached
+    """
     profile = get_object_or_404(UserProfile, user=request.user)
-    teams = Team.objects.filter(company_id=profile.company_id)
+    if profile.level == 'admin' or profile.level == 'manager':
+        users = UserProfile.objects.filter(company_id=profile.company_id, team=team_id)
+        if len(users) == 0:
+            team = get_object_or_404(Team, pk=team_id)
+            team.delete()
+            messages.success(request, 'Team deleted!')
 
-    template = 'settings/teams.html'
-    context = {
-        'teams': teams,
-        'profile': profile
-    }
-    return render(request, template, context)
+        else:
+            messages.error(request, "Users are still part of this team. Attach users to a different team in 'User Management' or delete them.")
+
+    else:
+        messages.error(request, "Sorry, you are not authorized to delete teams. Ask a Manager or Admin.")
+
+    return redirect(reverse('teams', ))
 
 
 def shifts(request):

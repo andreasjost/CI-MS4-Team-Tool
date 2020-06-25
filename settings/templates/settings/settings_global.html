@@ -49,13 +49,14 @@
 <section class="section-maincontent">
     <div class="container-xl">
         <h2>Global Settings</h2>
-        <h3>Company Information</h3>
         <form method="POST">
-            {% csrf_token %}
+            {% csrf_token %}            
             {{ form_company|crispy }}
             <button class="btn btn-primary float-right" type="submit">Save</button>
         </form>
-        
+        <br>
+        <br>
+        <br>
     </div>
 </section>
 {% endblock %}

@@ -154,9 +154,19 @@ def planning(request):
 
 
 @login_required
-def delete_event(request):
-    template = 'planning/planning.html'
-    return render(request, template)
+def delete_event(request, event_id):
+    """ delete an event from the planning """
+    event = get_object_or_404(Event, pk=event_id)
+    event.delete()
+    messages.success(request, 'Event deleted!')
+    return redirect(reverse('planning', ))
+
+
+    """ add some if-statements
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home')) 
+    """
 
 
 def summary(request, user_id):

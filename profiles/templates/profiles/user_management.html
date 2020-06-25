@@ -61,7 +61,7 @@
         <h2>User Management</h2>
         
         <h3>Active Users</h3>
-        <table>
+        <table class="full-table">
             <tr>
                 <th>First Name(s)</th>
                 <th>Last Name(s)</th>
@@ -69,8 +69,7 @@
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Level</th>
-                <th>Contract Type</th>
-                <th>Contract %</th>
+                <th>Team</th>
                 <th></th>
             </tr>
             {% for user in users %}
@@ -81,8 +80,11 @@
                 <td>{{ user.start_date }}</td>
                 <td>{{ user.end_date }}</td>
                 <td>{{ user.level }}</td>
-                <td>{{ user.contract_type }}</td>
-                <td>{{ user.contract_percentage }}</td>
+                {%if user.level == 'admin' %}
+                <td>-</td>
+                {% else %}
+                <td>{{ user.team }}</td>
+                {% endif %}
                 <td>
                     <a href="{% url 'edit_user' user.id %}">
                     <button class="btn btn-secondary btn-sm">edit</button>

@@ -136,6 +136,19 @@ h4 {
     margin: 4px 2px;
 }
 
+.width-numbers {
+    width: 100px;
+}
+
+.profile-form-input {
+    width: 320px;
+}
+
+.control-label {
+    margin-top: 10px;
+    margin-bottom: 2px;
+}
+
 /* --------------------------------------------- Landing-page */
 
 .dark-row {
@@ -237,6 +250,12 @@ h4 {
 
 .width-t-weekday .profile-form-input{
     width: 40px;
+}
+
+/* --------------------------------------------- Settings */
+
+.full-table {
+    width: 100%;
 }
 
 /* --------------------------------------------- Stripe */
