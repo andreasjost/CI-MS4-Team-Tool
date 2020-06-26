@@ -16,6 +16,7 @@ def planning(request):
     and submit the current month+year
     """
     profile = get_object_or_404(UserProfile, user=request.user)
+    print("------------------------------")
     teams = Team.objects.filter(company_id=profile.company_id)
     company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
 
@@ -66,10 +67,12 @@ def planning(request):
 
                 # create a message in case a manager/admin created an event for another user
                 if profile.user_id != sel_user:
+                    first_name = profile.first_name
+                    last_name = profile.last_name
                     Notification.objects.create(
-                        message_sender=profile.first_name + " " + profile.last_name,
+                        message_sender=first_name + " " + last_name,
                         date=date.today(),
-                        message_text="An event has been changed on " + str(date_sel),
+                        message_text="A '" + data['category'] + "'-event has been created on " + str(date_sel),
                         user_id=sel_user
                     )
 

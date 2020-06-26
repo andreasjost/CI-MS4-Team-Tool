@@ -23,7 +23,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
                 </li>
             </ul>
@@ -59,11 +59,20 @@
         <br>
         {% if notifications|length > 0 %}
         {% for message in notifications %}
-        <p>Date: {{ message.date }}</p>
-        <p>Sender: {{ message_sender.date }}</p>
-        <p>{{ message.message_text }}</p>
-        <a class="float-right" href="{% url 'delete_message' message.id %}"><i class="far fa-trash-alt list-icon"></i></a>
-        <hr>
+        <div class="messages-wrapper">
+            <div row>
+                <div class="col-6">
+                    Date: {{ message.date }}
+                </div>
+                <div class="col-6">
+                    Sender: {{ message_sender.date }}
+                </div>
+                <div class="col-12">
+                    <a href="{% url 'delete_message' message.id %}"><i class="far fa-trash-alt list-icon"></i></a>
+                </div>
+            </div>
+            <p>{{ message.message_text }}</p>
+        </div>
         {% endfor %}
         {% else %}
         - There are currently no messages -
