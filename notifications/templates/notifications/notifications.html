@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% load static %}
-{% block extra_css %}
-    <link rel="stylesheet" href="{% static 'planning/css/planning.css' %}">
-{% endblock %}
 {% block content %}
 <header>
     <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
@@ -26,7 +23,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'coaching' %}">Coaching</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'notifications' %}">Messages</a>
                 </li>
             </ul>
@@ -53,21 +50,24 @@
         </div>
     </nav>
 </header>
-<section id="calendar">
-<br>
-<br>
-<br>
-<br>
-<div class="table-container">
-    <div class="month-table" id="weeks-container">
-        <!-- JS magic -->
+<section class="section-maincontent">
+    <div class="container-xl">
+        <h2>Notifications</h2>
+        <p>You will receive a message if a Manager or Admin is changing any of your shifts. Managers will get notified
+            when Agents finished their planning
+        </p>
+        <br>
+        {% if notifications|length > 0 %}
+        {% for message in notifications %}
+        <p>Date: {{ message.date }}</p>
+        <p>Sender: {{ message_sender.date }}</p>
+        <p>{{ message.message_text }}</p>
+        <a class="float-right" href="{% url 'delete_message' message.id %}"><i class="far fa-trash-alt list-icon"></i></a>
+        <hr>
+        {% endfor %}
+        {% else %}
+        - There are currently no messages -
+        {% endif %}
     </div>
-</div>
 </section>
-{% endblock %}
-
-{% block postloadjs %}
-    {{ block.super }}
-    <!-- script, see planning template -->
-   
 {% endblock %}

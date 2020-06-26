@@ -4,9 +4,9 @@ from profiles.models import UserProfile, CompanyProfile
 from settings.models import Team
 from django.contrib import messages
 from .models import Event
+from notifications.models import Notification
 from django.core import serializers  # used to use template variables in JS
-from datetime import datetime, timedelta
-from .forms import EventForm
+from datetime import datetime, timedelta, date
 
 
 @login_required
@@ -23,7 +23,7 @@ def planning(request):
         data = request.POST
 
         # in case of edit event
-        if data['event_id']:
+        if 'event_id' in data:
             event_selected = get_object_or_404(Event, pk=data['event_id'])
 
             # connect event to correct user
@@ -63,6 +63,15 @@ def planning(request):
                 )
 
                 messages.success(request, 'Event created successfully')
+
+                # create a message in case a manager/admin created an event for another user
+                if profile.user_id != sel_user:
+                    Notification.objects.create(
+                        message_sender=profile.first_name + " " + profile.last_name,
+                        date=date.today(),
+                        message_text="An event has been changed on " + str(date_sel),
+                        user_id=sel_user
+                    )
 
             except IndexError:
                 messages.success(request, 'An error occured')

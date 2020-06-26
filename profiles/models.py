@@ -71,16 +71,6 @@ class CompanyProfile(models.Model):
 
 @receiver(post_save, sender=User)
 def create_update_user_profile(sender, instance, created, **kwargs):
-    print("{################")
-    print("#  sender")
-    print(sender)
-    print("#  instance")
-    print(instance)
-    print("#  created")
-    print(created)
-    print("#  kwargs")
-    print(kwargs)
-    print("################}")
 
     # Create user profile
     if created:

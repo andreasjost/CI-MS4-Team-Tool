@@ -8,6 +8,7 @@ from .models import Team, Shift
 from .forms import CompanyProfileForm, TeamsForm, ShiftForm
 
 import stripe
+import datetime
 
 
 def settings_global(request):
