@@ -86,6 +86,7 @@
             <input type="time" name="end_time" id="edit-event-end"><br>
 
             <input type="hidden" id="hidden-event-id" name="event_id" value="0">
+            
             {% if profile.level == 'admin' or profile.level == 'manager' %}
                 <label for="set-user">Select a user</label><br>
                 <select id="set-user" name="user_id">

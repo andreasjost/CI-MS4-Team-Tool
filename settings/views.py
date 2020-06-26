@@ -1,16 +1,22 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.conf import settings
 
 from profiles.models import UserProfile, CompanyProfile
-from .models import Team, AgentRole, Shift
-from .forms import CompanyProfileForm, TeamsForm, AgentRoleForm, ShiftForm
+from .models import Team, Shift
+from .forms import CompanyProfileForm, TeamsForm, ShiftForm
+
+import stripe
 
 
 def settings_global(request):
     """
     Show the global settings According to the company id
     """
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
+
     profile = get_object_or_404(UserProfile, user=request.user)
     company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
 
@@ -25,11 +31,24 @@ def settings_global(request):
     else:
         form = CompanyProfileForm(instance=company)
 
+    # Something needs to happen here
+    stripe_total = 100
+
+    stripe.api_key = stripe_secret_key
+    intent = stripe.PaymentIntent.create(
+        amount=stripe_total,
+        currency=settings.STRIPE_CURRENCY,
+    )
+
+    print(intent)
+
     template = 'settings/settings_global.html'
     context = {
         'profile': profile,
         'company': company,
-        'form_company': form
+        'form_company': form,
+        'stripe_public_key': stripe_public_key,
+        'client_secret': intent.client_secret,
     }
 
     return render(request, template, context)

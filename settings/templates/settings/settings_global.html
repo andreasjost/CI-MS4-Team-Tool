@@ -49,96 +49,91 @@
 <section class="section-maincontent">
     <div class="container-xl">
         <h2>Global Settings</h2>
-        <form method="POST">
+        <form method="POST" id="payment-form">
             {% csrf_token %}
             <div class="row">
                 <div class="col-12 col-md-6">
-                <h3>Your company settings</h3>           
-            {{ form_company|crispy }}
-            </div>
+                    <h3>Your company settings</h3>
+                    {{ form_company|crispy }}
+                </div>
+                <!-- change the Plan -->
+                <div class="col col-12 col-md-6">
+                    <h3>Upgrade your Plan</h3>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="plan-select">
+                                <input type="radio" name="plan" value="one_value" checked />
+                                <div class="">
+                                    <h4 class="text-uppercase">Starter</h4>
+                                    12 Users<br>
+                                    1 Team<br>
+                                    <hr>
+                                    Free
+                                </div>
+                            </label>
+                        </div>
+                        <div class="col-6">
+                            <label class="plan-select">
+                                <input type="radio" name="plan" value="basic" />
+                                <div class="">
+                                    <h4 class="text-uppercase">Basic</h4>
+                                    24 Users <br>
+                                    2 Teams<br>
+                                    <hr>
+                                    &#x20AC; 2/month
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="plan-select">
+                                <input type="radio" name="plan" value="advanced" />
+                                <div class="">
+                                    <h4 class="text-uppercase">Advanced</h4>
+                                    40 Users<br>
+                                    4 Teams<br>
+                                    <hr>
+                                    &#x20AC; 4/month
+                                </div>
+                            </label>
+                        </div>
+                        <div class="col-6">
+                            <label class="plan-select">
+                                <input type="radio" name="plan" value="max" />
+                                <div class="">
+                                    <h4 class="text-uppercase">Max</h4>
+                                    120 Users<br>
+                                    12 Teams<br>
+                                    <hr>
+                                    &#x20AC; 10/month
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+            <label for="payment_rule">Initially sign up for:</label><br>
+            <select name="payment" id="payment_rule">
+                <option value="3">3 months</option>
+                <option value="6">6 months</option>
+                <option value="12">1 year</option>
+            </select>
+        
+        <fieldset class="px-3">
+            <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+            <!-- A Stripe card element will go here -->
+            <div class="mb-3" id="card-element"></div>
+            <!-- Used to display form errors -->
+            <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+            <!-- Pass the client secret to the view so we can get the payment intent id -->
+            <input type="hidden" value="{{ client_secret }}" name="client_secret">
+        </fieldset>
 
-            <!-- change the Plan -->
-            <div class="col col-12 col-md-6">
-                <h3>Upgrade your Plan</h3>
-            <div class="row">
-                <div class="col-6">
-                    <label class="plan-select">
-                        <input type="radio" name="plan" value="one_value" checked />
-                        <div class="">
-                            <h4 class="text-uppercase">Starter</h4>
-                            12 Users<br>
-                            1 Team<br>
-                            <hr>
-                            Free
-                        </div>
-                    </label>
+
                 </div>
-                <div class="col-6">
-                    <label class="plan-select">
-                        <input type="radio" name="plan" value="basic" />
-                        <div class="">
-                            <h4 class="text-uppercase">Basic</h4>
-                            24 Users <br>
-                            2 Teams<br>
-                            <hr>
-                            &#x20AC; 2/month
-                        </div>
-                    </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <label class="plan-select">
-                        <input type="radio" name="plan" value="advanced" />
-                        <div class="">
-                            <h4 class="text-uppercase">Advanced</h4>
-                            40 Users<br>
-                            4 Teams<br>
-                            <hr>
-                            &#x20AC; 4/month
-                        </div>
-                    </label>
-                </div>
-                <div class="col-6">
-                    <label class="plan-select">
-                        <input type="radio" name="plan" value="max" />
-                        <div class="">
-                            <h4 class="text-uppercase">Max</h4>
-                            120 Users<br>
-                            12 Teams<br>
-                            <hr>
-                            &#x20AC; 10/month
-                        </div>
-                    </label>
-                </div>
-            </div>
-            </div>
-            <button class="btn btn-primary float-right" type="submit">Save</button>
+                <button class="btn btn-primary float-right" type="submit">Save</button>
             </div>
         </form>
-
-         <div class="col-12 col-sm-6">
-                    <label for="payment_rule">Initially sign up for:</label><br>
-                    <select name="payment" id="payment_rule">
-                        <option value="3">3 months</option>
-                        <option value="6">6 months</option>
-                        <option value="12">1 year</option>
-                    </select>
-                </div>
         
-
-
-<fieldset class="px-3">
-                <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
-                <!-- A Stripe card element will go here -->
-                <div class="mb-3" id="card-element"></div>
-                <!-- Used to display form errors -->
-                <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-                <!-- Pass the client secret to the view so we can get the payment intent id -->
-                <input type="hidden" value="{{ client_secret }}" name="client_secret">
-            </fieldset>
-
-
 
         <br>
         <br>

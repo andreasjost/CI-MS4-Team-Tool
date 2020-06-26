@@ -116,6 +116,7 @@ h4 {
     display : block;
     width: 100%;
     padding: 5px;
+    margin-bottom: 15px;
 }
 
 .plan-select {
@@ -123,6 +124,7 @@ h4 {
     border-radius: 8px;
     display : block;
     width: 100%;
+    margin-bottom: 15px;
 }
 .plan-select div {
     padding: 5px;
