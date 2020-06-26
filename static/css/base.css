@@ -110,6 +110,14 @@ h4 {
 
 /* custom radio buttons to select the plan on signup */
 
+.plan-present {
+    background-color: #ccd9ff;
+    border-radius: 8px;
+    display : block;
+    width: 100%;
+    padding: 5px;
+}
+
 .plan-select {
     background-color: #ccd9ff;
     border-radius: 8px;

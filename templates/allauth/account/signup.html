@@ -9,62 +9,51 @@
 <section id="signup-form">
     <div class="container-xl">
         <h1>{% trans "Sign Up" %}</h1>
-        <h2>Get started with 4 simple steps</h2>
+        <h2>Get started by signing up to a free Starter-Plan</h2>
         <p class="small text-center">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">login</a>.{% endblocktrans %}</p>
+        <p>With the starter plan you can add 1 Team up to 12 users (including Managers and/or Admins). You can upgrade later to one of the
+           paid plans (see below for details) in the Global Settings after the sign up.</p>
         <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
             {% csrf_token %}
-            <h3>1. Choose your plan</h3>
             <div class="row">
                 <div class="col-6 col-sm-3">
-                    <label class="plan-select">
-                        <input type="radio" name="plan" value="one_value" checked />
-                        <div class="">
-                            <h4 class="text-uppercase">Starter</h4>
-                            12 Users<br>
-                            1 Team<br>
-                            <hr>
-                            Free
-                        </div>
-                    </label>
+                    <div class="plan-present">
+                        <h4 class="text-uppercase">Starter</h4>
+                        12 Users<br>
+                        1 Team<br>
+                        <hr>
+                        Free
+                    </div>
                 </div>
                 <div class="col-6 col-sm-3">
-                    <label class="plan-select">
-                        <input type="radio" name="plan" value="basic" />
-                        <div class="">
-                            <h4 class="text-uppercase">Basic</h4>
-                            24 Users <br>
-                            2 Teams<br>
-                            <hr>
-                            &#x20AC; 2/month
-                        </div>
-                    </label>
+                    <div class="plan-present">
+                        <h4 class="text-uppercase">Basic</h4>
+                        24 Users <br>
+                        2 Teams<br>
+                        <hr>
+                        &#x20AC; 2/month
+                    </div>
                 </div>
                 <div class="col-6 col-sm-3">
-                    <label class="plan-select">
-                        <input type="radio" name="plan" value="advanced" />
-                        <div class="">
-                            <h4 class="text-uppercase">Advanced</h4>
-                            40 Users<br>
-                            4 Teams<br>
-                            <hr>
-                            &#x20AC; 4/month
-                        </div>
-                    </label>
+                    <div class="plan-present">
+                        <h4 class="text-uppercase">Advanced</h4>
+                        40 Users<br>
+                        4 Teams<br>
+                        <hr>
+                        &#x20AC; 4/month
+                    </div>
                 </div>
                 <div class="col-6 col-sm-3">
-                    <label class="plan-select">
-                        <input type="radio" name="plan" value="max" />
-                        <div class="">
-                            <h4 class="text-uppercase">Max</h4>
-                            120 Users<br>
-                            12 Teams<br>
-                            <hr>
-                            &#x20AC; 10/month
-                        </div>
-                    </label>
+                    <div class="plan-present">
+                        <h4 class="text-uppercase">Max</h4>
+                        120 Users<br>
+                        12 Teams<br>
+                        <hr>
+                        &#x20AC; 10/month
+                    </div>
                 </div>
             </div>
-            <h3>2. Create an Admin account</h3>
+            <h3>1. Create an Admin account</h3>
             <div class="row">
                 <div class="col-12 col-sm-6">
                     {% for form_field in form %}
@@ -84,45 +73,14 @@
                     {% endif %}
                 </div>
             </div>
-            <h3>3. Add your company information </h3>
+            <h3>2. Add your company Name </h3>
             <div class="row">
                 <div class="col-12 col-sm-6">
                     <label for="company_name">Company Name</label>
                     <input type="text" id="company_name" name="company_name">
-                    <label for="street_address1">Street Address 1</label>
-                    <input type="text" id="street_address1" name="street_address1">
-                    <label for="street_address2">Street Address 2</label>
-                    <input type="text" id="street_address2" name="street_address2">
-                    <label for="country">Country</label>
-                    <input type="text" id="country" name="country">
-                    <label for="postcode">Postcode</label>
-                    <input type="text" id="postcode" name="postcode">
-                    <label for="town_or_city">Town or City</label>
-                    <input type="text" id="town_or_city" name="town_or_city">
-                </div>
-                <div class="col-12 col-sm-6">
-                    <label for="payment_rule">Initially sign up for:</label><br>
-                    <select name="payment" id="payment_rule">
-                        <option value="3">3 months</option>
-                        <option value="6">6 months</option>
-                        <option value="12">1 year</option>
-                    </select>
                 </div>
             </div>
-            <h3>4. Payment information </h3>
-            (Include: I agree to the terms and conditions)
-
-            <fieldset class="px-3">
-                <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
-                <!-- A Stripe card element will go here -->
-                <div class="mb-3" id="card-element"></div>
-                <!-- Used to display form errors -->
-                <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-                <!-- Pass the client secret to the view so we can get the payment intent id -->
-                <input type="hidden" value="{{ client_secret }}" name="client_secret">
-            </fieldset>
-
-
+            <p>By signing up you agree to the generel Terms and Conditions</p>
             <div class="allauth-btnwrapper">
                 <button class="btn btn-primary my-2 my-sm-0" type="submit">{% trans "Sign Up" %}</button>
             </div>
@@ -130,11 +88,4 @@
         </form>
     </div>
 </section>
-{% endblock %}
-
-{% block postloadjs %}
-    {{ block.super }}
-    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
-    {{ client_secret|json_script:"id_client_secret" }}
-    <script src="{% static 'js/stripe_elements.js' %}"></script>
 {% endblock %}
