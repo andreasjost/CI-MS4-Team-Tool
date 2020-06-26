@@ -109,3 +109,10 @@ form.addEventListener('submit', function(ev) {
         location.reload();
     })
 });
+
+// continue here:
+$(document).ready(function(){
+  $("input[type=radio").click(function(){
+    console.log($(this).val())
+  });
+});

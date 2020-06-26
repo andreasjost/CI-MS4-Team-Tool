@@ -6,7 +6,7 @@ from settings.models import Team, AgentRole, Shift
 class CompanyProfileForm(forms.ModelForm):
     class Meta:
         model = CompanyProfile
-        exclude = ('company_id',)
+        exclude = ('company_id', 'plan', 'signup_date', 'renewal_date')
 
     def __init__(self, *args, **kwargs):
         """
@@ -20,9 +20,6 @@ class CompanyProfileForm(forms.ModelForm):
             'country': 'Country or State',
             'postcode': 'Postcode',
             'town_or_city': 'Town or City',
-            'plan': 'Plan',
-            'signup_date': 'Date Signed up',
-            'renewal_date': 'Last Plan renewal',
             'payment': 'Paid for number of months',
             'setting_daystart': 'Hour when your day starts',
             'setting_dayend': 'hour when your day ends'

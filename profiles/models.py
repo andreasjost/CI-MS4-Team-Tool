@@ -60,8 +60,8 @@ class CompanyProfile(models.Model):
     postcode = models.CharField(max_length=20, null=True, blank=True)
     town_or_city = models.CharField(max_length=40, null=True, blank=True)
     plan = models.CharField(max_length=40, null=False, blank=False, default="starter")
-    signup_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    renewal_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    signup_date = models.DateField(auto_now_add=True, null=True, blank=True)
+    renewal_date = models.DateField(auto_now_add=True, null=True, blank=True)
     payment = models.DecimalField(max_digits=2, decimal_places=0, default=0)
 
     # global settings: On what weekday does the week start

@@ -10,7 +10,7 @@ urlpatterns = [
     path('edit_team/<int:team_id>/', views.edit_team, name='edit_team'),
     path('delete_team/<int:team_id>/', views.delete_team, name='delete_team'),
     path('add_team/', views.add_team, name='add_team'),
-
+    path('change_plan/', views.change_plan, name='change_plan'),
 ]
 
 # disabled roles due to time pressure. Left to resume later:

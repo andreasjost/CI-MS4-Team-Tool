@@ -14,8 +14,6 @@ def settings_global(request):
     """
     Show the global settings According to the company id
     """
-    stripe_public_key = settings.STRIPE_PUBLIC_KEY
-    stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     profile = get_object_or_404(UserProfile, user=request.user)
     company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
@@ -31,6 +29,41 @@ def settings_global(request):
     else:
         form = CompanyProfileForm(instance=company)
 
+    template = 'settings/settings_global.html'
+    context = {
+        'profile': profile,
+        'company': company,
+        'form_company': form,
+    }
+
+    return render(request, template, context)
+
+
+def change_plan(request):
+    """
+    Show the global settings According to the company id
+    """
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
+
+    profile = get_object_or_404(UserProfile, user=request.user)
+    company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
+
+    if request.method == 'POST':
+        data = request.POST
+        try:
+            company.plan = data['plan']
+            company.payment = data['payment']
+            company.renewal_date = datetime.date.today()
+            # company.save()
+            messages.success(request, 'Event changed successfully')
+
+        except IndexError:
+            messages.error(request, 'An error occured')
+
+    else:
+        form = CompanyProfileForm(instance=company)
+
     # Something needs to happen here
     stripe_total = 100
 
@@ -40,9 +73,7 @@ def settings_global(request):
         currency=settings.STRIPE_CURRENCY,
     )
 
-    print(intent)
-
-    template = 'settings/settings_global.html'
+    template = 'settings/change_plan.html'
     context = {
         'profile': profile,
         'company': company,
@@ -282,105 +313,3 @@ def add_shift(request):
         }
 
         return render(request, template, context)
-
-
-# Roles discontinued due to time pressure. Resume later:
-
-"""
-@login_required
-def roles(request):
-
-    # Show all roles related to the company
-
-    profile = get_object_or_404(UserProfile, user=request.user)
-    roles = AgentRole.objects.filter(company_id=profile.company_id)
-
-    template = 'settings/roles.html'
-    context = {
-        'roles': roles,
-        'profile': profile
-    }
-    return render(request, template, context)
-
-
-@login_required
-def edit_role(request, role_id):
-    # Edit a role, out of the roles
-
-
-    profile = get_object_or_404(UserProfile, user=request.user)
-    role_selected = get_object_or_404(AgentRole, pk=role_id)
-
-    if request.method == 'POST':
-        form = AgentRoleForm(request.POST, instance=role_selected)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Role edited successfully')
-            roles = AgentRole.objects.filter(company_id=profile.company_id)
-            template = 'settings/roles.html'
-            context = {
-                'roles': roles,
-                'profile': profile
-            }
-            return render(request, template, context)
-
-        else:
-            print("failed")
-    else:
-        form = AgentRoleForm(instance=role_selected)
-
-    roles = AgentRole.objects.filter(company_id=profile.company_id)
-    template = 'settings/edit_role.html'
-    context = {
-        'form': form,
-        'roles': roles,
-        'role_selected': role_selected,
-        'profile': profile
-    }
-
-    return render(request, template, context)
-
-
-@login_required
-def add_role(request):
-
-    # Add a new role
-
-    profile = get_object_or_404(UserProfile, user=request.user)
-    # put some logic that only managers and admins can add a user
-
-
-    if request.method == 'POST':
-        form = AgentRoleForm(request.POST)
-        if form.is_valid():
-            role = form.save(commit=False)
-            role.company_id = profile.company_id
-            role.save()
-            messages.success(request, 'Profile updated successfully')
-
-        else:
-            messages.error(request, 'Save failed. Please ensure the form is valid.')
-
-        roles = AgentRole.objects.filter(company_id=profile.company_id)
-
-        template = 'settings/roles.html'
-        context = {
-            'roles': roles,
-            'profile': profile
-        }
-        return render(request, template, context)
-
-    else:
-        form = AgentRoleForm()
-        roles = AgentRole.objects.filter(company_id=profile.company_id)
-
-        template = 'settings/add_role.html'
-        context = {
-            'form': form,
-            'profile': profile,
-            'roles': roles
-        }
-
-        return render(request, template, context)
-
-"""
