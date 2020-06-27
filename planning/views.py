@@ -7,6 +7,7 @@ from .models import Event
 from notifications.models import Notification
 from django.core import serializers  # used to use template variables in JS
 from datetime import datetime, timedelta, date
+import json
 
 
 @login_required
@@ -171,10 +172,25 @@ def planning(request):
 
 @login_required
 def delete_event(request, event_id):
-    """ delete an event from the planning """
+    """
+    delete an event from the planning
+    """
+    # profile = get_object_or_404(UserProfile, user=request.user)
     event = get_object_or_404(Event, pk=event_id)
+    # sel_user = event.user_id
     event.delete()
     messages.success(request, 'Event deleted!')
+
+    # if profile.user_id != sel_user:
+    #     first_name = profile.first_name
+    #     last_name = profile.last_name
+    #     Notification.objects.create(
+    #         message_sender=first_name + " " + last_name,
+    #         date=date.today(),
+    #         message_text="A '" + data['category'] + "'-event has been created on " + str(date_sel),
+    #         user_id=sel_user
+    #     )
+
     return redirect(reverse('planning', ))
 
 
@@ -197,3 +213,43 @@ def summary(request, user_id):
     }
 
     return render(request, template, context)
+
+
+def copy_event(request):
+    """
+    view called after user has selected target day(s) to copy events to
+    """
+    # get the selected days from JS
+    selected_days = json.loads(request.POST['selected_days'])
+    selected_user = request.POST['selected_user']
+
+    # get the events to copy from the 'source'-day
+    sel_month = int(request.session['sel_month'])
+    sel_year = int(request.session['sel_year'])
+    sel_day = int(selected_days[0])
+    events_filtered = Event.objects.filter(date__month=sel_month,
+                                           date__year=sel_year,
+                                           date__day=sel_day,
+                                           user_id=selected_user)
+    for i in range(1, len(selected_days)):
+
+        # 1. delete existing events in the 'target'-days
+        events_clear = Event.objects.filter(date__month=sel_month,
+                                            date__year=sel_year,
+                                            date__day=selected_days[i],
+                                            user_id=selected_user)
+        events_clear.all().delete()
+
+        for j in events_filtered:
+            date_sel = j.date
+            date_new = date_sel.replace(day=int(selected_days[i]))
+            Event.objects.create(
+                    category=j.category,
+                    date=date_new,
+                    start_time=j.start_time,
+                    end_time=j.end_time,
+                    user_id=j.user_id,
+                    status=j.status,
+            )
+
+    return redirect(reverse('planning', ))

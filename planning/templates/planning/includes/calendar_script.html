@@ -13,7 +13,10 @@ const endHour = parseInt(chosenDaySpan.end);
 const hoursRange = endHour - startHour;
 
 // variable for the day selected. 0 if nothing selected.
-let day_selected = 0;
+let daySelected = 0;
+
+// Array for copying events to different days
+let copyDaysSelected = [];
 
 // mode: 0 = normal, 1 = copy
 let copyMode = false;
@@ -43,7 +46,7 @@ $(document).ready(function() {
                 $(this).parent().removeClass('expand-day');
                 $(this).find('div.expand-time').removeClass('show-timescale');
                 $('.create-event-btn, .jcopy-btn').addClass('btn-inactive');
-                day_selected = 0;
+                daySelected = 0;
             }
             else {
                 $('.expand-day').removeClass('expand-day');
@@ -51,8 +54,8 @@ $(document).ready(function() {
                 $(this).parent().addClass('expand-day');
                 $(this).find('div.expand-time').addClass('show-timescale');
                 $('.create-event-btn, .jcopy-btn').removeClass('btn-inactive');
-                day_selected = $(this).find('span.day-display').text();
-                $('.hidden-day').val(day_selected);
+                daySelected = $(this).find('span.day-display').text();
+                $('.hidden-day').val(daySelected);
             }
             $(this).find('div.time-label').remove();
             x = expandedDayWidth / hoursRange; // for the with of the time grid
@@ -63,8 +66,19 @@ $(document).ready(function() {
                 $(this).find('div.expand-time').append(el);
             }
         } else {
+
+            // if statement to make sure that the source date cannot get selected as a target
             if (!$(this).hasClass("selected-column")) {
                 $(this).toggleClass('copyto-column');
+
+                // get the days which were selected as a target and add it to an array
+                clickedOn = $(this).find('span.day-display').text();
+                if (copyDaysSelected.includes(clickedOn)) {
+                    index = copyDaysSelected.indexOf(clickedOn);
+                    copyDaysSelected.splice(index);
+                } else {
+                    copyDaysSelected.push(clickedOn);
+                }
             }
         }
     });
@@ -259,20 +273,30 @@ Date.prototype.getWeek = function() {
 function copyEvents() {
     $('.button-panel').hide();
     $('.copy-panel').show();
-    selectedColumn = $(`.day-display:contains("${day_selected}"):first`);
+    selectedColumn = $(`.day-display:contains("${daySelected}"):first`);
     selectedColumn.parent().parent().parent().removeClass('expand-day');
     selectedColumn.parent().find('div.expand-time').removeClass('show-timescale');
     selectedColumn.parent().parent().addClass('selected-column');
     copyMode = true;
-    
+    copyDaysSelected = [daySelected];
 }
 
-/*
- 
-    
+function commitCopy() {
+    copyMode = false
 
-day_selected = $(this).find('span.day-display').text();
-*/
+    let jsonSelectedDays = JSON.stringify(copyDaysSelected);
+
+    let URL="{% url 'copy_event' %}"
+    var selectedUser = $("#set-user option:selected").val();
+    let post_data = {
+        'csrfmiddlewaretoken':"{{ csrf_token }}",
+        'selected_days': jsonSelectedDays,
+        'selected_user': selectedUser
+    }
+
+    $.post(URL, post_data);
+
+}
 
 
 </script>

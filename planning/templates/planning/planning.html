@@ -80,7 +80,7 @@
                     {% endfor %}
                 </select>
                 {% endif %}
-                <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.previous }}"><i class="fas fa-check"></i></a>
+                <a class="control-btn" onclick="commitCopy()" href="javascript:void(0);"><i class="fas fa-check"></i></a>
                 <a class="control-btn" id="cancel-copy" href="{% url 'planning' %}"><i class="fas fa-times"></i></a>
                 <br>
                 <p class="small text-justify">Click on all the days where you want to copy the selected date, followed by clicking the check mark.
