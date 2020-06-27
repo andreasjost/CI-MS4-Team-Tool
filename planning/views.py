@@ -16,7 +16,6 @@ def planning(request):
     and submit the current month+year
     """
     profile = get_object_or_404(UserProfile, user=request.user)
-    print("------------------------------")
     teams = Team.objects.filter(company_id=profile.company_id)
     company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
 
@@ -131,14 +130,19 @@ def planning(request):
 
         if 'team' in request.GET:
             team = request.GET['team']
+            request.session['sel_team'] = team
 
         elif profile.level == 'agent' or profile.level == 'manager':
             team = profile.team
+            if 'sel_team' not in request.session:
+                request.session['sel_team'] = team
 
         else:
-            team = teams[0]
+            team = str(teams[0])
+            if 'sel_team' not in request.session:
+                request.session['sel_team'] = team
 
-        users_select = UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=team)
+        users_select = UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=request.session['sel_team'])
         events_filtered = Event.objects.filter(date__month=sel_month, date__year=sel_year)
 
         # preparing data to read in JS
@@ -155,7 +159,7 @@ def planning(request):
             'users_select': users_select,
             'users': users,
             'teams': teams,
-            'current_team': team,
+            'current_team': request.session['sel_team'],
             'mmyyyy': now_json,
             'daySpan': dayspan_json,
             'nav_month': navmonth,
