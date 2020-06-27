@@ -183,7 +183,6 @@ def delete_event(request, event_id):
     messages.success(request, 'Event deleted!')
 
     # create a message in case a manager/admin deleted an event of another user
-
     if profile.user_id != sel_user.user_id:
         full_name = profile.first_name + " " + profile.last_name
         Notification.objects.create(

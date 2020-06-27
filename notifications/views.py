@@ -6,6 +6,7 @@ from profiles.models import UserProfile
 from .models import Notification
 
 
+@login_required
 def notifications(request):
     """
     Show all notifications
