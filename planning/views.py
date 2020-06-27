@@ -66,11 +66,10 @@ def planning(request):
                 messages.success(request, 'Event created successfully')
 
                 # create a message in case a manager/admin created an event for another user
-                if profile.user_id != sel_user:
-                    first_name = profile.first_name
-                    last_name = profile.last_name
+                if profile.user_id != sel_user.user_id:
+                    full_name = profile.first_name + " " + profile.last_name
                     Notification.objects.create(
-                        message_sender=first_name + " " + last_name,
+                        message_sender=full_name,
                         date=date.today(),
                         message_text="A '" + data['category'] + "'-event has been created on " + str(date_sel),
                         user_id=sel_user
@@ -134,7 +133,7 @@ def planning(request):
             request.session['sel_team'] = team
 
         elif profile.level == 'agent' or profile.level == 'manager':
-            team = profile.team
+            team = str(profile.team)
             if 'sel_team' not in request.session:
                 request.session['sel_team'] = team
 
@@ -175,21 +174,24 @@ def delete_event(request, event_id):
     """
     delete an event from the planning
     """
-    # profile = get_object_or_404(UserProfile, user=request.user)
+    profile = get_object_or_404(UserProfile, user=request.user)
     event = get_object_or_404(Event, pk=event_id)
-    # sel_user = event.user_id
+    sel_user = event.user_id
+    event_category = event.category
+    event_date = event.date
     event.delete()
     messages.success(request, 'Event deleted!')
 
-    # if profile.user_id != sel_user:
-    #     first_name = profile.first_name
-    #     last_name = profile.last_name
-    #     Notification.objects.create(
-    #         message_sender=first_name + " " + last_name,
-    #         date=date.today(),
-    #         message_text="A '" + data['category'] + "'-event has been created on " + str(date_sel),
-    #         user_id=sel_user
-    #     )
+    # create a message in case a manager/admin deleted an event of another user
+
+    if profile.user_id != sel_user.user_id:
+        full_name = profile.first_name + " " + profile.last_name
+        Notification.objects.create(
+            message_sender=full_name,
+            date=date.today(),
+            message_text="A '" + event_category + "'-event has been deleted on " + str(event_date),
+            user_id=sel_user
+        )
 
     return redirect(reverse('planning', ))
 
@@ -219,9 +221,14 @@ def copy_event(request):
     """
     view called after user has selected target day(s) to copy events to
     """
+    profile = get_object_or_404(UserProfile, user=request.user)
+    selected_user = str(profile.user_id)
+
+    if profile.level == 'admin' or profile.level == 'manager':
+        selected_user = request.POST['selected_user']
+
     # get the selected days from JS
     selected_days = json.loads(request.POST['selected_days'])
-    selected_user = request.POST['selected_user']
 
     # get the events to copy from the 'source'-day
     sel_month = int(request.session['sel_month'])
@@ -240,6 +247,7 @@ def copy_event(request):
                                             user_id=selected_user)
         events_clear.all().delete()
 
+        # 2. Copy an event to the new date
         for j in events_filtered:
             date_sel = j.date
             date_new = date_sel.replace(day=int(selected_days[i]))

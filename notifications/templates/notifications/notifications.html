@@ -60,18 +60,17 @@
         {% if notifications|length > 0 %}
         {% for message in notifications %}
         <div class="messages-wrapper">
-            <div row>
-                <div class="col-6">
+            <div class="row">
+                <div class="col-12 col-sm-6">
                     Date: {{ message.date }}
                 </div>
-                <div class="col-6">
-                    Sender: {{ message_sender.date }}
-                </div>
-                <div class="col-12">
-                    <a href="{% url 'delete_message' message.id %}"><i class="far fa-trash-alt list-icon"></i></a>
+                <div class="col-12 col-sm-6">
+                    Triggered by: {{ message.message_sender }}
                 </div>
             </div>
             <p>{{ message.message_text }}</p>
+            <a class="float-right" href="{% url 'delete_message' message.id %}"><i class="far fa-trash-alt list-icon"></i></a>
+            <hr>
         </div>
         {% endfor %}
         {% else %}
