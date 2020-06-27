@@ -220,7 +220,8 @@ function colorBar(oneEvent) {
         $("#set-category > [value=" + oneEvent.fields.category + "]").attr("selected", "true");
         $('#set-user option:selected').removeAttr('selected');
         $("#set-user > [value=" + oneEvent.fields.user_id + "]").attr("selected", "true");
-        $('#hidden-event-id').val(oneEvent.pk); 
+        $('#hidden-event-id').val(oneEvent.pk);
+        $('#delete-btn').attr("href", `delete_event/${oneEvent.pk}/`);
         $('#editEventModal').modal('show');
     });
 
