@@ -1,108 +1,112 @@
 <!DOCTYPE html>
-
 <!-- Modal for a new event -->
 <div class="modal fade" id="newEventModal" tabindex="-1" role="dialog" aria-labelledby="newEventModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="newEventModalLabel">New event</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="post">
-        {% csrf_token %}
-            <label for="sel-category">Category:</label><br>
-            <select id="sel-category" name="category">
-                <option value="work">Work</option>
-                <option value="training">Training</option>
-                <option value="meeting">Meeting</option>
-                <option value="holidays">Holidays</option>
-                <option value="sick">Sick</option>
-                <option value="leave">Leave</option>
-                <option value="lunch">Lunch break</option>
-                <option value="dinner">Dinner break</option>
-                <option value="break">Paid break</option>
-                <option value="absence">Absence</option>
-            </select>
-            <br>
-            <label for="fname">Start time:</label><br>
-            <input type="time" name="start_time" value="08:00"><br>
-            <label for="lname">End time:</label><br>
-            <input type="time" name="end_time" value="17:00"><br>
-           
-            
-            <input type="hidden" class="hidden-day" name="day" value="0">
-            {% if profile.level == 'admin' or profile.level == 'manager' %}
-                <label for="sel-user">Select a user</label><br>
-                <select id="sel-user" name="user_id">
-                    {% for user in users_select %}
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="newEventModalLabel">New event</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <label for="sel-category">Category: </label>
+                    <select id="sel-category" name="category">
+                        <option value="work">Work</option>
+                        <option value="training">Training</option>
+                        <option value="meeting">Meeting</option>
+                        <option value="holidays">Holidays</option>
+                        <option value="sick">Sick</option>
+                        <option value="leave">Leave</option>
+                        <option value="lunch">Lunch break</option>
+                        <option value="dinner">Dinner break</option>
+                        <option value="break">Paid break</option>
+                        <option value="absence">Absence</option>
+                    </select>
+                    <br>
+                    <label for="fname">Start time: </label>
+                    <input type="time" name="start_time" value="08:00"><br>
+                    <label for="lname">End time: </label>
+                    <input type="time" name="end_time" value="17:00"><br>
+                    <input type="hidden" class="hidden-day" name="day" value="0">
+                    {% if profile.level == 'admin' or profile.level == 'manager' %}
+                    <label for="sel-user">Select a user </label>
+                    <select id="sel-user" name="user_id">
+                        {% for user in users_select %}
                         <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
-                    {% endfor %}
-                </select>
-                <input type="hidden" name="status" value="1">
-            {% else %}
-                <input type="hidden" name="user_id" value="{{ profile.id }}">
-                <input type="hidden" name="status" value="0">
-            {% endif %}
-            <input type="submit" value="Submit">
-        </form>
-      </div>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="status" value="1">
+                    {% else %}
+                    <input type="hidden" name="user_id" value="{{ profile.id }}">
+                    <input type="hidden" name="status" value="0">
+                    {% endif %}
+                    <div class="float-right">
+                        <button class="btn-invisible" type="submit">
+                            <a href=""><i class="far fa-save list-icon"></i></a>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- Modal to edit an event -->
 <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="editEventModalLabel">Edit event</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="post">
-        {% csrf_token %}
-            <label for="set-category">Category:</label><br>
-            <select id="set-category" name="category">
-                <option value="work">Work</option>
-                <option value="training">Training</option>
-                <option value="meeting">Meeting</option>
-                <option value="holidays">Holidays</option>
-                <option value="sick">Sick</option>
-                <option value="leave">Leave</option>
-                <option value="lunch">Lunch break</option>
-                <option value="dinner">Dinner break</option>
-                <option value="break">Paid break</option>
-                <option value="absence">Absence</option>
-            </select>
-            <br>
-            <label for="fname">Start time:</label><br>
-            <input type="time" name="start_time" id="edit-event-start"><br>
-            <label for="lname">End time:</label><br>
-            <input type="time" name="end_time" id="edit-event-end"><br>
-
-            <input type="hidden" id="hidden-event-id" name="event_id" value="0">
-            
-            {% if profile.level == 'admin' or profile.level == 'manager' %}
-                <label for="set-user">Select a user</label><br>
-                <select id="set-user" name="user_id">
-                    {% for user in users_select %}
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editEventModalLabel">Edit event</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <label for="set-category">Category: </label>
+                    <select id="set-category" name="category">
+                        <option value="work">Work</option>
+                        <option value="training">Training</option>
+                        <option value="meeting">Meeting</option>
+                        <option value="holidays">Holidays</option>
+                        <option value="sick">Sick</option>
+                        <option value="leave">Leave</option>
+                        <option value="lunch">Lunch break</option>
+                        <option value="dinner">Dinner break</option>
+                        <option value="break">Paid break</option>
+                        <option value="absence">Absence</option>
+                    </select>
+                    <br>
+                    <label for="fname">Start time: </label>
+                    <input type="time" name="start_time" id="edit-event-start"><br>
+                    <label for="lname">End time: </label>
+                    <input type="time" name="end_time" id="edit-event-end"><br>
+                    <input type="hidden" id="hidden-event-id" name="event_id" value="0">
+                    {% if profile.level == 'admin' or profile.level == 'manager' %}
+                    <label for="set-user">Select a user </label>
+                    <select id="set-user" name="user_id">
+                        {% for user in users_select %}
                         <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
-                    {% endfor %}
-                </select>
-                <input type="hidden" name="status" value="1">
-            {% else %}
-                <input type="hidden" name="user_id" value="{{ profile.id }}">
-                <input type="hidden" name="status" value="0">
-            {% endif %}
-            <input type="submit" value="Submit">
-            <a id="delete-btn"><i class="far fa-trash-alt list-icon"></i></a>
-        </form>
-      </div>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="status" value="1">
+                    {% else %}
+                    <input type="hidden" name="user_id" value="{{ profile.id }}">
+                    <input type="hidden" name="status" value="0">
+                    {% endif %}
+                    <br>
+                    <div class="float-right">
+                        <button class="btn-invisible" type="submit">
+                            <a href=""><i class="far fa-save list-icon"></i></a>
+                        </button>
+                        <a id="delete-btn"><i class="far fa-trash-alt list-icon"></i></a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
