@@ -179,14 +179,14 @@ def edit_team(request, team_id):
     else:
         form = TeamsForm(instance=team_selected)
 
-    teams = Team.objects.filter(company_id=profile.company_id)
-    template = 'settings/edit_team.html'
-    context = {
-        'form': form,
-        'teams': teams,
-        'team_selected': team_selected,
-        'profile': profile
-    }
+        teams = Team.objects.filter(company_id=profile.company_id)
+        template = 'settings/edit_team.html'
+        context = {
+            'form': form,
+            'teams': teams,
+            'team_selected': team_selected,
+            'profile': profile
+        }
 
     return render(request, template, context)
 

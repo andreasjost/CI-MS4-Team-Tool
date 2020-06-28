@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'planning/css/planning.css' %}">
+<link rel="stylesheet" href="{% static 'planning/css/planning.css' %}">
 {% endblock %}
 {% block content %}
 <header>
@@ -63,68 +63,76 @@
         {% for session in coaching %}
         {% if session.id == session_selected.id %}
         <form method="POST">
-        <div class="messages-wrapper">
-            <div class="row">
-                <div class="col-12 col-sm-4">
-                    Date: {{ session.date }}
+            {% csrf_token %}
+            <div class="messages-wrapper">
+                <div class="row">
+                    <div class="col-12 col-sm-4">
+                        Date: {{ session.date }}
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        Manager: {{ session.manager }}
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        Field: {{ session.field }}
+                    </div>
                 </div>
-                <div class="col-12 col-sm-4">
-                    Manager: {{ session.manager }}
+                <hr>
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        What went well?<br>
+                        {{ form.good }}
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        Points to improve<br>
+                        {{ form.improve }}
+                    </div>
                 </div>
-                <div class="col-12 col-sm-4">
-                    Field: {{ session.field }}
+                <div class="row">
+                    <div class="col-12">
+                        Goal until the next session<br>
+                        {{ form.goal }}
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-sm-6">
-                    What went well?<br>
-                    {{ form.good }}
-                </div>
-                <div class="col-12 col-sm-6">
-                    Points to improve<br>
-                    {{ form.improve }}
-                </div>
-            </div>
-            <div class="row">
-                Goal until the next session<br>
-                {{ form.goal }}
-            </div>
-            <button class="btn-invisible" type="submit">
+                <button class="btn-invisible" type="submit">
                 <a href=""><i class="far fa-save list-icon"></i></a>
-            </button>
-             <a href="{% url 'coaching' %}"><i class="fas fa-times list-icon"></i></a>
-            <hr>
-            </form>
-        </div>
+                </button>
+                <a href="{% url 'coaching' %}"><i class="fas fa-times list-icon"></i></a>
+                <hr>
+            </div>
+        </form>
         {% else %}
         <div class="messages-wrapper">
             <div class="row">
                 <div class="col-12 col-sm-4">
-                    Date: {{ session.date }}
+                    <em>Date: </em>{{ session.date }}
                 </div>
                 <div class="col-12 col-sm-4">
-                    Manager: {{ session.manager }}
+                    <em>Manager: </em>{{ session.manager }}
                 </div>
                 <div class="col-12 col-sm-4">
-                    Field: {{ session.field }}
+                    <em>Field: </em>{{ session.field }}
                 </div>
             </div>
+            <hr>
             <div class="row">
                 <div class="col-12 col-sm-6">
-                    What went well?<br>
+                    <em>What went well?</em><br>
                     {{ session.good }}
                 </div>
                 <div class="col-12 col-sm-6">
-                    Points to improve<br>
+                    <em>Points to improve</em><br>
                     {{ session.improve }}
                 </div>
             </div>
+            <br>
             <div class="row">
-                Goal until the next session<br>
-                {{ session.goal }}
+                <div class="col-12">
+                    <em>Goal until the next session</em><br>
+                    {{ session.goal }}
+                </div>
             </div>
             <a class="float-right" href="{% url 'delete_session' session.id %}"><i class="far fa-trash-alt list-icon"></i></a>
-            <hr>
+            <br>
         </div>
         {% endif %}
         {% endfor %}
@@ -134,9 +142,7 @@
     </div>
 </section>
 {% endblock %}
-
 {% block postloadjs %}
-    {{ block.super }}
-    <!-- script, see planning template -->
-   
+{{ block.super }}
+<!-- script, see planning template -->
 {% endblock %}

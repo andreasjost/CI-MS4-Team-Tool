@@ -58,6 +58,7 @@
         <h2>Add a new coaching session</h2>
         <p>Discuss the content of a new session together with the Agent. The Agent can see the sessions,
         but not make any changes or delete them</p>
+        <h3>Selected Agent: {{ current_agent }} </h3>
         <form method="POST">
             {% csrf_token %}    
             {{ form|crispy }}
@@ -70,31 +71,35 @@
         <div class="messages-wrapper">
             <div class="row">
                 <div class="col-12 col-sm-4">
-                    Date: {{ session.date }}
+                    <em>Date: </em>{{ session.date }}
                 </div>
                 <div class="col-12 col-sm-4">
-                    Manager: {{ session.manager }}
+                    <em>Manager: </em>{{ session.manager }}
                 </div>
                 <div class="col-12 col-sm-4">
-                    Field: {{ session.field }}
+                    <em>Field: </em>{{ session.field }}
                 </div>
             </div>
+            <hr>
             <div class="row">
                 <div class="col-12 col-sm-6">
-                    What went well?<br>
-                    {{ session.date }}
+                    <em>What went well?</em><br>
+                    {{ session.good }}
                 </div>
                 <div class="col-12 col-sm-6">
-                    Points to improve<br>
-                    {{ session.manager }}
+                    <em>Points to improve</em><br>
+                    {{ session.improve }}
                 </div>
             </div>
+            <br>
             <div class="row">
-                Goal until the next session<br>
+                <div class="col-12">
+                <em>Goal until the next session</em><br>
                 {{ session.goal }}
+                </div>
             </div>
             <a class="float-right" href="{% url 'delete_session' session.id %}"><i class="far fa-trash-alt list-icon"></i></a>
-            <hr>
+            <br>
         </div>
         {% endfor %}
         {% else %}

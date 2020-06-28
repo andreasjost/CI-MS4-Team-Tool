@@ -56,41 +56,59 @@
 <section class="section-maincontent">
     <div class="container-xl">
         <a class="float-right" href="{% url 'add_session' %}">
-        <button class="btn btn-primary add-button">Add Session</button>
+            <button class="btn btn-primary add-button">Add Session</button>
+        </a>
         <h2>Coaching</h2>
-        <p>This section is for the development of Agents. Managers and Agents can track their coaching sessions
-        </p>
+        <p>This section is for the development of Agents. Managers and Agents can track their coaching sessions</p>
+        {% if profile.level == 'manager' %}
+            <div class="dropdown show">
+                Select an Agent: 
+                <a class="dropdown-toggle" href="#" role="button" id="agents_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ current_agent }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    {% for user in users_select %}
+                     <a class="dropdown-item" href="{% url 'coaching' %}?agent={{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
         <br>
         {% if coaching|length > 0 %}
         {% for session in coaching %}
         <div class="messages-wrapper">
             <div class="row">
                 <div class="col-12 col-sm-4">
-                    Date: {{ session.date }}
+                    <em>Date: </em>{{ session.date }}
                 </div>
                 <div class="col-12 col-sm-4">
-                    Manager: {{ session.manager }}
+                    <em>Manager: </em>{{ session.manager }}
                 </div>
                 <div class="col-12 col-sm-4">
-                    Field: {{ session.field }}
+                    <em>Field: </em>{{ session.field }}
                 </div>
             </div>
+            <hr>
             <div class="row">
                 <div class="col-12 col-sm-6">
-                    What went well?<br>
+                    <em>What went well?</em><br>
                     {{ session.good }}
                 </div>
                 <div class="col-12 col-sm-6">
-                    Points to improve<br>
+                    <em>Points to improve</em><br>
                     {{ session.improve }}
                 </div>
             </div>
+            <br>
             <div class="row">
-                Goal until the next session<br>
+                <div class="col-12">
+                <em>Goal until the next session</em><br>
                 {{ session.goal }}
+                </div>
             </div>
-            <a class="float-right" href="{% url 'delete_message' message.id %}"><i class="far fa-trash-alt list-icon"></i></a>
-            <hr>
+            <a href="{% url 'edit_session' session.id %}"><i class="far fa-edit"></i></a>
+            <a class="float-right" href="{% url 'delete_session' session.id %}"><i class="far fa-trash-alt"></i></a>
+            <br>
         </div>
         {% endfor %}
         {% else %}
