@@ -55,14 +55,48 @@
 </header>
 <section class="section-maincontent">
     <div class="container-xl">
-        <a class="float-right" href="{% url 'add_session' %}">
-        <button class="btn btn-primary add-button">Add Session</button>
-        <h2>Coaching</h2>
-        <p>This section is for the development of Agents. Managers and Agents can track their coaching sessions
+        <h2>Edit coaching session</h2>
+        <p>The Agent receives a notification if you make changes to the sessions.
         </p>
         <br>
         {% if coaching|length > 0 %}
         {% for session in coaching %}
+        {% if session.id == session_selected.id %}
+        <form method="POST">
+        <div class="messages-wrapper">
+            <div class="row">
+                <div class="col-12 col-sm-4">
+                    Date: {{ session.date }}
+                </div>
+                <div class="col-12 col-sm-4">
+                    Manager: {{ session.manager }}
+                </div>
+                <div class="col-12 col-sm-4">
+                    Field: {{ session.field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    What went well?<br>
+                    {{ form.good }}
+                </div>
+                <div class="col-12 col-sm-6">
+                    Points to improve<br>
+                    {{ form.improve }}
+                </div>
+            </div>
+            <div class="row">
+                Goal until the next session<br>
+                {{ form.goal }}
+            </div>
+            <button class="btn-invisible" type="submit">
+                <a href=""><i class="far fa-save list-icon"></i></a>
+            </button>
+             <a href="{% url 'coaching' %}"><i class="fas fa-times list-icon"></i></a>
+            <hr>
+            </form>
+        </div>
+        {% else %}
         <div class="messages-wrapper">
             <div class="row">
                 <div class="col-12 col-sm-4">
@@ -89,9 +123,10 @@
                 Goal until the next session<br>
                 {{ session.goal }}
             </div>
-            <a class="float-right" href="{% url 'delete_message' message.id %}"><i class="far fa-trash-alt list-icon"></i></a>
+            <a class="float-right" href="{% url 'delete_session' session.id %}"><i class="far fa-trash-alt list-icon"></i></a>
             <hr>
         </div>
+        {% endif %}
         {% endfor %}
         {% else %}
         - There are no recorded coaching sessions yet -

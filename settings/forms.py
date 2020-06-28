@@ -1,6 +1,6 @@
 from django import forms
 from profiles.models import CompanyProfile
-from settings.models import Team, AgentRole, Shift
+from .models import Team, AgentRole, Shift
 
 
 class CompanyProfileForm(forms.ModelForm):
