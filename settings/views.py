@@ -11,21 +11,27 @@ import stripe
 import datetime
 
 
+@login_required
 def settings_global(request):
     """
     Show the global settings According to the company id
     """
-
     profile = get_object_or_404(UserProfile, user=request.user)
+
     company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
 
     if request.method == 'POST':
-        form = CompanyProfileForm(request.POST, instance=company)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile updated successfully')
+        # make sure only admins can change the company settings
+        if profile.level == 'admin':
+            form = CompanyProfileForm(request.POST, instance=company)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Profile updated successfully')
+            else:
+                messages.error(request, 'Update failed. Please ensure the form is valid.')
+
         else:
-            messages.error(request, 'Update failed. Please ensure the form is valid.')
+            messages.info(request, 'Only Admins can edit the Global Settings.')
 
     else:
         form = CompanyProfileForm(instance=company)
@@ -40,50 +46,60 @@ def settings_global(request):
     return render(request, template, context)
 
 
+@login_required
 def change_plan(request):
     """
-    Show the global settings According to the company id
+    Change the sign-up plan
     """
-    stripe_public_key = settings.STRIPE_PUBLIC_KEY
-    stripe_secret_key = settings.STRIPE_SECRET_KEY
-
     profile = get_object_or_404(UserProfile, user=request.user)
-    company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
 
-    if request.method == 'POST':
-        data = request.POST
-        try:
-            company.plan = data['plan']
-            company.payment = data['payment']
-            company.renewal_date = datetime.date.today()
-            # company.save()
-            messages.success(request, 'Event changed successfully')
+    # make sure only admins can change the subscription plan
+    if profile.level == 'admin':
 
-        except IndexError:
-            messages.error(request, 'An error occured')
+        stripe_public_key = settings.STRIPE_PUBLIC_KEY
+        stripe_secret_key = settings.STRIPE_SECRET_KEY
+
+        company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
+
+        if request.method == 'POST':
+            data = request.POST
+            try:
+                company.plan = data['plan']
+                company.payment = data['payment']
+                company.renewal_date = datetime.date.today()
+                # company.save()
+                messages.success(request, 'Event changed successfully')
+
+            except IndexError:
+                messages.error(request, 'An error occured')
+
+        else:
+            form = CompanyProfileForm(instance=company)
+
+        # Something needs to happen here
+        stripe_total = 100
+
+        stripe.api_key = stripe_secret_key
+        intent = stripe.PaymentIntent.create(
+            amount=stripe_total,
+            currency=settings.STRIPE_CURRENCY,
+        )
+
+        template = 'settings/change_plan.html'
+        context = {
+            'profile': profile,
+            'company': company,
+            'form_company': form,
+            'stripe_public_key': stripe_public_key,
+            'client_secret': intent.client_secret,
+        }
+
+        return render(request, template, context)
 
     else:
-        form = CompanyProfileForm(instance=company)
+        messages.info(request, "Sorry, only Admins can change the plan.")
 
-    # Something needs to happen here
-    stripe_total = 100
-
-    stripe.api_key = stripe_secret_key
-    intent = stripe.PaymentIntent.create(
-        amount=stripe_total,
-        currency=settings.STRIPE_CURRENCY,
-    )
-
-    template = 'settings/change_plan.html'
-    context = {
-        'profile': profile,
-        'company': company,
-        'form_company': form,
-        'stripe_public_key': stripe_public_key,
-        'client_secret': intent.client_secret,
-    }
-
-    return render(request, template, context)
+    return redirect(reverse('settings_global', ))
 
 
 @login_required
@@ -108,65 +124,23 @@ def add_team(request):
     Add a new team
     """
     profile = get_object_or_404(UserProfile, user=request.user)
-    # put some logic that only managers and admins can add a user
-    """
-    if not request.user.is_superuser:
-        messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home'))
-    """
 
-    if request.method == 'POST':
-        form = TeamsForm(request.POST)
-        if form.is_valid():
-            team = form.save(commit=False)
-            team.company_id = profile.company_id
-            team.save()
-            # messages.success(request, 'Profile updated successfully')
+    # make sure only managers and admins can add a team
+    if profile.level == 'admin' or profile.level == 'manager':
 
-        else:
-            messages.error(request, 'Update failed. Please ensure the form is valid.')
+        if request.method == 'POST':
+            form = TeamsForm(request.POST)
+            if form.is_valid():
+                team = form.save(commit=False)
+                team.company_id = profile.company_id
+                team.save()
+                messages.success(request, 'Team added successfully')
 
-        teams = Team.objects.filter(company_id=profile.company_id)
+            else:
+                messages.error(request, 'Update failed. Please ensure the form is valid.')
 
-        template = 'settings/teams.html'
-        context = {
-            'teams': teams,
-            'profile': profile
-        }
-        return render(request, template, context)
-
-    else:
-        form = TeamsForm()
-        teams = Team.objects.filter(company_id=profile.company_id)
-
-        template = 'settings/add_team.html'
-        context = {
-            'form': form,
-            'profile': profile,
-            'teams': teams
-        }
-
-        return render(request, template, context)
-
-
-@login_required
-def edit_team(request, team_id):
-    """ Edit a team, out of teams """
-
-    """ check the user level
-    if not request.user.is_superuser:
-        messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home'))
-    """
-    profile = get_object_or_404(UserProfile, user=request.user)
-    team_selected = get_object_or_404(Team, pk=team_id)
-
-    if request.method == 'POST':
-        form = TeamsForm(request.POST, instance=team_selected)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Team edited successfully')
             teams = Team.objects.filter(company_id=profile.company_id)
+
             template = 'settings/teams.html'
             context = {
                 'teams': teams,
@@ -175,20 +149,68 @@ def edit_team(request, team_id):
             return render(request, template, context)
 
         else:
-            messages.error(request, 'Save failed. Please ensure the form is valid.')
+            form = TeamsForm()
+            teams = Team.objects.filter(company_id=profile.company_id)
+
+            template = 'settings/add_team.html'
+            context = {
+                'form': form,
+                'profile': profile,
+                'teams': teams
+            }
+
+            return render(request, template, context)
+
     else:
-        form = TeamsForm(instance=team_selected)
+        messages.info(request, "Sorry, you are not authorized to add teams. Ask a Manager or Admin.")
 
-        teams = Team.objects.filter(company_id=profile.company_id)
-        template = 'settings/edit_team.html'
-        context = {
-            'form': form,
-            'teams': teams,
-            'team_selected': team_selected,
-            'profile': profile
-        }
+    return redirect(reverse('teams', ))
 
-    return render(request, template, context)
+
+@login_required
+def edit_team(request, team_id):
+    """
+    Edit a team, out of teams
+    """
+    profile = get_object_or_404(UserProfile, user=request.user)
+
+    # make sure only managers and admins can edit a team
+    if profile.level == 'admin' or profile.level == 'manager':
+
+        team_selected = get_object_or_404(Team, pk=team_id)
+        if request.method == 'POST':
+            form = TeamsForm(request.POST, instance=team_selected)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Team edited successfully')
+                teams = Team.objects.filter(company_id=profile.company_id)
+                template = 'settings/teams.html'
+                context = {
+                    'teams': teams,
+                    'profile': profile
+                }
+                return render(request, template, context)
+
+            else:
+                messages.error(request, 'Save failed. Please ensure the form is valid.')
+        else:
+            form = TeamsForm(instance=team_selected)
+
+            teams = Team.objects.filter(company_id=profile.company_id)
+            template = 'settings/edit_team.html'
+            context = {
+                'form': form,
+                'teams': teams,
+                'team_selected': team_selected,
+                'profile': profile
+            }
+
+        return render(request, template, context)
+
+    else:
+        messages.info(request, "Sorry, you are not authorized to edit teams. Ask a Manager or Admin.")
+
+    return redirect(reverse('teams', ))
 
 
 def delete_team(request, team_id):
@@ -196,6 +218,8 @@ def delete_team(request, team_id):
     Delete a team after checking if no users are attached
     """
     profile = get_object_or_404(UserProfile, user=request.user)
+
+    # make sure only admins and managers can delete a team
     if profile.level == 'admin' or profile.level == 'manager':
         users = UserProfile.objects.filter(company_id=profile.company_id, team=team_id)
         if len(users) == 0:
@@ -207,7 +231,7 @@ def delete_team(request, team_id):
             messages.error(request, "Users are still part of this team. Attach users to a different team in 'User Management' or delete them.")
 
     else:
-        messages.error(request, "Sorry, you are not authorized to delete teams. Ask a Manager or Admin.")
+        messages.info(request, "Sorry, you are not authorized to delete teams. Ask a Manager or Admin.")
 
     return redirect(reverse('teams', ))
 
@@ -229,44 +253,47 @@ def shifts(request):
 
 @login_required
 def edit_shift(request, shift_id):
-    """ Edit a role, out of the roles """
-
-    """ check the user level
-    if not request.user.is_superuser:
-        messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home'))
+    """
+    Edit shifts
     """
     profile = get_object_or_404(UserProfile, user=request.user)
-    shift_selected = get_object_or_404(Shift, pk=shift_id)
 
-    if request.method == 'POST':
-        form = ShiftForm(request.POST, instance=shift_selected)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Shift edited successfully')
-            shifts = Shift.objects.filter(company_id=profile.company_id)
-            template = 'settings/shifts.html'
-            context = {
-                'shifts': shifts,
-                'profile': profile
-            }
-            return render(request, template, context)
+    # making sure only admins and managers can edit shifts
+    if profile.level == 'admin' or profile.level == 'manager':
+        shift_selected = get_object_or_404(Shift, pk=shift_id)
+        if request.method == 'POST':
+            form = ShiftForm(request.POST, instance=shift_selected)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Shift edited successfully')
+                shifts = Shift.objects.filter(company_id=profile.company_id)
+                template = 'settings/shifts.html'
+                context = {
+                    'shifts': shifts,
+                    'profile': profile
+                }
+                return render(request, template, context)
 
+            else:
+                messages.error(request, 'Save failed. Please ensure the form is valid.')
         else:
-            messages.error(request, 'Save failed. Please ensure the form is valid.')
+            form = ShiftForm(instance=shift_selected)
+
+        shifts = Shift.objects.filter(company_id=profile.company_id)
+        template = 'settings/edit_shift.html'
+        context = {
+            'form': form,
+            'shifts': shifts,
+            'shift_selected': shift_selected,
+            'profile': profile
+        }
+
+        return render(request, template, context)
+
     else:
-        form = ShiftForm(instance=shift_selected)
+        messages.info(request, "Sorry, you are not authorized to edit shifts. Ask a Manager or Admin.")
 
-    shifts = Shift.objects.filter(company_id=profile.company_id)
-    template = 'settings/edit_shift.html'
-    context = {
-        'form': form,
-        'shifts': shifts,
-        'shift_selected': shift_selected,
-        'profile': profile
-    }
-
-    return render(request, template, context)
+    return redirect(reverse('shifts', ))
 
 
 @login_required
@@ -275,42 +302,44 @@ def add_shift(request):
     Add a new role
     """
     profile = get_object_or_404(UserProfile, user=request.user)
-    # put some logic that only managers and admins can add a user
-    """
-    if not request.user.is_superuser:
-        messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home'))
-    """
 
-    if request.method == 'POST':
-        form = ShiftForm(request.POST)
-        if form.is_valid():
-            shift = form.save(commit=False)
-            shift.company_id = profile.company_id
-            shift.save()
-            messages.success(request, 'Shift added successfully')
+    # making sure only admins and managers can add shifts
+    if profile.level == 'admin' or profile.level == 'manager':
+
+        if request.method == 'POST':
+            form = ShiftForm(request.POST)
+            if form.is_valid():
+                shift = form.save(commit=False)
+                shift.company_id = profile.company_id
+                shift.save()
+                messages.success(request, 'Shift added successfully')
+
+            else:
+                messages.error(request, 'Save failed. Please ensure the form is valid.')
+
+            shifts = Shift.objects.filter(company_id=profile.company_id)
+
+            template = 'settings/shifts.html'
+            context = {
+                'shifts': shifts,
+                'profile': profile
+            }
+            return render(request, template, context)
 
         else:
-            messages.error(request, 'Save failed. Please ensure the form is valid.')
+            form = ShiftForm()
+            shifts = Shift.objects.filter(company_id=profile.company_id)
 
-        shifts = Shift.objects.filter(company_id=profile.company_id)
+            template = 'settings/add_shift.html'
+            context = {
+                'form': form,
+                'profile': profile,
+                'shifts': shifts
+            }
 
-        template = 'settings/shifts.html'
-        context = {
-            'shifts': shifts,
-            'profile': profile
-        }
-        return render(request, template, context)
+            return render(request, template, context)
 
     else:
-        form = ShiftForm()
-        shifts = Shift.objects.filter(company_id=profile.company_id)
+        messages.info(request, "Sorry, you are not authorized to add shifts. Ask a Manager or Admin.")
 
-        template = 'settings/add_shift.html'
-        context = {
-            'form': form,
-            'profile': profile,
-            'shifts': shifts
-        }
-
-        return render(request, template, context)
+    return redirect(reverse('shifts', ))

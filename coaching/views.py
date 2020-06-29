@@ -38,7 +38,7 @@ def coaching(request):
         coachings = Coaching.objects.filter(user_id=profile.user_id)
 
     else:
-        messages.error(request, 'Only Managers and Agents have access to the Coaching-section')
+        messages.info(request, 'Only Managers and Agents have access to the Coaching-section')
         return redirect(reverse('planning'))
 
     template = 'coaching/coaching.html'
@@ -104,7 +104,7 @@ def add_session(request):
             }
 
     else:
-        messages.error(request, "Sorry, you are not authorized to delete coaching sessions. Ask a manager.")
+        messages.info(request, "Sorry, you are not authorized to delete coaching sessions. Ask a manager.")
     
     return render(request, template, context)
 
@@ -163,7 +163,7 @@ def edit_session(request, session_id):
             return render(request, template, context)
 
     else:
-        messages.error(request, "Sorry, you are not authorized to edit coaching sessions. Ask a manager")
+        messages.info(request, "Sorry, you are not authorized to edit coaching sessions. Ask a manager")
 
         return redirect(reverse('coaching', ))
 
@@ -179,6 +179,6 @@ def delete_session(request, session_id):
         messages.success(request, 'Coaching session deleted')
 
     else:
-        messages.error(request, "Sorry, you are not authorized to delete coaching sessions. Ask a manager.")
+        messages.info(request, "Sorry, you are not authorized to delete coaching sessions. Ask a manager.")
 
     return redirect(reverse('coaching', ))
