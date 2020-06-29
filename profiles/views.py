@@ -58,120 +58,113 @@ def user_management(request):
 @login_required
 def add_user(request):
     """
-    Add a new user by an admin 
+    Add a new user, through menu point 'user management'
+    visible to admins and managers
     """
     profile = get_object_or_404(UserProfile, user=request.user)
-    # put some logic that only managers and admins can add a user
-    """
-    if not request.user.is_superuser:
-        messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home'))
-    """
 
-    if request.method == 'POST':
+    # make sure only managers and admins can add a team
+    if profile.level == 'admin' or profile.level == 'manager':
 
-        form = UserProfileForm(request.POST)
-        user_email = UserForm(request.POST)
+        if request.method == 'POST':
+            form = UserProfileForm(request.POST)
+            user_email = UserForm(request.POST)
 
-        if user_email.is_valid() and form.is_valid():
-            user = User.objects.create_user(username=random_username(),
-                                 email=request.POST.get('email'),
-                                 password='glass onion')
-            messages.success(request, 'Profile added successfully')
+            if user_email.is_valid() and form.is_valid():
+                user = User.objects.create_user(username=random_username(),
+                                     email=request.POST.get('email'),
+                                     password='glass onion')
+                messages.success(request, 'Profile added successfully')
 
-            user.userprofile.first_name = form.data['first_name']
-            user.userprofile.last_name = form.data['last_name']
-            user.userprofile.company_id = profile.company_id
+                user.userprofile.first_name = form.data['first_name']
+                user.userprofile.last_name = form.data['last_name']
+                user.userprofile.company_id = profile.company_id
+                user.userprofile.start_date = form.data['start_date']
+                user.userprofile.end_date = form.data['end_date']
+                user.userprofile.level = form.data['level']
+                user.userprofile.team = Team.objects.get(pk=form.data['team'])
+                user.userprofile.contract_type = form.data['contract_type']
+                user.userprofile.contract_percentage = form.data['contract_percentage']
+                user.userprofile.agent_goal = form.data['agent_goal']
+                user.userprofile.save()
+            else:
+                messages.error(request, 'Update failed. Please ensure the form is valid.')
 
-            user.userprofile.birthday_ddmm = form.data['birthday_ddmm']
-            user.userprofile.start_date = form.data['start_date']
-            user.userprofile.end_date = form.data['end_date']
-            user.userprofile.level = form.data['level']
-            # user.userprofile.role = form.data['role']
-            profile = get_object_or_404(UserProfile, user=request.user)
-            user.userprofile.team = Team.objects.get(pk=form.data['team'])
-            user.userprofile.contract_type = form.data['contract_type']
-            user.userprofile.contract_percentage = form.data['contract_percentage']
-            user.userprofile.agent_goal = form.data['agent_goal']
-
-            user.userprofile.save()
-        else:
-            messages.error(request, 'Update failed. Please ensure the form is valid.')
-
-        users = UserProfile.objects.filter(company_id=profile.company_id)
-
-        template = 'profiles/user_management.html'
-        context = {
-            'users': users,
-            'profile': profile
-        }
-        return render(request, template, context)
-
-    else:
-        form = UserProfileForm()
-        user_email = UserForm()
-
-        template = 'profiles/add_user.html'
-        context = {
-            'form': form,
-            'profile': profile,
-            'user_email': user_email
-        }
-
-        return render(request, template, context)
-
-
-def random_username():
-        """
-        Generate a random unique username
-        """
-        return str(uuid.uuid4().hex.upper())
-    
-
-
-@login_required
-def edit_user(request, user_id):
-    """ Edit a user, out of user management """
-
-    """ check the user level
-    if not request.user.is_superuser:
-        messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home'))
-    """
-    user = get_object_or_404(UserProfile, pk=user_id)
-
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'User edited successfully')
-            profile = get_object_or_404(UserProfile, user=request.user)
             users = UserProfile.objects.filter(company_id=profile.company_id)
+
             template = 'profiles/user_management.html'
             context = {
                 'users': users,
                 'profile': profile
             }
+
             return render(request, template, context)
 
         else:
-            print("failed")
+            form = UserProfileForm()
+            user_email = UserForm()
+
+            template = 'profiles/add_user.html'
+            context = {
+                'form': form,
+                'profile': profile,
+                'user_email': user_email
+            }
+
+            return render(request, template, context)
     else:
-        form = UserProfileForm(instance=user)
+        messages.info(request, "Sorry, you are not authorized to add users. Ask a Manager or Admin.")
 
-    template = 'profiles/profile.html'
-    context = {
-        'form': form,
-        'profile': user,
-    }
+    return redirect(reverse('planning', ))
 
-    return render(request, template, context)
 
-"""
-def thankyou(request):
-    # Page to display after sign up of a new account
+def random_username():
+    """
+    Generate a random unique username
+    """
+    return str(uuid.uuid4().hex.upper())
 
-    template = 'profiles/thankyou.html'
 
-    return render(template)
-"""
+@login_required
+def edit_user(request, user_id):
+    """
+    Edit a user, through menu point 'user management'
+    visible to Admins and Managers
+    """
+    profile = get_object_or_404(UserProfile, user=request.user)
+
+    # make sure only managers and admins can add a team
+    if profile.level == 'admin' or profile.level == 'manager':
+
+        user = get_object_or_404(UserProfile, pk=user_id)
+        if request.method == 'POST':
+            form = UserProfileForm(request.POST, request.FILES, instance=user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'User edited successfully')
+
+                users = UserProfile.objects.filter(company_id=profile.company_id)
+                template = 'profiles/user_management.html'
+                context = {
+                    'users': users,
+                    'profile': profile
+                }
+                return render(request, template, context)
+
+            else:
+                print("failed")
+        else:
+            form = UserProfileForm(instance=user)
+
+        template = 'profiles/profile.html'
+        context = {
+            'form': form,
+            'profile': user,
+        }
+
+        return render(request, template, context)
+
+    else:
+        messages.info(request, "Sorry, you are not authorized to edit users. Ask a Manager or Admin.")
+
+    return redirect(reverse('planning', ))
