@@ -18,11 +18,12 @@ def settings_global(request):
     """
     profile = get_object_or_404(UserProfile, user=request.user)
 
-    company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
+    # make sure only admins can change the company settings
+    if profile.level == 'admin':
 
-    if request.method == 'POST':
-        # make sure only admins can change the company settings
-        if profile.level == 'admin':
+        company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
+
+        if request.method == 'POST':
             form = CompanyProfileForm(request.POST, instance=company)
             if form.is_valid():
                 form.save()
@@ -31,19 +32,21 @@ def settings_global(request):
                 messages.error(request, 'Update failed. Please ensure the form is valid.')
 
         else:
-            messages.info(request, 'Only Admins can edit the Global Settings.')
+            form = CompanyProfileForm(instance=company)
+
+        template = 'settings/settings_global.html'
+        context = {
+            'profile': profile,
+            'company': company,
+            'form_company': form,
+        }
+
+        return render(request, template, context)
 
     else:
-        form = CompanyProfileForm(instance=company)
+        messages.info(request, 'Only Admins can edit the Global Settings.')
 
-    template = 'settings/settings_global.html'
-    context = {
-        'profile': profile,
-        'company': company,
-        'form_company': form,
-    }
-
-    return render(request, template, context)
+    return redirect(reverse('planning', ))
 
 
 @login_required
