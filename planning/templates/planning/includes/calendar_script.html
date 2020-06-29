@@ -294,8 +294,15 @@ function commitCopy() {
     }
 
     $.post(URL, post_data);
-
+    $('.copy-panel').hide();
+    
+    setTimeout(function() {
+        location.replace("/planning");
+    }, 1000);
 }
+
+
+
 
 
 </script>
