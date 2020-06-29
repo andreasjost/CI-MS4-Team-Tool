@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core import serializers
+
 from profiles.models import UserProfile, CompanyProfile
 from settings.models import Team
-from django.contrib import messages
-from .models import Event
 from notifications.models import Notification
-from django.core import serializers  # used to use template variables in JS
+from .models import Event
+
 from datetime import datetime, timedelta, date
 import json
 
@@ -195,15 +197,10 @@ def delete_event(request, event_id):
     return redirect(reverse('planning', ))
 
 
-    """ add some if-statements
-    if not request.user.is_superuser:
-        messages.error(request, 'Sorry, only store owners can do that.')
-        return redirect(reverse('home')) 
-    """
-
-
 def summary(request, user_id):
-    """ Display the user's summary. """
+    """
+    Display the user's summary.
+    """
     profile = get_object_or_404(UserProfile, user=request.user)
     user = get_object_or_404(UserProfile, pk=user_id)
 
