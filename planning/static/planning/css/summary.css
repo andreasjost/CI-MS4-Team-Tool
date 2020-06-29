@@ -1,0 +1,14 @@
+table {
+    width: 100%;
+    border: 2px solid #aaa;
+}
+
+th,
+td {
+    width: 8%;
+    border: 1px solid #aaa;
+}
+
+.width-shifts {
+    width: 20%;
+}

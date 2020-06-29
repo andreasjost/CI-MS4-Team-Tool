@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'profiles/css/profiles.css' %}" />
+    <link rel="stylesheet" href="{% static 'planning/css/summary.css' %}" />
 {% endblock %}
 
 {% block content %}
@@ -61,13 +61,34 @@
 </header>
 <section class="section-maincontent">
     <div class="container-xl"> 
+        <a class="float-right" href="{% url 'planning' %}"><i class="fas fa-times"></i></a>
         <h2>Summary</h2>
-        
-            {{ user.first_name }}
-            {{ user.last_name }}
-           
-            <button class="btn btn-primary float-right" type="submit">Save</button>
-        
+        <h3 class="float-none">{{ user.first_name }} {{ user.last_name }}</h3>
+        <p>Month: {{ month_year }}</p>
+        <table class="text-center">
+            <tr>
+                <th class="width-shifts text-left">Shift</th>
+                <th><div><i style="color: #0f0;" class="fa fa-circle small"></i></div>Work</th>
+                <th><div><i style="color: #f00;" class="fa fa-circle small"></i></div>Training</th>
+                <th><div><i style="color: #f00;" class="fa fa-circle small"></i></div>Meeting</th>
+                <th><div><i style="color: #0ff;" class="fa fa-circle small"></i></div>Lunch</th>
+                <th><div><i style="color: #0ff;" class="fa fa-circle small"></i></div>Dinner</th>
+                <th><div><i style="color: #0ff;" class="fa fa-circle small"></i></div>Break</th>
+                <th><div><i style="color: #00f;" class="fa fa-circle small"></i></div>Holidays</th>
+                <th><div><i style="color: #00f;" class="fa fa-circle small"></i></div>Leave</th>
+                <th><div><i style="color: #ff0;" class="fa fa-circle small"></i></div>Sick</th>
+                <th><div><i style="color: #ff0;" class="fa fa-circle small"></i></div>Absence</th>
+            </tr>
+            {% for shift in shifts %}
+            <tr>
+                <td class="width-shifts text-left">{{ shift.shift_name }}</td>
+                {% for result in results %}
+                    <th>result</th>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        Overfiew of the shifts: Link to the shifts
     </div>
     <br>
 <br>

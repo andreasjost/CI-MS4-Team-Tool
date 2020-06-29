@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core import serializers
 
 from profiles.models import UserProfile, CompanyProfile
-from settings.models import Team
+from settings.models import Team, Shift
 from notifications.models import Notification
 from .models import Event
 
@@ -145,6 +145,7 @@ def planning(request):
                 request.session['sel_team'] = team
 
         users_select = UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=request.session['sel_team'])
+        # events_filtered = Event.objects.filter(date__month=sel_month, date__year=sel_year, user_id__user__in=users_select)
         events_filtered = Event.objects.filter(date__month=sel_month, date__year=sel_year)
 
         # preparing data to read in JS
@@ -194,25 +195,10 @@ def delete_event(request, event_id):
             user_id=sel_user
         )
 
-    return redirect(reverse('planning', ))
+    return redirect(reverse('planning'))
 
 
-def summary(request, user_id):
-    """
-    Display the user's summary.
-    """
-    profile = get_object_or_404(UserProfile, user=request.user)
-    user = get_object_or_404(UserProfile, pk=user_id)
-
-    template = 'planning/summary.html'
-    context = {
-        'profile': profile,
-        'user': user
-    }
-
-    return render(request, template, context)
-
-
+@login_required
 def copy_event(request):
     """
     view called after user has selected target day(s) to copy events to
@@ -256,4 +242,97 @@ def copy_event(request):
                     status=j.status,
             )
 
-    return redirect(reverse('planning', ))
+    return redirect(reverse('planning'))
+
+
+def summary(request, user_id):
+    """
+    Display the user's summary.
+    """
+    profile = get_object_or_404(UserProfile, user=request.user)
+    user = get_object_or_404(UserProfile, pk=user_id)
+    shifts = Shift.objects.filter(company_id=profile.company_id)
+    events = Event.objects.filter(date__month=request.session['sel_month'], date__year=request.session['sel_year'], user_id=user_id)
+
+    results = []
+    for shift in shifts:
+        sum_work = 0
+        sum_training = 0
+        sum_meeting = 0
+        sum_lunch = 0
+        sum_dinner = 0
+        sum_break = 0
+        sum_holidays = 0
+        sum_leave = 0
+        sum_sick = 0
+        sum_absence = 0
+        
+        for event in events:
+
+                # chop events if they don't fit in the shift
+                if event.start_time < shift.shift_start and event.end_time > shift.shift_start:
+                    event.start_time = shift.shift_start
+
+                if event.start_time < shift.shift_end and event.end_time > shift.shift_end:
+                    event.end_time = shift.shift_end
+
+                # Select the events that match the shift criteria
+                if event.start_time >= shift.shift_start and event.end_time <= shift.shift_end:
+                    if (shift.weekday_sunday and event.date.weekday() == 1 or
+                        shift.weekday_monday and event.date.weekday() == 2 or
+                        shift.weekday_tuesday and event.date.weekday() == 3 or
+                        shift.weekday_wednesday and event.date.weekday() == 4 or
+                        shift.weekday_thursday and event.date.weekday() == 5 or
+                        shift.weekday_friday and event.date.weekday() == 6 or
+                        shift.weekday_saturday and event.date.weekday() == 7):
+
+
+                        # create a datetime object to calculate
+                        dateTimeA = datetime.combine(date.today(), event.end_time)
+                        dateTimeB = datetime.combine(date.today(), event.start_time)
+                        # get timedelta
+                        dateTimeDifference = dateTimeA - dateTimeB
+                        # Divide difference in seconds by number of seconds in hour (3600)  
+                        total_Hours = dateTimeDifference.total_seconds() / 3600
+                        if event.category == 'work':
+                            sum_work += total_Hours
+                        
+                        elif event.category == 'training':
+                            sum_training += total_Hours
+                        
+                        elif event.category == 'meeting':
+                            sum_meeting += total_Hours
+
+                        elif event.category == 'lunch':
+                            sum_lunch += total_Hours
+
+                        elif event.category == 'dinner':
+                            sum_dinner += total_Hours
+
+                        elif event.category == 'break':
+                            sum_break += total_Hours
+
+                        elif event.category == 'holidays':
+                            sum_holidays += total_Hours
+
+                        elif event.category == 'leave':
+                            sum_leave += total_Hours
+
+                        elif event.category == 'sick':
+                            sum_sick += total_Hours
+
+                        elif event.category == 'absence':
+                            sum_absence += total_Hours
+
+    month_title = datetime(request.session['sel_year'], request.session['sel_month'], 1)
+    get_month_title = month_title.strftime("%B, %Y")
+    template = 'planning/summary.html'
+    context = {
+        'profile': profile,
+        'user': user,
+        'month_year': get_month_title,
+        'shifts': shifts,
+        'results': results
+    }
+
+    return render(request, template, context)
