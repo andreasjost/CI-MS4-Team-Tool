@@ -143,6 +143,9 @@ def planning(request):
             team = str(teams[0])
             if 'sel_team' not in request.session:
                 request.session['sel_team'] = team
+        
+
+        # profile = get_object_or_404(UserProfile, user=request.user)
 
         users_select = UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=request.session['sel_team'])
         # events_filtered = Event.objects.filter(date__month=sel_month, date__year=sel_year, user_id__user__in=users_select)

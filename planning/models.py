@@ -27,5 +27,5 @@ class Event(models.Model):
     end_time = models.TimeField()
     agent_role = models.ForeignKey(AgentRole, on_delete=models.SET_NULL,
                                      null=True, blank=True)
-    status = models.IntegerField()  # status of approvement
+    status = models.IntegerField()  # status of approvement. 1 = approved
 

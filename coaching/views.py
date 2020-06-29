@@ -46,6 +46,7 @@ def coaching(request):
         'coaching': coachings,
         'users_select': users_select,
         'current_agent': full_name,
+        'agent_goal': get_sel_agent.agent_goal,
         'profile': profile
     }
 
