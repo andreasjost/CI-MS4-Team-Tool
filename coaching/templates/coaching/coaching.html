@@ -113,7 +113,15 @@
         {% else %}
         - There are no recorded coaching sessions yet -
         {% endif %}
-        <p>This section is for the development of Agents. Managers and Agents can track their coaching sessions</p>
+        <div class="hints">
+            <hr>
+            <h5><i class="fas fa-info-circle"></i> Hints</h5>
+            <ul>
+                <li>Only Managers can add/edit/delete the coaching sessions</li>
+                <li>Agents can only see their own sessions</li>
+                <li>Admins or Visitors have no access to the coaching-sessions</li>
+            </ul>
+        </div>
     </div>
 </section>
 {% endblock %}

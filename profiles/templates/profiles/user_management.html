@@ -59,8 +59,6 @@
             <button class="btn btn-primary add-button">Add User</button>
         </a>
         <h2>User Management</h2>
-        
-        <h3>Active Users</h3>
         <table class="full-table">
             <tr>
                 <th>First Name(s)</th>
@@ -95,15 +93,10 @@
             </tr>
             {% endfor %}
         </table>
-        <h3>Inactive Users</h3>
         <div class="hints">
             <hr>
             <h5><i class="fas fa-info-circle"></i> Hints</h5>
             <ul>
-                <li>Users are inactive when the employment is finished ('End Date' in the past)</li>
-                <li>You can delete a user only when inactive, and if the 'End-Date' is NOT in the
-                current month
-                </li>
                 <li>When deleting a user, all shifts and coaching sessions attached to that user
                 are also being deleted</li>
             </ul>

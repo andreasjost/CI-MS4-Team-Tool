@@ -69,8 +69,10 @@
                 <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.previous }}"><i class="fas fa-arrow-alt-circle-left"></i></a>
                 <a class="control-btn" href="{% url 'planning' %}?month={{ nav_month.next }}"><i class="fas fa-arrow-alt-circle-right"></i></a>
                 <a class="control-btn" href="{% url 'planning' %}?month=0"><i class="fas fa-home"></i></a>
+                {% if profile.level != 'visitor' %}
                 <a class="control-btn create-event-btn btn-inactive" data-toggle="modal" data-target="#newEventModal" href="#!"><i class="fas fa-plus"></i></a>
                 <a class="control-btn jcopy-btn btn-inactive" onclick="copyEvents()" href="javascript:void(0);"> <i class="fas fa-copy"></i></a>
+                {% endif %}
             </div>
             <div class="col-12 col-sm-4 text-center copy-panel">
                 {% if profile.level == 'admin' or profile.level == 'manager' %}
@@ -127,9 +129,7 @@
         <ul>
             <li>Select a day to add or copy events. Click on an event to view the details or change/delete it if you're authorised</li>
             <li>Select a name to show a summary of the events for the selected month</li>
-            <li>Agents cannot add/change/delete events in the past or in the current month. When a Manager
-            approves a month, the Agent also cannot change it anymore.</li>
-            <li>Agents can only plan for themselves</li>
+            <li>Agents cannot add/change/delete events in the past or in the current month</li>
         </ul>
     </div>
 {% else %}

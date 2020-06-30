@@ -53,9 +53,6 @@
 <section class="section-maincontent">
     <div class="container-xl">
         <h2>Notifications</h2>
-        <p>You will receive a message if a Manager or Admin is changing any of your shifts. Managers will get notified
-            when Agents finished their planning
-        </p>
         <br>
         {% if notifications|length > 0 %}
         {% for message in notifications %}
@@ -76,6 +73,13 @@
         {% else %}
         - There are currently no messages -
         {% endif %}
+        <div class="hints">
+            <hr>
+            <h5><i class="fas fa-info-circle"></i> Hints</h5>
+            <ul>
+                <li>You will receive a notification if someone has changed one of your events</li>
+            </ul>
+        </div>
     </div>
 </section>
 {% endblock %}
