@@ -120,9 +120,16 @@
         <i style="color: #00f;" class="fa fa-circle small"></i> holidays, leave | 
         <i style="color: #ff0;" class="fa fa-circle small"></i> sick, absence |
     </div>
-    {% if profile.level == 'agent' %}
-        You are working xx/xx hours this month. (Submit planning link)
-    {% endif %}
+    <div class="hints container-xl">
+        <h5><i class="fas fa-info-circle"></i> Hints</h5>
+        <ul>
+            <li>Select a day to add or copy events. Click on an event to view the details or change/delete it if you're authorised</li>
+            <li>Select a name to show a summary of the events for the selected month</li>
+            <li>Agents cannot add/change/delete events in the past or in the current month. When a Manager
+            approves a month, the Agent also cannot change it anymore.</li>
+            <li>Agents can only plan for themselves</li>
+        </ul>
+    </div>
 {% else %}
     {% include 'planning/includes/welcome.html' %}
 {% endif %}

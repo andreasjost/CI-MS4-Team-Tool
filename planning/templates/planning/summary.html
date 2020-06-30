@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% load static %}
-
 {% block extra_title %}
-    - Summary
+- Summary
 {% endblock %}
-
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'planning/css/summary.css' %}" />
+<link rel="stylesheet" href="{% static 'planning/css/summary.css' %}" />
 {% endblock %}
-
 {% block content %}
 <header>
     <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
@@ -60,7 +57,7 @@
     </nav>
 </header>
 <section class="section-maincontent">
-    <div class="container-xl"> 
+    <div class="container-xl">
         <a class="float-right" href="{% url 'planning' %}"><i class="fas fa-times close-x"></i></a>
         <h2>Summary</h2>
         <div class="row">
@@ -74,16 +71,46 @@
         <table class="text-center">
             <tr>
                 <th class="width-shifts text-left">Shift</th>
-                <th><div><i style="color: #0f0;" class="fa fa-circle small"></i></div>Work</th>
-                <th><div><i style="color: #f00;" class="fa fa-circle small"></i></div>Training</th>
-                <th><div><i style="color: #f00;" class="fa fa-circle small"></i></div>Meeting</th>
-                <th><div><i style="color: #0ff;" class="fa fa-circle small"></i></div>Lunch</th>
-                <th><div><i style="color: #0ff;" class="fa fa-circle small"></i></div>Dinner</th>
-                <th><div><i style="color: #0ff;" class="fa fa-circle small"></i></div>Break</th>
-                <th><div><i style="color: #00f;" class="fa fa-circle small"></i></div>Holidays</th>
-                <th><div><i style="color: #00f;" class="fa fa-circle small"></i></div>Leave</th>
-                <th><div><i style="color: #ff0;" class="fa fa-circle small"></i></div>Sick</th>
-                <th><div><i style="color: #ff0;" class="fa fa-circle small"></i></div>Absence</th>
+                <th>
+                    <div><i style="color: #0f0;" class="fa fa-circle small"></i></div>
+                    Work
+                </th>
+                <th>
+                    <div><i style="color: #f00;" class="fa fa-circle small"></i></div>
+                    Training
+                </th>
+                <th>
+                    <div><i style="color: #f00;" class="fa fa-circle small"></i></div>
+                    Meeting
+                </th>
+                <th>
+                    <div><i style="color: #0ff;" class="fa fa-circle small"></i></div>
+                    Lunch
+                </th>
+                <th>
+                    <div><i style="color: #0ff;" class="fa fa-circle small"></i></div>
+                    Dinner
+                </th>
+                <th>
+                    <div><i style="color: #0ff;" class="fa fa-circle small"></i></div>
+                    Break
+                </th>
+                <th>
+                    <div><i style="color: #00f;" class="fa fa-circle small"></i></div>
+                    Holidays
+                </th>
+                <th>
+                    <div><i style="color: #00f;" class="fa fa-circle small"></i></div>
+                    Leave
+                </th>
+                <th>
+                    <div><i style="color: #ff0;" class="fa fa-circle small"></i></div>
+                    Sick
+                </th>
+                <th>
+                    <div><i style="color: #ff0;" class="fa fa-circle small"></i></div>
+                    Absence
+                </th>
             </tr>
             {% for result in results %}         
             <tr>
@@ -108,19 +135,16 @@
             {% endfor %}
         </table>
         <div class="hints">
-        <h5><i class="fas fa-info-circle"></i> Hints</h5>
-        <ul>
-            <li>The total hours are displayed in decimal format. For example: 1.5 hours = 1 h 30 min</li>
-            <li>in the case that shifts are overlapping, it's possible that the same hours appear in multiple shifts</li>
-            <li>There is no account for events that were added outside the time range of shifts</li>
-            <li>Admins and Managers can adjust, add or delete shifts in the settings. You need at least
-            one shift for the summary to work</li>
-        </ul>
+            <h5><i class="fas fa-info-circle"></i> Hints</h5>
+            <ul>
+                <li>The total hours are displayed in decimal format. For example: 1.5 hours = 1 h 30 min</li>
+                <li>in the case that shifts are overlapping, it's possible that the same hours appear in multiple shifts</li>
+                <li>There is no account for events that were added outside the time range of shifts</li>
+                <li>Admins and Managers can adjust, add or delete shifts in the settings. You need at least
+                    one shift for the summary to work
+                </li>
+            </ul>
         </div>
     </div>
 </section>
-
-
-
-
 {% endblock %}
