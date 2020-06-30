@@ -259,73 +259,47 @@ def summary(request, user_id):
 
     results = []
     for shift in shifts:
-        sum_work = 0
-        sum_training = 0
-        sum_meeting = 0
-        sum_lunch = 0
-        sum_dinner = 0
-        sum_break = 0
-        sum_holidays = 0
-        sum_leave = 0
-        sum_sick = 0
-        sum_absence = 0
-        
+
+        # create datetime.DATETIME objects from datetime.TIME
+        shift_start = datetime.combine(date.today(), shift.shift_start)
+        shift_end = datetime.combine(date.today(), shift.shift_end)
+        addup_hours = assign_count_dict()
+        addup_count = assign_count_dict()
         for event in events:
 
+                # convert datetime.TIME to datetime.DATETIME objects
+                event_start = datetime.combine(date.today(), event.start_time)
+                event_end = datetime.combine(date.today(), event.end_time)
+                
                 # chop events if they don't fit in the shift
-                if event.start_time < shift.shift_start and event.end_time > shift.shift_start:
-                    event.start_time = shift.shift_start
+                if event_start < shift_start and event_end > shift_start:
+                    event_start = shift_start
 
-                if event.start_time < shift.shift_end and event.end_time > shift.shift_end:
-                    event.end_time = shift.shift_end
-
+                if event_start < shift_end and event_end > shift_end:
+                    event_end = shift_end
+                
                 # Select the events that match the shift criteria
-                if event.start_time >= shift.shift_start and event.end_time <= shift.shift_end:
-                    if (shift.weekday_sunday and event.date.weekday() == 1 or
-                        shift.weekday_monday and event.date.weekday() == 2 or
-                        shift.weekday_tuesday and event.date.weekday() == 3 or
-                        shift.weekday_wednesday and event.date.weekday() == 4 or
-                        shift.weekday_thursday and event.date.weekday() == 5 or
-                        shift.weekday_friday and event.date.weekday() == 6 or
-                        shift.weekday_saturday and event.date.weekday() == 7):
+                if event_start >= shift_start and event_end <= shift_end:
+                    if (shift.weekday_sunday and event.date.weekday() == 6 or
+                        shift.weekday_monday and event.date.weekday() == 0 or
+                        shift.weekday_tuesday and event.date.weekday() == 1 or
+                        shift.weekday_wednesday and event.date.weekday() == 2 or
+                        shift.weekday_thursday and event.date.weekday() == 3 or
+                        shift.weekday_friday and event.date.weekday() == 4 or
+                        shift.weekday_saturday and event.date.weekday() == 5):
 
-
-                        # create a datetime object to calculate
-                        dateTimeA = datetime.combine(date.today(), event.end_time)
-                        dateTimeB = datetime.combine(date.today(), event.start_time)
                         # get timedelta
-                        dateTimeDifference = dateTimeA - dateTimeB
+                        dateTimeDifference = event_end - event_start
                         # Divide difference in seconds by number of seconds in hour (3600)  
                         total_Hours = dateTimeDifference.total_seconds() / 3600
-                        if event.category == 'work':
-                            sum_work += total_Hours
-                        
-                        elif event.category == 'training':
-                            sum_training += total_Hours
-                        
-                        elif event.category == 'meeting':
-                            sum_meeting += total_Hours
+                        # add up the hours and the count in the right category
+                        for category in addup_hours:
+                            if event.category == category:
+                                addup_hours[category] = addup_hours[category] + total_Hours
+                                addup_count[category] = addup_count[category] + 1
 
-                        elif event.category == 'lunch':
-                            sum_lunch += total_Hours
-
-                        elif event.category == 'dinner':
-                            sum_dinner += total_Hours
-
-                        elif event.category == 'break':
-                            sum_break += total_Hours
-
-                        elif event.category == 'holidays':
-                            sum_holidays += total_Hours
-
-                        elif event.category == 'leave':
-                            sum_leave += total_Hours
-
-                        elif event.category == 'sick':
-                            sum_sick += total_Hours
-
-                        elif event.category == 'absence':
-                            sum_absence += total_Hours
+        collection = {'shift_name': shift.shift_name, 'hours': addup_hours, 'count': addup_count}
+        results.append(collection)
 
     month_title = datetime(request.session['sel_year'], request.session['sel_month'], 1)
     get_month_title = month_title.strftime("%B, %Y")
@@ -334,8 +308,26 @@ def summary(request, user_id):
         'profile': profile,
         'user': user,
         'month_year': get_month_title,
-        'shifts': shifts,
         'results': results
     }
 
     return render(request, template, context)
+
+
+def assign_count_dict():
+    """
+    Starting point for the counter in the summary
+    """
+    add_dict = {
+        'work': 0,
+        'training': 0,
+        'meeting': 0,
+        'lunch': 0,
+        'dinner': 0,
+        'break': 0,
+        'holidays': 0,
+        'leave': 0,
+        'sick': 0,
+        'absence': 0
+    }
+    return add_dict

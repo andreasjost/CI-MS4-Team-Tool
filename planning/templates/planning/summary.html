@@ -26,7 +26,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'planning' %}">Planning</a>
                 </li>
                 <li class="nav-item">
@@ -61,10 +61,16 @@
 </header>
 <section class="section-maincontent">
     <div class="container-xl"> 
-        <a class="float-right" href="{% url 'planning' %}"><i class="fas fa-times"></i></a>
+        <a class="float-right" href="{% url 'planning' %}"><i class="fas fa-times close-x"></i></a>
         <h2>Summary</h2>
-        <h3 class="float-none">{{ user.first_name }} {{ user.last_name }}</h3>
-        <p>Month: {{ month_year }}</p>
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <h3 class="float-none">{{ user.first_name }} {{ user.last_name }}</h3>
+            </div>
+            <div class="col-12 col-sm-6">
+                <h3 class="text-right">{{ month_year }}</h3>
+            </div>
+        </div>
         <table class="text-center">
             <tr>
                 <th class="width-shifts text-left">Shift</th>
@@ -79,21 +85,39 @@
                 <th><div><i style="color: #ff0;" class="fa fa-circle small"></i></div>Sick</th>
                 <th><div><i style="color: #ff0;" class="fa fa-circle small"></i></div>Absence</th>
             </tr>
-            {% for shift in shifts %}
+            {% for result in results %}         
             <tr>
-                <td class="width-shifts text-left">{{ shift.shift_name }}</td>
-                {% for result in results %}
-                    <th>result</th>
-                {% endfor %}
+                <td class="width-shifts text-left">
+                    <div class="float-left">{{ result.shift_name }}</div>
+                    <div class="float-right">
+                        <span class="small">hours</span> <br>
+                        <span class="small">count</span>
+                    </div>
+                </td>
+                <td>{{ result.hours.work }}<br>{{ result.count.work }}</td>
+                <td>{{ result.hours.training }}<br>{{ result.count.training }}</td>
+                <td>{{ result.hours.meeting }}<br>{{ result.count.meeting }}</td>
+                <td>{{ result.hours.lunch }}<br>{{ result.count.lunch }}</td>
+                <td>{{ result.hours.dinner }}<br>{{ result.count.dinner }}</td>
+                <td>{{ result.hours.break }}<br>{{ result.count.break }}</td>
+                <td>{{ result.hours.holidays }}<br>{{ result.count.holidays }}</td>
+                <td>{{ result.hours.leave }}<br>{{ result.count.leave }}</td>
+                <td>{{ result.hours.sick }}<br>{{ result.count.sick }}</td>
+                <td>{{ result.hours.absence }}<br>{{ result.count.absence }}</td>
             </tr>
             {% endfor %}
         </table>
-        Overfiew of the shifts: Link to the shifts
+        <div class="hints">
+        <h5><i class="fas fa-info-circle"></i> Hints</h5>
+        <ul>
+            <li>The total hours are displayed in decimal format. For example: 1.5 hours = 1 h 30 min</li>
+            <li>in the case that shifts are overlapping, it's possible that the same hours appear in multiple shifts</li>
+            <li>There is no account for events that were added outside the time range of shifts</li>
+            <li>Admins and Managers can adjust, add or delete shifts in the settings. You need at least
+            one shift for the summary to work</li>
+        </ul>
+        </div>
     </div>
-    <br>
-<br>
-<br>
-<br>
 </section>
 
 

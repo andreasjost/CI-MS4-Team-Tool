@@ -7,7 +7,6 @@ from django.dispatch import receiver
 class Team(models.Model):
     """
     List of the different teams
-    GLOBAL SETTING
     """
     company_id = models.CharField(max_length=32, null=False, editable=False)
     team_name = models.CharField(max_length=64, null=False, blank=False, default="Teamname")
@@ -24,7 +23,7 @@ class Team(models.Model):
 class AgentRole(models.Model):
     """
     Manager defined roles (default: intern, junior, medior, senior)
-    TEAM SETTING
+    This Model is currently not used due to deadline pressure
     """
     role_name = models.CharField(max_length=64)
     role_color = models.CharField(max_length=6)
@@ -37,7 +36,6 @@ class AgentRole(models.Model):
 class Shift(models.Model):
     """
     Different kinds of work shifts at different times
-    TEAM SETTING
     """
     company_id = models.CharField(max_length=32, null=False, editable=False)
     shift_name = models.CharField(max_length=64, null=False, blank=False)
