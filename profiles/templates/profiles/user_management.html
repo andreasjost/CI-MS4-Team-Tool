@@ -6,7 +6,7 @@
 {% endblock %}
 {% block content %}
 <header>
-   <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
         <button
             class="navbar-toggler"
             type="button"
@@ -56,7 +56,7 @@
 <section class="section-maincontent">
     <div class="container-xl">
         <a class="float-right" href="{% url 'add_user' %}">
-            <button class="btn btn-primary add-button">Add User</button>
+        <button class="btn btn-primary add-button">Add User</button>
         </a>
         <h2>User Management</h2>
         <table class="full-table">
@@ -85,11 +85,30 @@
                     <a href="{% url 'edit_user' user.id %}">
                     <button class="btn btn-secondary btn-sm">edit</button>
                     </a>
+                    <a href="" data-toggle="modal" data-target="#deleteUserModal"><i class="far fa-trash-alt list-icon"></i></a>
+
+                    <!-- Modal warning for deleting a user -->
+                    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="deleteUserModalLabel">Delete User</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure that you want to delete the user {{ user.first_name }} {{ user.last_name }}?</p>
+                                    <a href="{% url 'delete_user' user.id %}" class="float-right">YES</i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td>No users are set up yet. Select 'Add users' to set up your team(s).</td>
+                <td>No users are set up yet. Select 'Add users' to complete up your team(s).</td>
             </tr>
             {% endfor %}
         </table>
@@ -98,7 +117,8 @@
             <h5><i class="fas fa-info-circle"></i> Hints</h5>
             <ul>
                 <li>When deleting a user, all shifts and coaching sessions attached to that user
-                are also being deleted</li>
+                    are also being deleted
+                </li>
             </ul>
         </div>
     </div>

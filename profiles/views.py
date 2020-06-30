@@ -168,3 +168,40 @@ def edit_user(request, user_id):
         messages.info(request, "Sorry, you are not authorized to edit users. Ask a Manager or Admin.")
 
     return redirect(reverse('planning', ))
+
+
+@login_required
+def delete_user(request, user_id):
+    """
+    Delete a user
+    """
+    profile = get_object_or_404(UserProfile, user=request.user)
+
+    # make sure only admins and managers can delete a team
+    if profile.level == 'admin' or profile.level == 'manager':
+        user = get_object_or_404(UserProfile, pk=user_id)
+
+        # check that there is at least 1 admin
+        if user.level == 'admin':
+            admins = UserProfile.objects.filter(company_id=profile.company_id, level='admin')
+            if len(admins) > 1:
+                user.delete()
+                messages.success(request, 'User deleted!')
+                return redirect(reverse('planning', ))
+
+            else:
+                messages.error(request, "Delete failed: There has to be at least one Admin. Go to the global settings if you wish to delete the company account completely")
+                return redirect(reverse('planning', ))
+        
+        else:
+            user.delete()
+            messages.success(request, 'User deleted!')
+            return redirect(reverse('planning', ))
+
+    else:
+        messages.info(request, "Sorry, you are not authorized to delete teams. Ask a Manager or Admin.")
+
+    return redirect(reverse('teams', ))
+
+
+    return redirect(reverse('planning', ))
