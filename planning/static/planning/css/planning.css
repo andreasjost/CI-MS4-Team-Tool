@@ -1,10 +1,15 @@
+/* --------------------------------------------- Title-bar */
+
+.title-bar-row {
+    width: 100%
+}
+
 #month-title {
-    
     padding-left: 15px;
 }
 
 #team-selector-wrapper {
-    padding: 15px;
+    padding: 15px 0;
     font-weight: bold;
 }
 

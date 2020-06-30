@@ -52,21 +52,11 @@
 </header>
 <section class="section-maincontent">
     <div class="container-xl">
-
         <a class="float-right" href="{% url 'add_shift' %}">
-            <button class="btn btn-primary add-button">Add Shift</button>
+        <button class="btn btn-primary add-button">Add Shift</button>
         </a>
         <h2>Shifts</h2>
-
-Reasons for choosing more than one shift: <br>
-- Different salary according to the shift <br>
-- Office closed during lunch break <br>
-The shifts don't have to correspond to actual work shifts. Users can work accross shifts. <br>
-IMPORTANT: The 'Summary' for every user is created dynamically. If you change the shifts,
-the 'Summary' will also change for the current and previous months. If this is not your intention, please go
-to the 'Planning'-section and save or print the summaries of every user and month if needed BEFORE
-making a change in the Shifts!<br>
-<br>
+        <br>
         <table>
             <tr>
                 <th class="width-t-title">Shift Name</th>
@@ -90,27 +80,40 @@ making a change in the Shifts!<br>
                 <td class="width-t-smallnumbers">{{ shift.shift_start }}</td>
                 <td class="width-t-smallnumbers">{{ shift.shift_end }} min</td>
                 {% if shift.weekday_sunday == True %}
-                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
-                {% else %}<td></td>{% endif %}
+                <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}
+                <td></td>
+                {% endif %}
                 {% if shift.weekday_monday == True %}
-                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
-                {% else %}<td></td>{% endif %}
+                <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}
+                <td></td>
+                {% endif %}
                 {% if shift.weekday_tuesday == True %}
-                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
-                {% else %}<td></td>{% endif %}
+                <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}
+                <td></td>
+                {% endif %}
                 {% if shift.weekday_wednesday == True %}
-                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
-                {% else %}<td></td>{% endif %}
+                <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}
+                <td></td>
+                {% endif %}
                 {% if shift.weekday_thursday == True %}
-                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
-                {% else %}<td></td>{% endif %}
+                <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}
+                <td></td>
+                {% endif %}
                 {% if shift.weekday_friday == True %}
-                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
-                {% else %}<td></td>{% endif %}
+                <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}
+                <td></td>
+                {% endif %}
                 {% if shift.weekday_saturday == True %}
-                    <td class="width-t-weekday"><i class="fas fa-check"></i></td>
-                {% else %}<td></td>{% endif %}
-
+                <td class="width-t-weekday"><i class="fas fa-check"></i></td>
+                {% else %}
+                <td></td>
+                {% endif %}
                 <!-- don't show the delete button if there's only one shift -->
                 {% if shifts.count > 1 %}
                 <td>
@@ -125,12 +128,24 @@ making a change in the Shifts!<br>
             </tr>
             {% endfor %}
         </table>
-        
+        <div class="hints">
+            <hr>
+            <h5><i class="fas fa-info-circle"></i> Hints</h5>
+            <ul>
+                <li>If the salary is different depending of the time of the day or the week day, then shifts are handy</li>
+                <li>You see the hours worked in each shift in the summary of every user. The time and duration
+                    of a shift doesn't have to correspond to an event in the planning.
+                </li>
+                <li>IMPORTANT: The 'Summary' for every user is created dynamically. If you change the shifts,
+                    the 'Summary' will also change for the current and previous months. If this is not your intention, please go
+                    to the 'Planning'-section and save or print the summaries of every user and month if needed BEFORE making a change in the Shifts!
+                </li>
+            </ul>
+        </div>
     </div>
 </section>
 {% endblock %}
-
 {% block postloadjs %}
-    {{ block.super }}
-    <!-- js, see template in planning -->
+{{ block.super }}
+<!-- js, see template in planning -->
 {% endblock %}
