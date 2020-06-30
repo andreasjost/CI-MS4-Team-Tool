@@ -26,7 +26,7 @@ SECRET_KEY = '!z#(@xif2wrz!05(v-mvdygm+!%h=++uc=!st3)*_!)m9-1^1c!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ci-ms4-team-tool.herokuapp.com, 'localhost']
+ALLOWED_HOSTS = ['ci-ms4-team-tool.herokuapp.com', 'localhost']
 
 
 # Application definition
