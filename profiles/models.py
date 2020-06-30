@@ -17,7 +17,7 @@ class UserProfile(models.Model):
     last_name = models.CharField(max_length=80, null=True, blank=True)
     birthday_ddmm = models.CharField(max_length=16, null=False, default='0000')
     start_date = models.DateField(null=False, default=datetime.date.today)
-    end_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
 
     level_choices = (
         ('admin', 'Admin'),

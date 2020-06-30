@@ -143,13 +143,26 @@ def planning(request):
             team = str(teams[0])
             if 'sel_team' not in request.session:
                 request.session['sel_team'] = team
-        
-
-        # profile = get_object_or_404(UserProfile, user=request.user)
 
         users_select = UserProfile.objects.filter(company_id=profile.company_id, team__team_name__icontains=request.session['sel_team'])
-        # events_filtered = Event.objects.filter(date__month=sel_month, date__year=sel_year, user_id__user__in=users_select)
         events_filtered = Event.objects.filter(date__month=sel_month, date__year=sel_year)
+        if profile.level == 'admin' or profile.level == 'manager':
+            events_filtered.update(status=0)
+        
+        elif profile.level == 'visitor':
+            events_filtered.update(status=1)
+        
+        else:
+            # make sure agents cannot change the current month, only the future.
+            calc_today = datetime.now().year * 10 + datetime.now().month
+            calc_selected = int(request.session['sel_year']) * 10 + int(request.session['sel_month'])
+            # Comment for future functionality: Calculate with the planning deadline:
+            # team_setting = get_object_or_404(Team, company_id=profile.company_id, team_name=request.session['sel_team'])
+            if calc_selected > calc_today:
+                events_filtered.update(status=0)
+            
+            else:
+                events_filtered.update(status=1)
 
         # preparing data to read in JS
         js_month = int(request.session['sel_month'])-1
