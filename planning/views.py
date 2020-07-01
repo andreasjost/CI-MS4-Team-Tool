@@ -148,7 +148,7 @@ def planning(request):
         events_filtered = Event.objects.filter(date__month=sel_month, date__year=sel_year)
         if profile.level == 'admin' or profile.level == 'manager':
             events_filtered.update(status=0)
-        
+
         elif profile.level == 'visitor':
             events_filtered.update(status=1)
         
