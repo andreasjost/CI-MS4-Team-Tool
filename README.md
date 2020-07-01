@@ -7,34 +7,34 @@
 
 ![Multidevice-preview](attachments/multidevice-preview.png)
 
-*** Live website: ***
-
+Live-website: https://ci-ms4-team-tool.herokuapp.com/
 
 # UX
 ## User stories:
 
-*** Paste user stories! ***
+![User Stories](attachments/user_stories.png)
 
 ## Strategy
 Create a web service for a company to sign up and add employees (users). The page has a two fold strategy:
 - Planning: A calendar type planning sheet for users to add and view their planning
-- Coaching: Users can plan their coaching sessions and set/check goals
+- Coaching: Managers can plan their coaching sessions with Agents and set/check goals
 
 ## Scope
 
-- A home page with Signup and Login functionality. A new user can choose between 4 different plans. One of those plans is for free with a limited functionality, either for a very small team or to check out the functionality of EggBox.
+- A home page with Signup and Login functionality. A new Company to sign up initially gets the fee plan,
+but can upgrade later in the settings to another (out of 4 plans)
 
 - A backend database to support the functionality
 
 - Sections for Planning, Coaching and Notifications
 
-- Multiple options according to the access permission level
+- Multiple settings and edit options according to the access permission level
 
 - A total of 4 different access permission levels
 
 - Set up of multiple teams
 
-- Short ‚about‘ and ‚support‘-pages
+- Contact links
 
 
 ## Structure
@@ -43,12 +43,15 @@ Create a web service for a company to sign up and add employees (users). The pag
 
 [Page Map](attachments/pagemap.pdf)
 
-### This is the database schema (sqlite3)
+### This is the database schema (Sqlite3 in GitPod, Postgres in Heroku)
 
 I decided to use a Shared table architecture (vs Multi tenant or multi database architecture) because that made it easier to change the database schema and migrations over the course of the project, and it uses less resources.
 
+[Database Schema](attachments/database_schema.png)
 
-*** Database schema ***
+- The Model 'Roles' is part of the schema even though it's currently not of any use to a user of the page. I left it in there
+because there will be use in the futuer and there is already code in the project supporting it (mainly templates in the 'settings'-app),
+and because records are already created upon signup (which will make implementation easier in the future for existing users).
 
 ### The difference between the 4 access levels:
 
@@ -56,17 +59,13 @@ I decided to use a Shared table architecture (vs Multi tenant or multi database 
 | Task                                                    | Admin | Manager | Agent | Visitor |
 |---------------------------------------------------------|-------|---------|-------|---------|
 | Create company account                                  | x     |         |       |         |
-| Delete company account                                  | x     |         |       |         |
-| Create user accounts                                    | x     | x       |       |         |
-| Delete user accounts                                    | x     | x       |       |         |
-| Create own planning                                     |       | x       | x     |         |
-| Create all users planning                               | x     | x       |       |         |
-| See agent's summary                                     | x     | x       | x     |         |
+| Create, delete and edit user accounts                   | x     | x       |       |         |
+| Add/remove/edit elements in planning                    | x     | x       | x     |         |
+| See agent's summary                                     | x     | x       | x     | x       |
 | See all user's planning                                 | x     | x       | x     | x       |
-| Create all user's coaching goals                        |       | x       |       |         |
-| See and check off own coaching goals                    |       |         | x     |         |
-| See and check off all user's coaching goals of own team |       | x       |       |         |
-| Personal notification when plan/coaching was modified   |       | x       | x     |         |
+| Create all user's coaching sessions                     |       | x       |       |         |
+| See their own coaching goals                            |       |         | x     |         |
+| Notification when other user's planning was modified    | x     | x       |       |         |
 
 
 ## Skeleton
@@ -74,10 +73,10 @@ I decided to use a Shared table architecture (vs Multi tenant or multi database 
 
 ## Surface
 - Simple yet inviting home page displaying the 3 most important key functions of the Web App. Two Buttons on top, for Signup (call to action) and Login. Footer at the bottom with an ‚about‘ and a short ‚support‘-section
-- Simple business—like color scheme (black white gray blue) inside the application
+- Simple business-like color scheme (black white gray blue) inside the application
 - Buttons slightly rounded and whenever possible the same size
 - blue links signalise interaction (clickable)
-- Show the main section highlighted (Planning/Coaching/Messages)
+- Show the main sections highlighted when selected (Planning/Coaching/Messages)
 - Constant use of 2 fonts: Blinker for titles, Roboton (or Bootstrap standard) for text
 - Fontawesome icons when appropriate
 - Use of pictures that fit the described color scheme
@@ -85,14 +84,12 @@ I decided to use a Shared table architecture (vs Multi tenant or multi database 
 # Features
 
 ### Current Features
-- Company account creation and deletion
+- Company account creation
 - Offering 4 different plans
 - User account creation through an admin
 - An Agent/Manager sees the planning of the corresponding team as a starting page after Login
-- The 'Messages' navigation item is red if there's a pending notification
-- Creation of planning of work shifts/breaks/absence
-- Planning and conducting of coaching
-- Users who stopped working and had no shift planned for this months appear under "inactive" in User management
+- Creation of events in the planning
+- Entry of coaching sessions by managers
 - Messages (Messages section)
     - For Managers: when an Agent submits his planning or checks off a coaching goal
     - For Agents: When the Manager Approved or changed a planning, created/edited/deleted a coaching goal
@@ -107,6 +104,8 @@ I decided to use a Shared table architecture (vs Multi tenant or multi database 
 
 
 ### Planned Features
+- Users who stopped working and had no shift planned for the current month appear under a separate section "inactive" in 'user management',
+and only inactive users can get deleted
 - Localized weekstart (user can select if the weeks starts on Sunday, Monday, or any other day of the week)
 - Options for Agents to change their shift without a manager, if either:
     - Two people with the same role are exchanging two shifts
@@ -145,13 +144,13 @@ are boxed and marked with a warning-sign (<img src="attachments/warning-sign.png
 
 ## Challenges
 
-### Jinja/Flask/Javascript
+### django
 
 
 
 ### Structure
 
-The project was a challenging learning experience to show the impjjjj
+The j
 
 # Deployment
 
