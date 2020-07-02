@@ -66,15 +66,11 @@ def change_plan(request):
 
         if request.method == 'POST':
             data = request.POST
-            try:
-                company.plan = data['plan']
-                company.payment = data['payment']
-                company.renewal_date = datetime.date.today()
-                # company.save()
-                messages.success(request, 'Event changed successfully')
-
-            except IndexError:
-                messages.error(request, 'An error occured')
+            company.plan = data['plan']
+            company.payment = data['payment']
+            company.renewal_date = datetime.date.today()
+            company.save()
+            messages.info(request, "The plan is successfully changed")
 
         else:
             form = CompanyProfileForm(instance=company)

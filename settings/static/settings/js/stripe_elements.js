@@ -57,6 +57,10 @@ form.addEventListener('submit', function(ev) {
     var url = '/checkout/cache_checkout_data/';
 
     $.post(url, postData).done(function () {
+
+
+
+        // get the data from the company info
         stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: card,
@@ -110,9 +114,31 @@ form.addEventListener('submit', function(ev) {
     })
 });
 
-// continue here:
+planSelected = "";
 $(document).ready(function(){
-  $("input[type=radio").click(function(){
-    console.log($(this).val())
+  $("input[type=radio").click(function() {
+        calculateTotal($("#payment_rule option:selected").val(), $(this).val())
+        planSelected = $(this).val()
   });
 });
+
+$('#payment_rule').click(function() {
+    calculateTotal($("#payment_rule option:selected").val(), planSelected)
+});
+
+function calculateTotal(paymentRule, plan) {
+
+    if (plan == 'basic') {
+        $('#total-amount').text(paymentRule * 2);
+    }
+    else if (plan == 'advanced') {
+        $('#total-amount').text(paymentRule * 4);
+    }
+    else if (plan == 'max') {
+        $('#total-amount').text(paymentRule * 10);
+    }
+    else {
+        $('#total-amount').text('0');
+    }
+
+}
