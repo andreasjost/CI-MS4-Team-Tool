@@ -73,7 +73,7 @@ def add_user(request):
             if user_email.is_valid() and form.is_valid():
                 user = User.objects.create_user(username=random_username(),
                                      email=request.POST.get('email'),
-                                     password='EggBox')
+                                     password='EggBox900')
                 messages.success(request, 'Profile added successfully')
 
                 user.userprofile.first_name = form.data['first_name']

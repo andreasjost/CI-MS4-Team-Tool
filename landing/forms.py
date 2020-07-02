@@ -16,7 +16,6 @@ class SignupForm(forms.Form):
 
     def signup(self, request, user):
         company_id = self._generate_company_id()
-
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         company_name = request.POST['company_name']
