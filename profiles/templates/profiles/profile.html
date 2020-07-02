@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% load static %}
-
 {% block extra_title %}
-    - Profile
+- Profile
 {% endblock %}
-
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'profiles/css/profiles.css' %}" />
+<link rel="stylesheet" href="{% static 'profiles/css/profiles.css' %}" />
 {% endblock %}
-
 {% block content %}
 <header>
-     <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
         <button
             class="navbar-toggler"
             type="button"
@@ -60,42 +57,41 @@
     </nav>
 </header>
 <section class="section-maincontent">
-    <div class="container-xl"> 
+    <div class="container-xl">
         <h2>My Profile</h2>
         <form method="POST">
             {% csrf_token %}
             {{ form|crispy }}
-             <hr>
+            <hr>
             {{ user_email|crispy }}
             <button class="btn btn-primary float-right" type="submit">Save</button>
-             <a href="" data-toggle="modal" data-target="#deleteUserModal"><i class="far fa-trash-alt list-icon"></i></a>
 
-                    <!-- Modal warning for deleting a user -->
-                    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="deleteUserModalLabel">Delete User</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Are you sure that you want to delete the user {{ user.first_name }} {{ user.last_name }}?</p>
-                                    <a href="{% url 'delete_user' user.id %}" class="float-right">YES</i></a>
-                                </div>
-                            </div>
+            <!-- code to delete a profile 
+            <a href="" data-toggle="modal" data-target="#deleteUserModal"><i class="far fa-trash-alt list-icon"></i></a>
+
+            
+            <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="deleteUserModalLabel">Delete User</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure that you want to delete the user {{ user.first_name }} {{ user.last_name }}?</p>
+                            <a href="{% url 'delete_user' user.id %}" class="float-right">YES</i></a>
                         </div>
                     </div>
+                </div>
+            </div>
+            -->
         </form>
     </div>
     <br>
-<br>
-<br>
-<br>
+    <br>
+    <br>
+    <br>
 </section>
-
-
-
-
 {% endblock %}

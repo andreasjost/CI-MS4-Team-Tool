@@ -148,8 +148,16 @@ def add_team(request):
             return render(request, template, context)
 
         else:
-            form = TeamsForm()
             teams = Team.objects.filter(company_id=profile.company_id)
+            """
+            Here will be an if-statemen once stripe is working, otherwise it's hard to check the functionality:
+            company = get_object_or_404(CompanyProfile, company_id=profile.company_id)
+            if company.plan == 'starter' and len(teams) == 1:
+            if company.plan == 'basic' and len(teams) == 2:
+            if company.plan == 'advanced' and len(teams) == 4:
+            if company.plan == 'max' and len(teams) == 12:
+            """
+            form = TeamsForm()
 
             template = 'settings/add_team.html'
             context = {
