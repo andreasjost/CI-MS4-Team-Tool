@@ -4,8 +4,8 @@ from settings.models import Team, AgentRole, Shift
 import uuid
 import datetime
 
+
 class SignupForm(forms.Form):
-    company_name = forms.CharField(max_length=30, label='Company Name')
 
     def _generate_company_id(self):
         """
@@ -16,13 +16,25 @@ class SignupForm(forms.Form):
 
     def signup(self, request, user):
         company_id = self._generate_company_id()
-        user.company = self.cleaned_data['company_name']
+
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        company_name = request.POST['company_name']
+
+        """
+        1. Create a user profile
+        """
         user.save()
         user.refresh_from_db()
         user.userprofile.company_id = company_id
+        user.userprofile.first_name = first_name
+        user.userprofile.last_name = last_name
 
+        """
+        2. Create a company profile
+        """
         CompanyProfile.objects.create(
-            company_name=self.cleaned_data['company_name'],
+            company_name=company_name,
             company_id=company_id,
             signup_date=datetime.date.today()
         )
