@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from settings.webhooks import webhook
 
 urlpatterns = [
     path('global/', views.settings_global, name='settings_global'),
@@ -11,6 +12,7 @@ urlpatterns = [
     path('delete_team/<int:team_id>/', views.delete_team, name='delete_team'),
     path('add_team/', views.add_team, name='add_team'),
     path('change_plan/', views.change_plan, name='change_plan'),
+    path('wh/', webhook, name='webhook'),
 ]
 
 # disabled roles due to time pressure. Left to resume later:

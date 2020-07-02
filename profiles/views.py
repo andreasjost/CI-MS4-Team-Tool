@@ -79,8 +79,8 @@ def add_user(request):
                 user.userprofile.first_name = form.data['first_name']
                 user.userprofile.last_name = form.data['last_name']
                 user.userprofile.company_id = profile.company_id
-                user.userprofile.start_date = form.data['start_date']
-                user.userprofile.end_date = form.data['end_date']
+                # user.userprofile.start_date = form.data['start_date']
+                # user.userprofile.end_date = form.data['end_date']
                 user.userprofile.level = form.data['level']
                 user.userprofile.team = Team.objects.get(pk=form.data['team'])
                 user.userprofile.contract_type = form.data['contract_type']

@@ -6,9 +6,8 @@
     <nav class="navbar fixed-top navbar-expand-sm navbar-light">
         <div class="container-xl">
             <a href="{% url 'account_signup' %}" class="btn btn-secondary my-2 my-sm-0">Sign up</a>
-            
             {% if request.user.is_authenticated %}
-             <div class="nav-item dropdown">
+            <div class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 User Name
                 </a>
@@ -23,21 +22,23 @@
                 </div>
             </div>
             {% else %}
-                <a href="{% url 'account_login' %}" class="btn my-2 my-sm-0">Login</a>
+            <a href="{% url 'account_login' %}" class="btn my-2 my-sm-0">Login</a>
             {% endif %}
         </div>
     </nav>
-
 </header>
 <section>
-       
-                 <div id="hero-image">
-            </div>
-    
+
+    <!-- logo and tagline-->
+    <div id="hero-image">
+    </div>
     <div class="light-row">
         <div class="container-xl">
-            <h1><div class="tagline">Take care of your greatest asset - move your
-            customer service team forward with one tool combining managament and coaching</div></h1>    
+            <h1>
+                <div class="tagline">Take care of your greatest asset - move your
+                    customer service team forward with one tool combining managament and coaching
+                </div>
+            </h1>
         </div>
     </div>
     <div class="dark-row">
@@ -55,6 +56,8 @@
             </div>
         </div>
     </div>
+
+    <!-- different ads -->
     <div class="light-row">
         <div class="container-xl">
             <div class="row">
@@ -97,8 +100,7 @@
     </div>
 </section>
 {% endblock %}
-
 {% block postloadjs %}
-    {{ block.super }}
-    <script type="text/javascript" src="{% static 'landing/js/landingscript.js' %}"></script>
+{{ block.super }}
+<script type="text/javascript" src="{% static 'landing/js/landingscript.js' %}"></script>
 {% endblock %}

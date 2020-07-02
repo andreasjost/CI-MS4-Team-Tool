@@ -151,7 +151,7 @@ def planning(request):
 
         elif profile.level == 'visitor':
             events_filtered.update(status=1)
-        
+
         else:
             # make sure agents cannot change the current month, only the future.
             calc_today = datetime.now().year * 10 + datetime.now().month

@@ -63,8 +63,6 @@
             <tr>
                 <th>First Name(s)</th>
                 <th>Last Name(s)</th>
-                <th>Start Date</th>
-                <th>End Date</th>
                 <th>Level</th>
                 <th>Team</th>
                 <th></th>
@@ -73,8 +71,6 @@
             <tr>
                 <td>{{ user.first_name }}</td>
                 <td>{{ user.last_name }}</td>
-                <td>{{ user.start_date }}</td>
-                <td>{{ user.end_date }}</td>
                 <td>{{ user.level }}</td>
                 {%if user.level == 'admin' %}
                 <td>-</td>
