@@ -319,8 +319,12 @@ h4 {
 
 /* --------------------------------------------- Footer */
 
+.footer-bar {
+    padding-top: 0;
+}
+
 .footer-bar .navbar-nav {
-    flex-direction: row; 
+    flex-direction: row;
 }
 
 .footer-bar .nav-link {
@@ -329,6 +333,18 @@ h4 {
 
 footer p {
     color: #888;
+}
+
+.social-icon {
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 4px;
+    font-size: 18px;
+    color: #333;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding-top: 3px;
 }
 
 /* --------------------------------------------- Selectors */
