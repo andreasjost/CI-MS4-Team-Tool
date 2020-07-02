@@ -88,8 +88,8 @@ $(document).ready(function() {
 
     // modal view
     $('#myModal').on('shown.bs.modal', function () {
-        $('#myInput').trigger('focus')
-    })
+        $('#myInput').trigger('focus');
+    });
 });
 
 
@@ -124,7 +124,7 @@ function weekTables() {
         if (i % 2 == 0) {
                 userLabel.classList.add('even-row');
             }
-        url = `/planning/summary/${allUsers[i].pk}`
+        url = `/planning/summary/${allUsers[i].pk}`;
         userLabel.innerHTML = `<a href="${url}">${allUsers[i].fields.first_name} ${allUsers[i].fields.last_name}</a>`;
         colLeft.appendChild(userLabel);
     }
@@ -180,17 +180,17 @@ function weekTables() {
 function colorBar(oneEvent) {
 
     // calculating the time into the with of the color bar
-    startTimeSplit = oneEvent.fields.start_time.split(":")
-    endTimeSplit = oneEvent.fields.end_time.split(":")
+    startTimeSplit = oneEvent.fields.start_time.split(":");
+    endTimeSplit = oneEvent.fields.end_time.split(":");
     startH = parseInt(startTimeSplit[0]) * 100;
     startM = parseInt(startTimeSplit[1]) / 6 * 10;
     startDec = startH + startM;
     endH = parseInt(endTimeSplit[0]) * 100;
     endM = parseInt(endTimeSplit[1]) / 6 * 10;
     endDec = endH + endM;
-    dayStartHourDec = startHour * 100
-    dayEndHourDec = endHour * 100
-    dayHoursRangeDec = hoursRange * 100
+    dayStartHourDec = startHour * 100;
+    dayEndHourDec = endHour * 100;
+    dayHoursRangeDec = hoursRange * 100;
     spaceLeft = startDec - dayStartHourDec;
     spaceRight = dayEndHourDec - endDec;
     marginLeft = 100 / dayHoursRangeDec * spaceLeft;
@@ -290,7 +290,7 @@ function copyEvents() {
 }
 
 function commitCopy() {
-    copyMode = false
+    copyMode = false;
 
     let jsonSelectedDays = JSON.stringify(copyDaysSelected);
 
